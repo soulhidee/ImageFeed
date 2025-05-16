@@ -5,7 +5,14 @@ extension ImagesListViewController: UITableViewDelegate {
         
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt idexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let imageName = photosName[indexPath.row]
+        
+        guard let image = UIImage(named: imageName) else {
+               print("Не удалось загрузить изображение: \(imageName)")
+               return 0
+           }
+        
         
     }
     
