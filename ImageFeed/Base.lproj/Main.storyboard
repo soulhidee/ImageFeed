@@ -30,7 +30,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="ic1-Lm-0zh" userLabel="Cell Image">
-                                                    <rect key="frame" x="18" y="0.0" width="378" height="200"/>
+                                                    <rect key="frame" x="18" y="4" width="378" height="192"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -39,13 +39,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16 мая 2025" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtS-eg-bIB" userLabel="Date Label">
-                                                    <rect key="frame" x="26" y="171" width="370" height="21"/>
+                                                    <rect key="frame" x="26" y="167" width="370" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" name="YPWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YnL-CE-SYL">
-                                                    <rect key="frame" x="330" y="0.0" width="66" height="44"/>
+                                                    <rect key="frame" x="330" y="4" width="66" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="XBX-Ha-s5z"/>
                                                     </constraints>
@@ -60,13 +60,18 @@
                                                 <constraint firstAttribute="trailing" secondItem="ic1-Lm-0zh" secondAttribute="trailing" constant="18" id="UXO-OQ-2YD"/>
                                                 <constraint firstItem="YnL-CE-SYL" firstAttribute="leading" secondItem="Scr-Bo-9fN" secondAttribute="leading" constant="330" id="XfT-TY-ucw"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="leading" secondItem="Scr-Bo-9fN" secondAttribute="leading" constant="18" id="a0F-WX-9KA"/>
-                                                <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="Scr-Bo-9fN" secondAttribute="top" id="aY0-es-Fkn"/>
+                                                <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="Scr-Bo-9fN" secondAttribute="top" constant="4" id="aY0-es-Fkn"/>
                                                 <constraint firstItem="NtS-eg-bIB" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ic1-Lm-0zh" secondAttribute="trailing" id="b7Q-kZ-IdN"/>
                                                 <constraint firstItem="YnL-CE-SYL" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ic1-Lm-0zh" secondAttribute="trailing" id="kQS-z7-KBE"/>
-                                                <constraint firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" id="prd-wM-fuh"/>
+                                                <constraint firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="4" id="prd-wM-fuh"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="YPBlack"/>
+                                        <connections>
+                                            <outlet property="cellImageView" destination="ic1-Lm-0zh" id="N4q-XL-BfC"/>
+                                            <outlet property="dateLabel" destination="NtS-eg-bIB" id="D9D-YU-zdc"/>
+                                            <outlet property="likeButton" destination="YnL-CE-SYL" id="8mj-8N-0rY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
