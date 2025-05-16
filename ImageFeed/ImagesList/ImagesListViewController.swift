@@ -13,7 +13,17 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        
+        guard let imageListCell = cell as? ImagesListCell else {
+            #if DEBUG
+            print("Не удалось привести ячейку к типу ImagesListCell на indexPath: \(indexPath)")
+            #endif
+            return UITableViewCell()
+        }
+        
+        configCell(for: imageListCell)
+        return imageListCell
     }
     
     
@@ -21,7 +31,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 
 final class ImagesListViewController: UIViewController {
- 
+    
     
     @IBOutlet private var tableView: UITableView!
     
@@ -30,11 +40,16 @@ final class ImagesListViewController: UIViewController {
         setupUI()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(
+            ImagesListCell.self,
+            forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
     
-
+    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "UIBlack")
     }
-
+    
+    private func configCell(for: ImagesListCell) { }
+    
 }
