@@ -2,24 +2,28 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
+    // MARK: - Properties
+    
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
     @IBOutlet private var tableView: UITableView!
     
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         tableView.rowHeight = 200
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
     }
     
+    // MARK: - UI Setup
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "UIBlack")
-        
     }
+    
+    // MARK: - Date Formatter
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -30,7 +34,7 @@ final class ImagesListViewController: UIViewController {
     
 }
 
-
+// MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
@@ -49,7 +53,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
-
+// MARK: - UITableViewDataSource
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,16 +73,13 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 }
 
-
-
-
+// MARK: - Cell Configuration
 
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return
         }
-        
         
         cell.cellImageView.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
@@ -87,4 +88,3 @@ extension ImagesListViewController {
         cell.likeButton.setImage(likeImage, for: .normal)
     }
 }
-
