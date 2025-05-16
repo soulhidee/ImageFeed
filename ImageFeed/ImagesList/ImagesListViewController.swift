@@ -16,9 +16,7 @@ extension ImagesListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
         
         guard let imageListCell = cell as? ImagesListCell else {
-            #if DEBUG
             print("Не удалось привести ячейку к типу ImagesListCell на indexPath: \(indexPath)")
-            #endif
             return UITableViewCell()
         }
         
@@ -38,18 +36,16 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(
-            ImagesListCell.self,
-            forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+
+        tableView.rowHeight = 200
     }
     
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "UIBlack")
+        
     }
     
-    private func configCell(for: ImagesListCell) { }
+    func configCell(for: ImagesListCell) { }
     
 }
