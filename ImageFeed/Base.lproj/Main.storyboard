@@ -30,7 +30,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="ic1-Lm-0zh" userLabel="Cell Image">
-                                                    <rect key="frame" x="16" y="4" width="382" height="192"/>
+                                                    <rect key="frame" x="16" y="4" width="382" height="188"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -48,8 +48,8 @@
                                                     <state key="normal" image="LikeActive"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16 мая 2025" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtS-eg-bIB" userLabel="Date Label">
-                                                    <rect key="frame" x="24" y="167" width="97" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="24" y="168" width="77" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" name="YPWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -62,7 +62,7 @@
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="leading" secondItem="Scr-Bo-9fN" secondAttribute="leading" constant="16" id="a0F-WX-9KA"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="Scr-Bo-9fN" secondAttribute="top" constant="4" id="aY0-es-Fkn"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="muq-lS-CfG" secondAttribute="top" id="eRb-oa-uIt"/>
-                                                <constraint firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="4" id="prd-wM-fuh"/>
+                                                <constraint firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="8" id="prd-wM-fuh"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NtS-eg-bIB" secondAttribute="trailing" constant="8" id="wkV-44-SWu"/>
                                             </constraints>
                                         </tableViewCellContentView>

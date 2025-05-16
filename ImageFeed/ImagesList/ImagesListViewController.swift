@@ -3,13 +3,13 @@ import UIKit
 final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
-    
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
+    
+    // MARK: - Outlet
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -18,24 +18,20 @@ final class ImagesListViewController: UIViewController {
     }
     
     // MARK: - UI Setup
-    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "UIBlack")
     }
     
     // MARK: - Date Formatter
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
     }()
-    
 }
 
 // MARK: - UITableViewDelegate
-
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
 
@@ -54,7 +50,6 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 // MARK: - UITableViewDataSource
-
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
@@ -74,7 +69,6 @@ extension ImagesListViewController: UITableViewDataSource {
 }
 
 // MARK: - Cell Configuration
-
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
