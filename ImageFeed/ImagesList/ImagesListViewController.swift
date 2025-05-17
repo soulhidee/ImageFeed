@@ -71,14 +71,11 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - Cell Configuration
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
-        
-        cell.cellImageView.image = image
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-        
-        let likeImage = indexPath.row % 2 == 0 ? UIImage(named: "LikeActive") : UIImage(named: "LikeNoActive")
-        cell.likeButton.setImage(likeImage, for: .normal)
+        let image = UIImage(named: photosName[indexPath.row])
+        let dateText = dateFormatter.string(from: Date())
+        let isLiked = indexPath.row % 2 == 0
+
+        cell.configure(with: image, dateText: dateText, isLiked: isLiked)
     }
 }
+
