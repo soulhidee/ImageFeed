@@ -53,5 +53,9 @@ final class ProfileViewController: UIViewController {
     }
     
     
-    private func setupStatusLabel() { }
+    private func setupStatusLabel() {
+        statusLabel.text = "Hello, world"
+        statusLabel.textColor = UIColor(named: "YPWhite")
+        statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+    }
 }
