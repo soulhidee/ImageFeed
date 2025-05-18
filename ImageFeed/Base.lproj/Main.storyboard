@@ -125,7 +125,7 @@
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="Ry5-xQ-dhI"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="Exit"/>
+                                                <buttonConfiguration key="configuration" style="plain"/>
                                                 <connections>
                                                     <action selector="logoutButtonTapped:" destination="gE7-d6-hMZ" eventType="touchUpInside" id="Z2M-WG-JL7"/>
                                                 </connections>
@@ -181,7 +181,6 @@
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
-        <image name="Exit" width="44" height="44"/>
         <image name="LikeActive" width="42" height="42"/>
         <image name="defaultProfileImage" width="70" height="70"/>
         <namedColor name="YPBlack">

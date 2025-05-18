@@ -18,7 +18,7 @@ final class ProfileViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = UIColor(named: "YPBlack")
         setupProfileImageView()
-        setupExitButton()
+        setupLogoutButton()
         setupNameLabel()
         setupHandleLabel()
         setupStatusLabel()
@@ -29,13 +29,20 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupProfileImageView() {
-        
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.masksToBounds = true
+        profileImage.image = UIImage(named: "mockProfileImage")
     }
     
 
-    private func setupExitButton() { }
+    private func setupLogoutButton() {
+        logoutButton.setTitle("", for: .normal)
+        logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
+    }
     
-    private func setupNameLabel() { }
+    private func setupNameLabel() {
+       
+    }
     
     private func setupHandleLabel() { }
     
