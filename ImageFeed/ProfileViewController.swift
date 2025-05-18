@@ -46,7 +46,11 @@ final class ProfileViewController: UIViewController {
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
     }
     
-    private func setupHandleLabel() { }
+    private func setupHandleLabel() {
+        handleLabel.text = "@ekaterina_nov"
+        handleLabel.textColor = UIColor(named: "YPGray")
+        handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+    }
     
     
     private func setupStatusLabel() { }
