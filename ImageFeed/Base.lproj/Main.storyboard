@@ -200,6 +200,21 @@
             </objects>
             <point key="canvasLocation" x="-77" y="383"/>
         </scene>
+        <!--SingleImage-->
+        <scene sceneID="Gc8-Of-5cg">
+            <objects>
+                <viewController id="OjF-mf-qvb" userLabel="SingleImage" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XsC-Pe-FRT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="gHB-Xh-PmG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pi0-tt-uq0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-987" y="-655"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4c9-jm-a2x">
             <objects>
