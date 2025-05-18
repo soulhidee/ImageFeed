@@ -16,7 +16,9 @@ class ProfileViewController: UIViewController {
         setupStatusLabel()
     }
     
-    private func setupProfileImageView() { }
+    private func setupProfileImageView() {
+        
+    }
     
     private func setupExitButton() { }
     
