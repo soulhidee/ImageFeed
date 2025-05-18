@@ -2,6 +2,14 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var profileImage: UIImage!
+    @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var handleLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -16,10 +24,14 @@ class ProfileViewController: UIViewController {
         setupStatusLabel()
     }
     
+    @IBAction func logoutButtonTapped(_ sender: UIButton) {
+    }
+    
     private func setupProfileImageView() {
         
     }
     
+
     private func setupExitButton() { }
     
     private func setupNameLabel() { }
