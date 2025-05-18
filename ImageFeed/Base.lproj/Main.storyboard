@@ -97,10 +97,10 @@
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="3.3482142857142856"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--ProfileView-->
         <scene sceneID="Qgg-mD-p9J">
             <objects>
-                <viewController id="gE7-d6-hMZ" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gE7-d6-hMZ" userLabel="ProfileView" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lGr-tb-udy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -126,6 +126,9 @@
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" image="Exit"/>
+                                                <connections>
+                                                    <action selector="logoutButtonTapped:" destination="gE7-d6-hMZ" eventType="touchUpInside" id="Z2M-WG-JL7"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -163,6 +166,13 @@
                             <constraint firstItem="sDa-3A-CtG" firstAttribute="top" secondItem="a3Y-Vk-fyL" secondAttribute="top" constant="45" id="dm9-FD-SGZ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="handleLabel" destination="5fG-JI-v5b" id="1UO-VJ-kng"/>
+                        <outlet property="logoutButton" destination="Tsw-mY-xDF" id="7ho-RG-6FH"/>
+                        <outlet property="nameLabel" destination="q0j-Lk-bjH" id="ipM-mU-9kY"/>
+                        <outlet property="profileImage" destination="NeO-98-eId" id="xb5-5u-JCi"/>
+                        <outlet property="statusLabel" destination="501-Eh-RjH" id="ovy-yM-IB6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AB0-pQ-7lb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

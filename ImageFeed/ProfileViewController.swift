@@ -1,8 +1,8 @@
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var profileImage: UIImage!
+    @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var handleLabel: UILabel!
@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func logoutButtonTapped(_ sender: UIButton) {
+        
     }
     
     private func setupProfileImageView() {
