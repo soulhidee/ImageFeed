@@ -1,7 +1,8 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-
+    
+    // MARK: - Outlets
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
@@ -9,12 +10,13 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     
     
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
+    // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = UIColor(named: "YPBlack")
         setupProfileImageView()
@@ -24,17 +26,12 @@ final class ProfileViewController: UIViewController {
         setupStatusLabel()
     }
     
-    @IBAction func logoutButtonTapped(_ sender: UIButton) {
-        
-    }
-    
     private func setupProfileImageView() {
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
         profileImage.image = UIImage(named: "mockProfileImage")
     }
     
-
     private func setupLogoutButton() {
         logoutButton.setTitle("", for: .normal)
         logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
@@ -52,10 +49,15 @@ final class ProfileViewController: UIViewController {
         handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
     }
     
-    
     private func setupStatusLabel() {
         statusLabel.text = "Hello, world"
         statusLabel.textColor = UIColor(named: "YPWhite")
         statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
     }
+    
+    // MARK: - Actions
+    @IBAction func logoutButtonTapped(_ sender: UIButton) {
+        
+    }
+    
 }
