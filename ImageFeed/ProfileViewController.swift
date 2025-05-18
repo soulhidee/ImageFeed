@@ -41,10 +41,13 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupNameLabel() {
-       
+        nameLabel.text = "Екатерина Новикова"
+        nameLabel.textColor = UIColor(named: "YPWhite")
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
     }
     
     private func setupHandleLabel() { }
+    
     
     private func setupStatusLabel() { }
 }
