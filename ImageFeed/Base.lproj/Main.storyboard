@@ -207,9 +207,24 @@
                     <view key="view" contentMode="scaleToFill" id="XsC-Pe-FRT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
+                                <rect key="frame" x="0.0" y="96" width="414" height="732"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="gHB-Xh-PmG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" id="HLL-US-OY0"/>
+                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="trailing" secondItem="2bb-Ve-tFc" secondAttribute="trailing" id="Iuj-OQ-dNT"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" id="L5f-DR-uSj"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" id="fRd-Xf-2e2"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="bottom" secondItem="gHB-Xh-PmG" secondAttribute="bottom" id="iHd-ho-PmT"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="2bb-Ve-tFc" id="en5-ZE-I5l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pi0-tt-uq0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
