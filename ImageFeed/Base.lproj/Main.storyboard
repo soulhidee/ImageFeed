@@ -112,7 +112,7 @@
                     <navigationItem key="navigationItem" id="gup-ZM-vtB"/>
                     <connections>
                         <outlet property="tableView" destination="ktU-Em-TSt" id="pg8-4c-e5q"/>
-                        <segue destination="OjF-mf-qvb" kind="show" identifier="ShowSingleImage" id="7c0-0x-Op5"/>
+                        <segue destination="OjF-mf-qvb" kind="presentation" identifier="ShowSingleImage" id="7c0-0x-Op5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -204,27 +204,42 @@
         <!--SingleImage-->
         <scene sceneID="Gc8-Of-5cg">
             <objects>
-                <viewController id="OjF-mf-qvb" userLabel="SingleImage" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="OjF-mf-qvb" userLabel="SingleImage" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XsC-Pe-FRT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="779"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
-                                <rect key="frame" x="0.0" y="140" width="414" height="639"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUG-R4-HW2">
+                                <rect key="frame" x="8" y="59" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="Ovv-vZ-8ze"/>
+                                    <constraint firstAttribute="height" constant="44" id="puZ-Sf-DbO"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="OjF-mf-qvb" eventType="touchUpInside" id="HBa-k9-Idq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gHB-Xh-PmG"/>
                         <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" id="HLL-US-OY0"/>
-                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="trailing" secondItem="2bb-Ve-tFc" secondAttribute="trailing" id="Iuj-OQ-dNT"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" id="L5f-DR-uSj"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" id="fRd-Xf-2e2"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="bottom" secondItem="gHB-Xh-PmG" secondAttribute="bottom" id="iHd-ho-PmT"/>
+                            <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" constant="48" id="HLL-US-OY0"/>
+                            <constraint firstAttribute="trailing" secondItem="2bb-Ve-tFc" secondAttribute="trailing" id="Iuj-OQ-dNT"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="leading" secondItem="XsC-Pe-FRT" secondAttribute="leading" id="L5f-DR-uSj"/>
+                            <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" constant="48" id="fRd-Xf-2e2"/>
+                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="bottom" secondItem="XsC-Pe-FRT" secondAttribute="bottom" constant="-34" id="iHd-ho-PmT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
                     <connections>
+                        <outlet property="backButton" destination="IUG-R4-HW2" id="Xgj-Q8-bkU"/>
                         <outlet property="imageView" destination="2bb-Ve-tFc" id="en5-ZE-I5l"/>
                     </connections>
                 </viewController>
