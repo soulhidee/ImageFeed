@@ -209,9 +209,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDF-7U-vCk">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDF-7U-vCk">
                                 <rect key="frame" x="-20" y="28" width="454" height="854"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
                                         <rect key="frame" x="20" y="20" width="1600" height="1059"/>
@@ -239,6 +238,10 @@
                         <constraints>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
+                            <constraint firstItem="VDF-7U-vCk" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="-20" id="O4A-5D-vfI"/>
+                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="trailing" secondItem="VDF-7U-vCk" secondAttribute="trailing" constant="-20" id="QiE-5X-quV"/>
+                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="bottom" secondItem="VDF-7U-vCk" secondAttribute="bottom" constant="-20" id="ZDl-Ji-Nhd"/>
+                            <constraint firstItem="VDF-7U-vCk" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="-20" id="mw9-kr-XCL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
