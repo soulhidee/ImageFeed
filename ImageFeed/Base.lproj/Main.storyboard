@@ -208,12 +208,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
                                 <rect key="frame" x="0.0" y="96" width="414" height="732"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gHB-Xh-PmG"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
                             <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" id="HLL-US-OY0"/>
                             <constraint firstItem="gHB-Xh-PmG" firstAttribute="trailing" secondItem="2bb-Ve-tFc" secondAttribute="trailing" id="Iuj-OQ-dNT"/>
