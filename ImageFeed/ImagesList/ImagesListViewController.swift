@@ -89,6 +89,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        imageListCell.selectionStyle = .none
         configCell(for: imageListCell, with: indexPath)
         
         return imageListCell
