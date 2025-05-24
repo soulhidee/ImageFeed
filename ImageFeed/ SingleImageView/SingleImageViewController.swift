@@ -13,6 +13,7 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var backButton: UIButton!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

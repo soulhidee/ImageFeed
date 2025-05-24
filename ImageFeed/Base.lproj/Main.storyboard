@@ -209,9 +209,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDF-7U-vCk">
+                                <rect key="frame" x="-20" y="28" width="454" height="854"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
+                                        <rect key="frame" x="20" y="20" width="1600" height="1059"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="cdO-33-yb0"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="bDt-2x-69j"/>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUG-R4-HW2">
                                 <rect key="frame" x="8" y="59" width="44" height="44"/>
                                 <constraints>
@@ -229,18 +238,14 @@
                         <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" constant="48" id="HLL-US-OY0"/>
-                            <constraint firstAttribute="trailing" secondItem="2bb-Ve-tFc" secondAttribute="trailing" id="Iuj-OQ-dNT"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="leading" secondItem="XsC-Pe-FRT" secondAttribute="leading" id="L5f-DR-uSj"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" constant="48" id="fRd-Xf-2e2"/>
-                            <constraint firstItem="2bb-Ve-tFc" firstAttribute="bottom" secondItem="XsC-Pe-FRT" secondAttribute="bottom" constant="-34" id="iHd-ho-PmT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
                     <connections>
                         <outlet property="backButton" destination="IUG-R4-HW2" id="Xgj-Q8-bkU"/>
                         <outlet property="imageView" destination="2bb-Ve-tFc" id="en5-ZE-I5l"/>
+                        <outlet property="scrollView" destination="VDF-7U-vCk" id="i5a-RI-aea"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pi0-tt-uq0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
