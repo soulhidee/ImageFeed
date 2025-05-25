@@ -20,6 +20,9 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         scrollView.delegate = self
         imageView.image = image
+        if let image = image {
+            imageView.frame.size = image.size
+        }
         setupBackButton()
         configureZoomScale()
     }
