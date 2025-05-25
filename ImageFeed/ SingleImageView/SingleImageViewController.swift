@@ -1,6 +1,6 @@
 import UIKit
 
-final class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Public Properties
     var image: UIImage? {
@@ -18,6 +18,7 @@ final class SingleImageViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.delegate = self
         imageView.image = image
         setupBackButton()
     }
