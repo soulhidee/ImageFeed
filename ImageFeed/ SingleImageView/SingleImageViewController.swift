@@ -61,6 +61,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         let x = (newContentSize.width - visibleReactSize.width) / 2
         let y = (newContentSize.height - visibleReactSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: true)
+        centerImage()
     }
     
     private func centerImage() {
@@ -69,9 +70,6 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         let horizontalInset = max((scrollViewSize.width - imageViewSize.width) / 2, 0)
         let verticalInset = max((scrollViewSize.height - imageViewSize.height) / 2, 0)
         scrollView.contentInset = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
-        let offsetX = -horizontalInset
-        let offsetY = -verticalInset
-        scrollView.contentOffset = CGPoint(x: offsetX, y: offsetY)
     }
     
     // MARK: - UIScrollViewDelegate
@@ -80,6 +78,10 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        centerImage()
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerImage()
     }
 }
