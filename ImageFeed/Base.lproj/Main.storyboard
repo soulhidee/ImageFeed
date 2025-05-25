@@ -91,6 +91,7 @@
                                             <outlet property="cellImageView" destination="ic1-Lm-0zh" id="3b5-lU-VKS"/>
                                             <outlet property="dateLabel" destination="NtS-eg-bIB" id="PVb-h8-qiD"/>
                                             <outlet property="likeButton" destination="muq-lS-CfG" id="oig-Yk-AqZ"/>
+                                            <segue destination="OjF-mf-qvb" kind="presentation" identifier="ShowSingleImage" trigger="accessoryAction" id="lpS-7h-Gaw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -112,7 +113,6 @@
                     <navigationItem key="navigationItem" id="gup-ZM-vtB"/>
                     <connections>
                         <outlet property="tableView" destination="ktU-Em-TSt" id="pg8-4c-e5q"/>
-                        <segue destination="OjF-mf-qvb" kind="presentation" identifier="ShowSingleImage" id="7c0-0x-Op5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -209,16 +209,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDF-7U-vCk">
-                                <rect key="frame" x="-20" y="28" width="454" height="854"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="yh6-KR-eWt">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-Ve-tFc">
-                                        <rect key="frame" x="20" y="20" width="1600" height="1059"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="0Sk-yV-xzW">
+                                        <rect key="frame" x="0.0" y="0.0" width="271" height="352"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
-                                <viewLayoutGuide key="contentLayoutGuide" id="cdO-33-yb0"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="bDt-2x-69j"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Rqw-ue-lSG"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="bnW-Xf-xqq"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUG-R4-HW2">
                                 <rect key="frame" x="8" y="59" width="44" height="44"/>
@@ -248,21 +248,21 @@
                         <viewLayoutGuide key="safeArea" id="gHB-Xh-PmG"/>
                         <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
+                            <constraint firstItem="yh6-KR-eWt" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" id="1Qr-TP-gR1"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
                             <constraint firstItem="gHB-Xh-PmG" firstAttribute="bottom" secondItem="DpB-9S-qPQ" secondAttribute="bottom" constant="17" id="CaK-vK-2e8"/>
+                            <constraint firstItem="yh6-KR-eWt" firstAttribute="trailing" secondItem="gHB-Xh-PmG" secondAttribute="trailing" id="J3Y-1s-OyJ"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
-                            <constraint firstItem="VDF-7U-vCk" firstAttribute="leading" secondItem="XsC-Pe-FRT" secondAttribute="leading" id="O4A-5D-vfI"/>
-                            <constraint firstAttribute="trailing" secondItem="VDF-7U-vCk" secondAttribute="trailing" id="QiE-5X-quV"/>
-                            <constraint firstAttribute="bottom" secondItem="VDF-7U-vCk" secondAttribute="bottom" id="ZDl-Ji-Nhd"/>
+                            <constraint firstAttribute="bottom" secondItem="yh6-KR-eWt" secondAttribute="bottom" id="ZWv-NY-tIC"/>
                             <constraint firstItem="DpB-9S-qPQ" firstAttribute="centerX" secondItem="gHB-Xh-PmG" secondAttribute="centerX" id="cl3-L2-DNK"/>
-                            <constraint firstItem="VDF-7U-vCk" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" id="mw9-kr-XCL"/>
+                            <constraint firstItem="yh6-KR-eWt" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" id="itG-it-dQn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
                     <connections>
                         <outlet property="backButton" destination="IUG-R4-HW2" id="Xgj-Q8-bkU"/>
-                        <outlet property="imageView" destination="2bb-Ve-tFc" id="en5-ZE-I5l"/>
-                        <outlet property="scrollView" destination="VDF-7U-vCk" id="i5a-RI-aea"/>
+                        <outlet property="imageView" destination="0Sk-yV-xzW" id="J8A-lW-IO2"/>
+                        <outlet property="scrollView" destination="yh6-KR-eWt" id="zvY-2X-8VU"/>
                         <outlet property="sharingButton" destination="DpB-9S-qPQ" id="VFK-oc-ksG"/>
                     </connections>
                 </viewController>
