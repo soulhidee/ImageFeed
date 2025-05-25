@@ -35,13 +35,20 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func sharingButtonTapped(_ sender: UIButton) {
+        guard let image = imageView.image else { return }
+        
+        let activityView = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(activityView, animated: true)
+        
+    }
+    
     // MARK: - Private Methods
     private func setupUI() {
         setupBackButton()
         setupSharingButton()
         configureZoomScale()
     }
-    
     
     private func setupBackButton() {
         backButton.setTitle("", for: .normal)
