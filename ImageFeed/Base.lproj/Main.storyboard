@@ -212,8 +212,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="yh6-KR-eWt">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="0Sk-yV-xzW">
-                                        <rect key="frame" x="0.0" y="0.0" width="271" height="352"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1lp-US-xKm">
+                                        <rect key="frame" x="87" y="384" width="240" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -251,17 +251,17 @@
                             <constraint firstItem="yh6-KR-eWt" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" id="1Qr-TP-gR1"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
                             <constraint firstItem="gHB-Xh-PmG" firstAttribute="bottom" secondItem="DpB-9S-qPQ" secondAttribute="bottom" constant="17" id="CaK-vK-2e8"/>
-                            <constraint firstItem="yh6-KR-eWt" firstAttribute="trailing" secondItem="gHB-Xh-PmG" secondAttribute="trailing" id="J3Y-1s-OyJ"/>
+                            <constraint firstItem="yh6-KR-eWt" firstAttribute="trailing" secondItem="XsC-Pe-FRT" secondAttribute="trailing" id="J3Y-1s-OyJ"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
                             <constraint firstAttribute="bottom" secondItem="yh6-KR-eWt" secondAttribute="bottom" id="ZWv-NY-tIC"/>
                             <constraint firstItem="DpB-9S-qPQ" firstAttribute="centerX" secondItem="gHB-Xh-PmG" secondAttribute="centerX" id="cl3-L2-DNK"/>
-                            <constraint firstItem="yh6-KR-eWt" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" id="itG-it-dQn"/>
+                            <constraint firstItem="yh6-KR-eWt" firstAttribute="leading" secondItem="XsC-Pe-FRT" secondAttribute="leading" id="itG-it-dQn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
                     <connections>
                         <outlet property="backButton" destination="IUG-R4-HW2" id="Xgj-Q8-bkU"/>
-                        <outlet property="imageView" destination="0Sk-yV-xzW" id="J8A-lW-IO2"/>
+                        <outlet property="imageView" destination="1lp-US-xKm" id="dya-sD-OlN"/>
                         <outlet property="scrollView" destination="yh6-KR-eWt" id="zvY-2X-8VU"/>
                         <outlet property="sharingButton" destination="DpB-9S-qPQ" id="VFK-oc-ksG"/>
                     </connections>

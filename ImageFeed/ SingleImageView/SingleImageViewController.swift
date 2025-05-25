@@ -65,23 +65,22 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         view.layoutIfNeeded()
         
-        // Вычисляем масштаб
         let scrollViewSize = scrollView.bounds.size
         let imageSize = image.size
+        
         let hScale = scrollViewSize.width / imageSize.width
         let vScale = scrollViewSize.height / imageSize.height
-        let scale = max(scrollView.minimumZoomScale, min(scrollView.maximumZoomScale, min(hScale, vScale)))
-
-        // Устанавливаем начальный масштаб
+        
+        // Используй max, чтобы заполнить весь экран по одной из осей, без пустот
+        let scale = max(scrollView.minimumZoomScale, min(scrollView.maximumZoomScale, max(hScale, vScale)))
+        
         scrollView.setZoomScale(scale, animated: false)
         
-        // Устанавливаем frame imageView
         imageView.frame = CGRect(origin: .zero, size: CGSize(
             width: imageSize.width * scale,
             height: imageSize.height * scale
         ))
-
-        // Центрируем
+        
         centerImage()
     }
     
@@ -104,11 +103,11 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerImage()
     }
-
+    
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         centerImage()
     }
