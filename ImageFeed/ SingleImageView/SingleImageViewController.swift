@@ -17,6 +17,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var sharingButton: UIButton!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -26,8 +27,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         if let image = image {
             rescaleAndCenterImageInScrollView(image: image)
         }
-        setupBackButton()
-        configureZoomScale()
+        setupUI()
     }
     
     // MARK: - Actions
@@ -36,9 +36,21 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: - Private Methods
+    private func setupUI() {
+        setupBackButton()
+        setupSharingButton()
+        configureZoomScale()
+    }
+    
+    
     private func setupBackButton() {
         backButton.setTitle("", for: .normal)
         backButton.setImage(UIImage(named: "Backward"), for: .normal)
+    }
+    
+    private func setupSharingButton() {
+        sharingButton.setTitle("", for: .normal)
+        sharingButton.setImage(UIImage(named: "Sharing"), for: .normal)
     }
     
     private func configureZoomScale() {
