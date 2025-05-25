@@ -21,6 +21,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         imageView.image = image
         setupBackButton()
+        configureZoomScale()
     }
     
     // MARK: - Actions
@@ -33,4 +34,19 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         backButton.setTitle("", for: .normal)
         backButton.setImage(UIImage(named: "Backward"), for: .normal)
     }
+    
+    private func configureZoomScale() {
+        scrollView.minimumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
+    }
+    
+    
+    
+    
+    // MARK: - UIScrollViewDelegate
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
 }
+
+
