@@ -63,13 +63,25 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: true)
     }
     
+    private func centerImage() {
+        let scrollViewSize = scrollView.bounds.size
+        let imageViewSize = imageView.frame.size
+        let horizontalInset = max((scrollViewSize.width - imageViewSize.width) / 2, 0)
+        let verticalInset = max((scrollViewSize.height - imageViewSize.height) / 2, 0)
+        scrollView.contentInset = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
+        let offsetX = -horizontalInset
+        let offsetY = -verticalInset
+        scrollView.contentOffset = CGPoint(x: offsetX, y: offsetY)
+    }
     
     // MARK: - UIScrollViewDelegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        centerImage()
+    }
 }
 
 
