@@ -251,11 +251,11 @@
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="11" id="1Yb-Ft-YiL"/>
                             <constraint firstItem="gHB-Xh-PmG" firstAttribute="bottom" secondItem="DpB-9S-qPQ" secondAttribute="bottom" constant="17" id="CaK-vK-2e8"/>
                             <constraint firstItem="IUG-R4-HW2" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="8" id="MBb-y2-nFT"/>
-                            <constraint firstItem="VDF-7U-vCk" firstAttribute="leading" secondItem="gHB-Xh-PmG" secondAttribute="leading" constant="-20" id="O4A-5D-vfI"/>
-                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="trailing" secondItem="VDF-7U-vCk" secondAttribute="trailing" constant="-20" id="QiE-5X-quV"/>
-                            <constraint firstItem="gHB-Xh-PmG" firstAttribute="bottom" secondItem="VDF-7U-vCk" secondAttribute="bottom" constant="-20" id="ZDl-Ji-Nhd"/>
+                            <constraint firstItem="VDF-7U-vCk" firstAttribute="leading" secondItem="XsC-Pe-FRT" secondAttribute="leading" id="O4A-5D-vfI"/>
+                            <constraint firstAttribute="trailing" secondItem="VDF-7U-vCk" secondAttribute="trailing" id="QiE-5X-quV"/>
+                            <constraint firstAttribute="bottom" secondItem="VDF-7U-vCk" secondAttribute="bottom" id="ZDl-Ji-Nhd"/>
                             <constraint firstItem="DpB-9S-qPQ" firstAttribute="centerX" secondItem="gHB-Xh-PmG" secondAttribute="centerX" id="cl3-L2-DNK"/>
-                            <constraint firstItem="VDF-7U-vCk" firstAttribute="top" secondItem="gHB-Xh-PmG" secondAttribute="top" constant="-20" id="mw9-kr-XCL"/>
+                            <constraint firstItem="VDF-7U-vCk" firstAttribute="top" secondItem="XsC-Pe-FRT" secondAttribute="top" id="mw9-kr-XCL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6UF-xs-RdS"/>
