@@ -7,6 +7,9 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         didSet {
             guard isViewLoaded else { return }
             imageView.image = image
+            
+            guard let image = image else { return }
+            rescaleAndCenterImageInScrollView(image: image)
         }
     }
     
@@ -21,7 +24,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         imageView.image = image
         if let image = image {
-            imageView.frame.size = image.size
+            rescaleAndCenterImageInScrollView(image: image)
         }
         setupBackButton()
         configureZoomScale()
@@ -43,13 +46,30 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.maximumZoomScale = 1.25
     }
     
-    
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        let minZoomScale = scrollView.minimumZoomScale
+        let maxZoomScale = scrollView.maximumZoomScale
+        view.layoutIfNeeded()
+        let visibleReactSize = scrollView.bounds.size
+        let imageSize = image.size
+        let hScale = visibleReactSize.width / imageSize.width
+        let vScale = visibleReactSize.height / imageSize.height
+        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        scrollView.setZoomScale(scale, animated: false)
+        scrollView.layoutIfNeeded()
+        let newContentSize = scrollView.contentSize
+        let x = (newContentSize.width - visibleReactSize.width) / 2
+        let y = (newContentSize.height - visibleReactSize.height) / 2
+        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: true)
+    }
     
     
     // MARK: - UIScrollViewDelegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
+    
+    
 }
 
 
