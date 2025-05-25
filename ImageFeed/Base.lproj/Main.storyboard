@@ -220,28 +220,28 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="cdO-33-yb0"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="bDt-2x-69j"/>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUG-R4-HW2">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUG-R4-HW2">
                                 <rect key="frame" x="8" y="59" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="Ovv-vZ-8ze"/>
                                     <constraint firstAttribute="height" constant="44" id="puZ-Sf-DbO"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
-                                    <action selector="didTapBackButton:" destination="OjF-mf-qvb" eventType="touchUpInside" id="HBa-k9-Idq"/>
+                                    <action selector="didTapBackButton:" destination="OjF-mf-qvb" eventType="touchUpInside" id="dvs-d9-Aty"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpB-9S-qPQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpB-9S-qPQ">
                                 <rect key="frame" x="182" y="795" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="1KH-m7-nW0"/>
                                     <constraint firstAttribute="height" constant="50" id="g9l-5H-0Jq"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="1"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="1"/>
                                 <connections>
-                                    <action selector="sharingButtonTapped:" destination="OjF-mf-qvb" eventType="touchUpInside" id="dRi-va-KnD"/>
+                                    <action selector="didTapShareButton:" destination="OjF-mf-qvb" eventType="touchUpInside" id="N1N-BJ-AJD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -268,7 +268,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pi0-tt-uq0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1738" y="-289"/>
+            <point key="canvasLocation" x="1772" y="-289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4c9-jm-a2x">
