@@ -13,8 +13,8 @@ final class ProfileViewController: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor(named: "YPBlack")
         setupProfileImageView()
-//        setupLogoutButton()
-//        setupNameLabel()
+        setupLogoutButton()
+        setupNameLabel()
 //        setupHandleLabel()
 //        setupStatusLabel()
     }
@@ -22,6 +22,9 @@ final class ProfileViewController: UIViewController {
     let logoutButton = UIButton()
     let profileImage = UIImageView()
     let nameLabel = UILabel()
+    let handleLabel = UILabel()
+    let statusLabel = UILabel()
+    
     
     private func setupProfileImageView() {
         profileImage.image = UIImage(named: "mockProfileImage")
@@ -46,19 +49,23 @@ final class ProfileViewController: UIViewController {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
     }
-//    
-//    private func setupHandleLabel() {
-//        handleLabel.text = "@ekaterina_nov"
-//        handleLabel.textColor = UIColor(named: "YPGray")
-//        handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-//    }
-//    
-//    private func setupStatusLabel() {
-//        statusLabel.text = "Hello, world"
-//        statusLabel.textColor = UIColor(named: "YPWhite")
-//        statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-//    }
-//    
+    
+    private func setupHandleLabel() {
+        handleLabel.text = "@ekaterina_nov"
+        handleLabel.textColor = UIColor(named: "YPGray")
+        handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        handleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(handleLabel)
+    }
+    
+    private func setupStatusLabel() {
+        statusLabel.text = "Hello, world"
+        statusLabel.textColor = UIColor(named: "YPWhite")
+        statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(statusLabel)
+    }
+    
     @objc private func logoutButtonTapped() {
         
     }
