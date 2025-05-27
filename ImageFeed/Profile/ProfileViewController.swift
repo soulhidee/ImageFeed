@@ -81,6 +81,7 @@ final class ProfileViewController: UIViewController {
         handleLabel.text = MockData.handle
         handleLabel.textColor = UIColor(named: "YPGray")
         handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        nameLabel.numberOfLines = .zero
         handleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(handleLabel)
     }
@@ -89,19 +90,20 @@ final class ProfileViewController: UIViewController {
         statusLabel.text = MockData.status
         statusLabel.textColor = UIColor(named: "YPWhite")
         statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        nameLabel.numberOfLines = .zero
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(statusLabel)
-    }
-    
-    
-    private enum MockData {
-        static let name = "Екатерина Новикова"
-        static let handle = "@ekaterina_nov"
-        static let status = "Hello, world"
     }
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
         //logout logic
+    }
+    
+    // MARK: - Mock
+    private enum MockData {
+        static let name = "Екатерина Новикова"
+        static let handle = "@ekaterina_nov"
+        static let status = "Hello, world"
     }
 }
