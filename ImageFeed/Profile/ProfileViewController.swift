@@ -21,7 +21,7 @@ final class ProfileViewController: UIViewController {
     
     let logoutButton = UIButton()
     let profileImage = UIImageView()
-    
+    let nameLabel = UILabel()
     
     private func setupProfileImageView() {
         profileImage.image = UIImage(named: "mockProfileImage")
@@ -38,12 +38,14 @@ final class ProfileViewController: UIViewController {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
     }
-//    
-//    private func setupNameLabel() {
-//        nameLabel.text = "Екатерина Новикова"
-//        nameLabel.textColor = UIColor(named: "YPWhite")
-//        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
-//    }
+    
+    private func setupNameLabel() {
+        nameLabel.text = "Екатерина Новикова"
+        nameLabel.textColor = UIColor(named: "YPWhite")
+        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameLabel)
+    }
 //    
 //    private func setupHandleLabel() {
 //        handleLabel.text = "@ekaterina_nov"
