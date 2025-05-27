@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gE7-d6-hMZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pot-8H-Scy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -75,15 +75,14 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="NtS-eg-bIB" firstAttribute="leading" secondItem="ic1-Lm-0zh" secondAttribute="leading" constant="8" id="1xB-KP-9R3"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="trailing" secondItem="muq-lS-CfG" secondAttribute="trailing" id="DIU-Uu-Jaz"/>
-                                                <constraint firstItem="NtS-eg-bIB" firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="-8" id="SkE-Gw-blE"/>
+                                                <constraint firstItem="NtS-eg-bIB" firstAttribute="leading" secondItem="ic1-Lm-0zh" secondAttribute="leading" constant="8" id="IMX-nq-bgD"/>
                                                 <constraint firstAttribute="trailing" secondItem="ic1-Lm-0zh" secondAttribute="trailing" constant="16" id="UXO-OQ-2YD"/>
+                                                <constraint firstItem="NtS-eg-bIB" firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="-8" id="VUg-np-pxL"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="leading" secondItem="Scr-Bo-9fN" secondAttribute="leading" constant="16" id="a0F-WX-9KA"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="Scr-Bo-9fN" secondAttribute="top" constant="4" id="aY0-es-Fkn"/>
                                                 <constraint firstItem="ic1-Lm-0zh" firstAttribute="top" secondItem="muq-lS-CfG" secondAttribute="top" id="eRb-oa-uIt"/>
                                                 <constraint firstAttribute="bottom" secondItem="ic1-Lm-0zh" secondAttribute="bottom" constant="8" id="prd-wM-fuh"/>
-                                                <constraint firstItem="ic1-Lm-0zh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NtS-eg-bIB" secondAttribute="trailing" constant="8" id="wkV-44-SWu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="YPBlack"/>
