@@ -2,30 +2,30 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-
+    // MARK: - UI Elements
+    private let logoutButton = UIButton()
+    private let profileImage = UIImageView()
+    private let nameLabel = UILabel()
+    private let handleLabel = UILabel()
+    private let statusLabel = UILabel()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
     
-    // MARK: - UI Setup
+    // MARK: - Setup Views
     private func setupViews() {
         view.backgroundColor = UIColor(named: "YPBlack")
         setupProfileImageView()
         setupLogoutButton()
         setupNameLabel()
-//        setupHandleLabel()
-//        setupStatusLabel()
+        setupHandleLabel()
+        setupStatusLabel()
     }
-    
-    let logoutButton = UIButton()
-    let profileImage = UIImageView()
-    let nameLabel = UILabel()
-    let handleLabel = UILabel()
-    let statusLabel = UILabel()
-    
-    
+
+    // MARK: - Setup UI Elements
     private func setupProfileImageView() {
         profileImage.image = UIImage(named: "mockProfileImage")
         profileImage.contentMode = .scaleAspectFill
@@ -66,8 +66,10 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
     }
     
-    @objc private func logoutButtonTapped() {
-        
-    }
     
+
+    // MARK: - Actions
+    @objc private func logoutButtonTapped() {
+        //logout logic
+    }
 }
