@@ -13,6 +13,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupConstraints()
     }
     
     // MARK: - Setup Views
@@ -66,7 +67,15 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
     }
     
-    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            profileImage.widthAnchor.constraint(equalToConstant: 70),
+            profileImage.heightAnchor.constraint(equalToConstant: 70),
+            profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+            
+        ])
+    }
 
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
