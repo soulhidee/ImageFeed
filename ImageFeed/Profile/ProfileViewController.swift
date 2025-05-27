@@ -19,8 +19,11 @@ final class ProfileViewController: UIViewController {
 //        setupStatusLabel()
     }
     
+    let logoutButton = UIButton()
+    let profileImage = UIImageView()
+    
+    
     private func setupProfileImageView() {
-        let profileImage = UIImageView()
         profileImage.image = UIImage(named: "mockProfileImage")
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
@@ -28,10 +31,13 @@ final class ProfileViewController: UIViewController {
         view.addSubview(profileImage)
     }
     
-//    private func setupLogoutButton() {
-//        logoutButton.setTitle("", for: .normal)
-//        logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
-//    }
+    private func setupLogoutButton() {
+        logoutButton.setTitle("", for: .normal)
+        logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logoutButton)
+    }
 //    
 //    private func setupNameLabel() {
 //        nameLabel.text = "Екатерина Новикова"
@@ -51,9 +57,8 @@ final class ProfileViewController: UIViewController {
 //        statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
 //    }
 //    
-//    // MARK: - Actions
-//    @IBAction func logoutButtonTapped(_ sender: UIButton) {
-//        
-//    }
-//    
-//}
+    @objc private func logoutButtonTapped() {
+        
+    }
+    
+}
