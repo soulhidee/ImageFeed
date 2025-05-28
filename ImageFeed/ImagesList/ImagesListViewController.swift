@@ -3,7 +3,7 @@ import UIKit
 final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let photosName = (0..<20).map(String.init)
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     // MARK: - Outlet
@@ -29,7 +29,6 @@ final class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {

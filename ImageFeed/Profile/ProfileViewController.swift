@@ -69,7 +69,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupNameLabel() {
-        nameLabel.text = MockData.name
+        nameLabel.text = dataMock.name
         nameLabel.textColor = UIColor(named: "YPWhite")
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         nameLabel.numberOfLines = .zero
@@ -78,7 +78,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupHandleLabel() {
-        handleLabel.text = MockData.handle
+        handleLabel.text = dataMock.handle
         handleLabel.textColor = UIColor(named: "YPGray")
         handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         nameLabel.numberOfLines = .zero
@@ -87,7 +87,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupStatusLabel() {
-        statusLabel.text = MockData.status
+        statusLabel.text = dataMock.status
         statusLabel.textColor = UIColor(named: "YPWhite")
         statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         nameLabel.numberOfLines = .zero
@@ -101,7 +101,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Mock
-    private enum MockData {
+    private enum dataMock {
         static let name = "Екатерина Новикова"
         static let handle = "@ekaterina_nov"
         static let status = "Hello, world"
