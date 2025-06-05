@@ -8,10 +8,13 @@ class AuthViewController: UIViewController {
         setupConstraints()
     }
     private func setupViews() {
+        configureView()
     }
     private func setupConstraints() {
         
     }
     
-
+    private func configureView() {
+        view.backgroundColor = UIColor(named: "YPBlack") ?? .black
+    }
 }
