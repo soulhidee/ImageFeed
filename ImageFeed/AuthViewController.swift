@@ -2,8 +2,8 @@ import UIKit
 
 class AuthViewController: UIViewController {
     
-    
-    
+    private let authLogoImageView = UIImageView()
+    private let signInButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
