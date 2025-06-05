@@ -1,20 +1,26 @@
 import UIKit
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
+    // MARK: - UI Elements
     private let authLogoImageView = UIImageView()
     private let signInButton = UIButton()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
     }
+    
+    // MARK: - Setup Views
     private func setupViews() {
         configureView()
         configureAuthLogoImageView()
         configureSignInButton()
     }
+    
+    // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             authLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -24,10 +30,10 @@ class AuthViewController: UIViewController {
             signInButton.topAnchor.constraint(equalTo: authLogoImageView.bottomAnchor, constant: 204),
             signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
-            
         ])
     }
     
+    // MARK: - UI Configuration
     private func configureView() {
         view.backgroundColor = UIColor(named: "YPBlack") ?? .black
     }
