@@ -12,12 +12,22 @@ class AuthViewController: UIViewController {
     }
     private func setupViews() {
         configureView()
+        configureAuthLogoImageView()
     }
     private func setupConstraints() {
-        
+        NSLayoutConstraint.activate([
+            authLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            authLogoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func configureView() {
         view.backgroundColor = UIColor(named: "YPBlack") ?? .black
+    }
+    
+    private func configureAuthLogoImageView() {
+        authLogoImageView.image = UIImage(named: "auth_screen_logo")
+        authLogoImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(authLogoImageView)
     }
 }
