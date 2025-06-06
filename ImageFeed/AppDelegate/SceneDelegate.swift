@@ -4,24 +4,23 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
-    }
+        // Создаём UIWindow с текущей сценой
+        let window = UIWindow(windowScene: windowScene)
 
-    func sceneDidDisconnect(_ scene: UIScene) {
-    }
+        // Создаём стартовый контроллер
+        let authViewController = AuthViewController()
+        let navigationController = UINavigationController(rootViewController: authViewController)
 
-    func sceneDidBecomeActive(_ scene: UIScene) {
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
+        // Устанавливаем rootViewController и делаем окно видимым
+        window.rootViewController = navigationController
+        self.window = window
+        window.makeKeyAndVisible()
     }
 }
-

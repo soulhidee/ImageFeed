@@ -10,22 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Auth-->
-        <scene sceneID="4S8-fc-gDx">
-            <objects>
-                <viewController id="4Xy-GK-Q1D" userLabel="Auth" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qJ3-6t-uhg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="OjD-gb-F1Y"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="yyk-FA-9tY"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6Vg-fe-duW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2757" y="19"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Jlw-NH-tOd">
             <objects>
@@ -242,21 +226,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kuk-UY-qYr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="831.88405797101461" y="-288.61607142857139"/>
-        </scene>
-        <!--WebView-->
-        <scene sceneID="47I-KX-5rM">
-            <objects>
-                <viewController id="aPG-UK-ITF" userLabel="WebView" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZxH-9Z-HPr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="qMg-kH-g54"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9YU-KZ-IoJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1828" y="19"/>
         </scene>
     </scenes>
     <resources>

@@ -50,7 +50,15 @@ final class AuthViewController: UIViewController {
         signInButton.layer.cornerRadius = 16
         signInButton.setTitleColor(UIColor(named: "YPBlack"), for: .normal)
         signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(signInButton)
     }
+    
+    
+    @objc private func signInButtonTapped() {
+        let webVC = WebViewViewController()
+        navigationController?.pushViewController(webVC, animated: true)
+    }
+    
 }
