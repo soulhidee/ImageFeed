@@ -7,11 +7,13 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
         setupViews()
         setupConstraints()
     }
     
     private func setupViews() {
+        configureCustomBackButton()
         configureWebView()
         configureView()
     }
@@ -26,6 +28,13 @@ final class WebViewViewController: UIViewController {
             
         ])
     }
+    
+    private func  configureCustomBackButton() {
+        let customBackButton = UIBarButtonItem(image: UIImage(named: "nav_back_button"), style: .plain, target: self, action: #selector(backButtonTapped))
+        customBackButton.tintColor = UIColor(named: "YPBlack")
+        navigationItem.leftBarButtonItem = customBackButton
+    }
+    
     private func configureView() {
         view.backgroundColor = UIColor(named: "YPWhite") ?? .white
     }
@@ -36,5 +45,9 @@ final class WebViewViewController: UIViewController {
         view.addSubview(webView)
     }
     
+    
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
     
 }
