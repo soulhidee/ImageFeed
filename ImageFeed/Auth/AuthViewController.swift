@@ -58,7 +58,20 @@ final class AuthViewController: UIViewController {
     
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
+        webVC.delegate = self
         navigationController?.pushViewController(webVC, animated: true)
     }
+    
+}
+
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        <#code#>
+    }
+    
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
     
 }

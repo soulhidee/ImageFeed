@@ -7,6 +7,8 @@ enum WebViewConstants {
 
 
 final class WebViewViewController: UIViewController {
+    weak var delegate: WebViewViewControllerDelegate?
+    
     // MARK: - UI Elements
     let webView = WKWebView()
     
@@ -86,7 +88,7 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        delegate?.webViewViewControllerDidCancel(self)
     }
 }
 
@@ -97,7 +99,7 @@ extension WebViewViewController: WKNavigationDelegate {
     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
    ) {
        if let code = code(from: navigationAction) {
-           //TODO: process code
+           delegate?.webViewViewController(self, didAuthenticateWithCode: code)
            decisionHandler(.cancel)
        } else {
            decisionHandler(.allow)
