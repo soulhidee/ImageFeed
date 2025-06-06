@@ -6,12 +6,11 @@ enum WebViewConstants {
 }
 
 
-
-
 final class WebViewViewController: UIViewController {
+    // MARK: - UI Elements
     let webView = WKWebView()
     
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
@@ -20,12 +19,14 @@ final class WebViewViewController: UIViewController {
         setupConstraints()
     }
     
+    // MARK: - Setup Views
     private func setupViews() {
         configureCustomBackButton()
         configureWebView()
         configureView()
     }
     
+    // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
@@ -35,6 +36,7 @@ final class WebViewViewController: UIViewController {
         ])
     }
     
+    // MARK: - UI Configuration
     private func  configureCustomBackButton() {
         let customBackButton = UIBarButtonItem(image: UIImage(named: "nav_back_button"), style: .plain, target: self, action: #selector(backButtonTapped))
         customBackButton.tintColor = UIColor(named: "YPBlack")
@@ -51,7 +53,7 @@ final class WebViewViewController: UIViewController {
         view.addSubview(webView)
     }
     
-    
+    // MARK: - WebView Loading
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else { return }
         
@@ -68,7 +70,7 @@ final class WebViewViewController: UIViewController {
         webView.load(request)
     }
     
-    
+    // MARK: - Actions
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
