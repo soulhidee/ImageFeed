@@ -22,7 +22,33 @@ final class WebViewViewController: UIViewController {
         loadAuthView()
         setupConstraints()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        webView.addObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            options: .new,
+            context: nil)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+    }
     
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
@@ -34,7 +60,6 @@ final class WebViewViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            
             progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
             progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .zero),
             progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: .zero),
@@ -43,8 +68,6 @@ final class WebViewViewController: UIViewController {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: .zero),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .zero),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .zero)
-            
-            
         ])
     }
     
@@ -101,6 +124,11 @@ final class WebViewViewController: UIViewController {
         }
     }
     
+    private func updateProgress() {
+        progressView.progress = Float(webView.estimatedProgress)
+        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+    }
+    
     // MARK: - Actions
     @objc private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
@@ -108,17 +136,17 @@ final class WebViewViewController: UIViewController {
 }
 
 extension WebViewViewController: WKNavigationDelegate {
-   func webView(
-    _ webView: WKWebView,
-    decidePolicyFor navigationAction: WKNavigationAction,
-    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
-   ) {
-       if let code = code(from: navigationAction) {
-           delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-           decisionHandler(.cancel)
-       } else {
-           decisionHandler(.allow)
-       }
-           
-   }
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
+        if let code = code(from: navigationAction) {
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+        
+    }
 }
