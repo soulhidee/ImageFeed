@@ -10,7 +10,8 @@ final class WebViewViewController: UIViewController {
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - UI Elements
-    let webView = WKWebView()
+    private let webView = WKWebView()
+    private let progressView = UIProgressView()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -24,18 +25,26 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - Setup Views
     private func setupViews() {
+        configureView()
         configureCustomBackButton()
         configureWebView()
-        configureView()
+        configureProgressView()
     }
     
     // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            
+            progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
+            progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .zero),
+            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: .zero),
+            
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .zero),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: .zero),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: .zero),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: .zero)
+            
+            
         ])
     }
     
@@ -54,6 +63,12 @@ final class WebViewViewController: UIViewController {
         webView.backgroundColor = .white
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
+    }
+    
+    private func configureProgressView() {
+        progressView.progressTintColor = UIColor(named: "YPBlack")
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(progressView)
     }
     
     // MARK: - WebView Loading
