@@ -1,11 +1,6 @@
 import UIKit
 import WebKit
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-}
-
-
 final class WebViewViewController: UIViewController {
     weak var delegate: WebViewViewControllerDelegate?
     
@@ -37,6 +32,7 @@ final class WebViewViewController: UIViewController {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
     
+    // MARK: - KVO
     override func observeValue(
         forKeyPath keyPath: String?,
         of object: Any?,
@@ -49,6 +45,7 @@ final class WebViewViewController: UIViewController {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+    
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
@@ -111,6 +108,7 @@ final class WebViewViewController: UIViewController {
         webView.load(request)
     }
     
+    // MARK: - Helpers
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
@@ -133,7 +131,14 @@ final class WebViewViewController: UIViewController {
     @objc private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
     }
+    
+    // MARK: - Enum
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    }
 }
+
+
 
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
