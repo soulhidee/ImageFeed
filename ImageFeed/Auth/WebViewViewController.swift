@@ -169,4 +169,5 @@ enum RequestError: Error {
     case invalidURL
     case invalidCode
     case invalidBodyEncoding
+    case decodingError
 }

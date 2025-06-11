@@ -6,10 +6,49 @@ final class OAuth2Service {
     private var lastCode: String?
     private init() { }
     
-
+    struct OAuthTokenResponseBody: Decodable {
+        let accessToken: String
+        
+        enum CodingKeys: String, CodingKey {
+            case accessToken = "access_token"
+        }
+    }
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-
+        if lastCode == code {
+            return
+        }
+        lastCode = code
+        
+        
+        let request: URLRequest
+        do {
+            request = try makeOAuthTokenRequest(code: code)
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        task?.cancel()
+        
+        task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard
+                    let data = data,
+                    let response = try? JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                else {
+                    completion(.failure(RequestError.decodingError))
+                    return
+                }
+                
+                completion(.success(response.accessToken))
+            }
+        }
+        task?.resume()
     }
     
     func makeOAuthTokenRequest(code: String) throws -> URLRequest {
