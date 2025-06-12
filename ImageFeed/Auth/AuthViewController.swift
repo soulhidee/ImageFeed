@@ -1,6 +1,14 @@
 import UIKit
 
 final class AuthViewController: UIViewController {
+    // MARK: - Constants
+    private enum AuthConstants {
+        static let buttonHeight: CGFloat = 48
+        static let buttonCornerRadius: CGFloat = 16
+        static let logoBottomSpacing: CGFloat = 204
+        static let horizontalPadding: CGFloat = 16
+        static let buttonFontSize: CGFloat = 17
+    }
     
     // MARK: - UI Elements
     private let authLogoImageView = UIImageView()
@@ -30,10 +38,10 @@ final class AuthViewController: UIViewController {
             authLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             authLogoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            signInButton.heightAnchor.constraint(equalToConstant: 48),
-            signInButton.topAnchor.constraint(equalTo: authLogoImageView.bottomAnchor, constant: 204),
-            signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            signInButton.heightAnchor.constraint(equalToConstant: AuthConstants.buttonHeight),
+            signInButton.topAnchor.constraint(equalTo: authLogoImageView.bottomAnchor, constant: AuthConstants.logoBottomSpacing),
+            signInButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: AuthConstants.horizontalPadding),
+            signInButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -AuthConstants.horizontalPadding)
         ])
     }
     
@@ -51,9 +59,9 @@ final class AuthViewController: UIViewController {
     private func configureSignInButton() {
         signInButton.setTitle("Войти", for: .normal)
         signInButton.backgroundColor = UIColor(named: "YPWhite") ?? .white
-        signInButton.layer.cornerRadius = 16
+        signInButton.layer.cornerRadius = AuthConstants.buttonCornerRadius
         signInButton.setTitleColor(UIColor(named: "YPBlack"), for: .normal)
-        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(signInButton)

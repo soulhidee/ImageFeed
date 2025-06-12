@@ -1,6 +1,6 @@
 import UIKit
 
-final class OAuth2Service {
+final class OAuth2Service: OAuth2ServiceProtocol {
     
     static let shared = OAuth2Service()
     
