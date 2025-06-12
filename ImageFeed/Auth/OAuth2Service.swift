@@ -1,6 +1,12 @@
 import UIKit
 
 final class OAuth2Service: OAuth2ServiceProtocol {
+    //MARK: - Constants
+    private enum OAuth2Constants {
+            static let tokenEndpoint = "https://unsplash.com/oauth/token"
+            static let contentType = "application/x-www-form-urlencoded"
+            static let grantType = "authorization_code"
+        }
     
     static let shared = OAuth2Service()
     
@@ -61,7 +67,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     }
     
     private func makeAuthTokenRequest(code: String) -> URLRequest? {
-        guard let url = URL(string: "https://unsplash.com/oauth/token") else {
+        guard let url = URL(string: OAuth2Constants.tokenEndpoint) else {
             print("❌ Ошибка: невалидный URL.")
             return nil
         }
@@ -74,7 +80,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             "client_secret": Constants.secretKey,
             "redirect_uri": Constants.redirectURI,
             "code": code,
-            "grant_type": "authorization_code"
+            "grant_type": OAuth2Constants.grantType
         ]
         
         request.httpBody = parameters
@@ -82,7 +88,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             .joined(separator: "&")
             .data(using: .utf8)
         
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue(OAuth2Constants.contentType, forHTTPHeaderField: "Content-Type")
         
         return request
     }
