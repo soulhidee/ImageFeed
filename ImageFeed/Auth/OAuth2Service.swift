@@ -1,6 +1,6 @@
 import UIKit
 
-final class OAuth2Service {
+ class OAuth2Service {
     static let shared = OAuth2Service()
     private var task: URLSessionTask?
     private var lastCode: String?
@@ -31,23 +31,20 @@ final class OAuth2Service {
         
         task?.cancel()
         
-        task = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                guard
-                    let data = data,
-                    let response = try? JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                else {
+        task = URLSession.shared.data(for: request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let response = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                    completion(.success(response.accessToken))
+                } catch {
                     completion(.failure(RequestError.decodingError))
-                    return
                 }
-                
-                completion(.success(response.accessToken))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
+        
         task?.resume()
     }
     

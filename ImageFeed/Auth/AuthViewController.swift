@@ -6,6 +6,14 @@ final class AuthViewController: UIViewController {
     private let authLogoImageView = UIImageView()
     private let signInButton = UIButton()
     
+    
+    // MARK: - Services
+    private let oauth2Service = OAuth2Service.shared
+
+    
+    // MARK: - Delegate
+    weak var delegate: AuthViewControllerDelegate?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,12 +74,29 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        // code
+        print("✅ Получен код авторизации: \(code)")
+        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
+            
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let token):
+                    self.delegate?.authViewController(self, didAuthenticateWithToken: token)
+                case .failure:
+                    self.showAlert(message: "Что-то пошло не так. Попробуйте ещё раз.")
+                }
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         navigationController?.popViewController(animated: true)
     }
     
-    
+    private func showAlert(message: String) {
+           let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "ОК", style: .default))
+           present(alert, animated: true)
+       }
 }
