@@ -1,14 +1,14 @@
-import Foundation
+import UIKit
 
 final class OAuth2TokenStorage {
-    private let key = "BearerToken"
-    private let userDefaults = UserDefaults.standard
+    private let tokenKey = "UnsplashOAuthToken"
     
-    func saveToken(_ token: String) {
-        userDefaults.set(token, forKey: key)
-    }
-    
-    func getToken() -> String? {
-        userDefaults.string(forKey: key)
+    var token: String? {
+        get {
+            UserDefaults.standard.string(forKey: tokenKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: tokenKey)
+        }
     }
 }

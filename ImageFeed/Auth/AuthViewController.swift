@@ -10,8 +10,6 @@ final class AuthViewController: UIViewController {
     // MARK: - Services
     private let oauth2Service = OAuth2Service.shared
     
-    // MARK: - Delegate
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +59,6 @@ final class AuthViewController: UIViewController {
         view.addSubview(signInButton)
     }
     
-    
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
         webVC.delegate = self
@@ -72,7 +69,18 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-       
+        oauth2Service.fetchAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let token):
+                    print("✅ Успешная авторизация. Токен: \(token)")
+                case .failure(let error):
+                    print("❌ Ошибка авторизации: \(error)")
+                }
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
