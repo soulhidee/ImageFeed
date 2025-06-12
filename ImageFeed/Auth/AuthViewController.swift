@@ -8,11 +8,9 @@ final class AuthViewController: UIViewController {
     
     
     // MARK: - Services
-    private let oauth2Service = OAuth2Service.shared
 
     
     // MARK: - Delegate
-    weak var delegate: AuthViewControllerDelegate?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
