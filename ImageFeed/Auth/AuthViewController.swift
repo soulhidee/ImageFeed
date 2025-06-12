@@ -8,7 +8,7 @@ final class AuthViewController: UIViewController {
     
     
     // MARK: - Services
-
+    private let oauth2Service = OAuth2Service.shared
     
     // MARK: - Delegate
     
