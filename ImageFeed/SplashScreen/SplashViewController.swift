@@ -22,6 +22,7 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        checkAuthorization()
     }
     
     // MARK: - Setup Views
@@ -56,8 +57,17 @@ final class SplashViewController: UIViewController {
         if let _ = storage.token {
             //switchToTabBarController()
         } else {
-            //showAuthController()
+            showAuthController()
         }
+    }
+    
+    private func showAuthController() {
+        print("Показываю auth")
+        let authViewController = AuthViewController()
+        authViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: authViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
 }
@@ -66,4 +76,4 @@ extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         }
     }
-}
+
