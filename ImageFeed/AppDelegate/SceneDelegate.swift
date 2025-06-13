@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         // Создаём стартовый контроллер
-        let authViewController = AuthViewController()
+        let authViewController = SplashViewController()
         let navigationController = UINavigationController(rootViewController: authViewController)
 
         // Устанавливаем rootViewController и делаем окно видимым
