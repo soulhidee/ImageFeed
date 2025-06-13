@@ -55,7 +55,7 @@ final class SplashViewController: UIViewController {
     
     private func checkAuthorization() {
         if let _ = storage.token {
-            //switchToTabBarController()
+            switchToTabBarController()
         } else {
             showAuthController()
         }
@@ -70,10 +70,29 @@ final class SplashViewController: UIViewController {
         present(navigationController, animated: true)
     }
     
+    private func switchToTabBarController() {
+        print("Показываю Tab")
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            return
+        }
+        
+        guard let window = windowScene.windows.first else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
+
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+    }
+    
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
+        vc.dismiss(animated: true) { [weak self] in
+            self?.switchToTabBarController()
         }
     }
+}
 
