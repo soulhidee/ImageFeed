@@ -8,6 +8,7 @@ final class SplashViewController: UIViewController {
         static let logoHeight: CGFloat = 78
     }
     
+    // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
     
     // MARK: - UI Elements
@@ -53,6 +54,7 @@ final class SplashViewController: UIViewController {
         view.addSubview(logoImageView)
     }
     
+    // MARK: - Authorization
     private func checkAuthorization() {
         if let _ = storage.token {
             switchToTabBarController()
@@ -61,8 +63,8 @@ final class SplashViewController: UIViewController {
         }
     }
     
+    // MARK: - Navigation
     private func showAuthController() {
-        print("Показываю auth")
         let authViewController = AuthViewController()
         authViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: authViewController)
@@ -71,7 +73,6 @@ final class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        print("Показываю Tab")
         guard let windowScene = UIApplication.shared.connectedScenes
                 .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
             return
@@ -88,6 +89,7 @@ final class SplashViewController: UIViewController {
     
 }
 
+// MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true) { [weak self] in
