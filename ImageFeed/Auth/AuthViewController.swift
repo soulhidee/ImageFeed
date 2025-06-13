@@ -14,7 +14,8 @@ final class AuthViewController: UIViewController {
     private let authLogoImageView = UIImageView()
     private let signInButton = UIButton()
     
-    
+    // MARK: - Delegate
+    weak var delegate: AuthViewControllerDelegate?
     // MARK: - Services
     private let oauth2Service = OAuth2Service.shared
     

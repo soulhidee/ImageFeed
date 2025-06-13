@@ -1,11 +1,14 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    
     // MARK: - Constants
     private enum SplashConstants {
         static let logoWidth: CGFloat = 75
         static let logoHeight: CGFloat = 78
     }
+    
+    private let storage = OAuth2TokenStorage()
     
     // MARK: - UI Elements
     private let logoImageView = UIImageView()
@@ -15,7 +18,10 @@ final class SplashViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     // MARK: - Setup Views
@@ -44,5 +50,20 @@ final class SplashViewController: UIViewController {
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
+    }
+    
+    private func checkAuthorization() {
+        if let _ = storage.token {
+            //switchToTabBarController()
+        } else {
+            //showAuthController()
+        }
+    }
+    
+}
+
+extension SplashViewController: AuthViewControllerDelegate {
+    func didAuthenticate(_ vc: AuthViewController) {
+        }
     }
 }
