@@ -80,7 +80,6 @@ final class WebViewViewController: UIViewController {
     }
     
     private func configureWebView() {
-        
         webView.backgroundColor = .white
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
@@ -110,7 +109,6 @@ final class WebViewViewController: UIViewController {
     }
     
     // MARK: - Helpers
-    
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
@@ -122,7 +120,6 @@ final class WebViewViewController: UIViewController {
     }
 
 }
-
 
 
 extension WebViewViewController: WKNavigationDelegate {
@@ -165,10 +162,3 @@ enum WebViewConstants {
     }
 }
 
-enum RequestError: Error {
-    case invalidBaseURL
-    case invalidURL
-    case invalidCode
-    case invalidBodyEncoding
-    case decodingError
-}

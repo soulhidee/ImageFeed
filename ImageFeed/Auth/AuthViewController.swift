@@ -16,6 +16,7 @@ final class AuthViewController: UIViewController {
     
     // MARK: - Delegate
     weak var delegate: AuthViewControllerDelegate?
+    
     // MARK: - Services
     private let oauth2Service = OAuth2Service.shared
     
@@ -86,6 +87,11 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 case .success(let token):
                     print("✅ Успешная авторизация. Токен: \(token)")
                     self.delegate?.didAuthenticate(self)
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
+                    tabBarController.modalPresentationStyle = .fullScreen
+                    self.present(tabBarController, animated: true)
                 case .failure(let error):
                     print("❌ Ошибка авторизации: \(error)")
                 }
