@@ -3,10 +3,10 @@ import UIKit
 final class OAuth2Service: OAuth2ServiceProtocol {
     //MARK: - Constants
     private enum OAuth2Constants {
-            static let tokenEndpoint = "https://unsplash.com/oauth/token"
-            static let contentType = "application/x-www-form-urlencoded"
-            static let grantType = "authorization_code"
-        }
+        static let tokenEndpoint = "https://unsplash.com/oauth/token"
+        static let contentType = "application/x-www-form-urlencoded"
+        static let grantType = "authorization_code"
+    }
     
     // MARK: - Singleton Instance
     static let shared = OAuth2Service()
@@ -78,7 +78,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.post.rawValue
         
         let parameters = [
             "client_id": Constants.accessKey,

@@ -8,6 +8,7 @@ final class AuthViewController: UIViewController {
         static let logoBottomSpacing: CGFloat = 204
         static let horizontalPadding: CGFloat = 16
         static let buttonFontSize: CGFloat = 17
+        static let signInButtonTitle = "Войти"
     }
     
     // MARK: - UI Elements
@@ -59,7 +60,7 @@ final class AuthViewController: UIViewController {
     }
     
     private func configureSignInButton() {
-        signInButton.setTitle("Войти", for: .normal)
+        signInButton.setTitle(AuthConstants.signInButtonTitle, for: .normal)
         signInButton.backgroundColor = UIColor.ypWhite
         signInButton.layer.cornerRadius = AuthConstants.buttonCornerRadius
         signInButton.setTitleColor(UIColor.ypBlack, for: .normal)
@@ -80,7 +81,7 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         oauth2Service.fetchAuthToken(code: code) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
             DispatchQueue.main.async {
                 switch result {
