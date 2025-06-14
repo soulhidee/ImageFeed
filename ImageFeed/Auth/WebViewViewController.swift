@@ -71,13 +71,13 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - UI Configuration
     private func  configureCustomBackButton() {
-        let customBackButton = UIBarButtonItem(image: UIImage(named: "nav_back_button"), style: .plain, target: self, action: #selector(backButtonTapped))
-        customBackButton.tintColor = UIColor(named: "YPBlack")
+        let customBackButton = UIBarButtonItem(image: UIImage.navBackButton, style: .plain, target: self, action: #selector(backButtonTapped))
+        customBackButton.tintColor = UIColor.ypBlack
         navigationItem.leftBarButtonItem = customBackButton
     }
     
     private func configureView() {
-        view.backgroundColor = UIColor(named: "YPWhite") ?? .white
+        view.backgroundColor = UIColor.ypWhite
     }
     
     private func configureWebView() {
@@ -87,7 +87,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func configureProgressView() {
-        progressView.progressTintColor = UIColor(named: "YPBlack")
+        progressView.progressTintColor = UIColor.ypBlack
         progressView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(progressView)
     }

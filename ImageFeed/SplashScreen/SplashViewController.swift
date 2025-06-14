@@ -44,11 +44,11 @@ final class SplashViewController: UIViewController {
     
     // MARK: - UI Configuration
     private func configureView() {
-        view.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        view.backgroundColor = UIColor.ypBlack
     }
     
     private func configureLogoImageView() {
-        logoImageView.image = UIImage(named: "LaunchScreenLogo")
+        logoImageView.image = UIImage.launchScreenLogo
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)

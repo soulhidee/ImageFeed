@@ -49,20 +49,20 @@ final class AuthViewController: UIViewController {
     
     // MARK: - UI Configuration
     private func configureView() {
-        view.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        view.backgroundColor = UIColor.ypBlack
     }
     
     private func configureAuthLogoImageView() {
-        authLogoImageView.image = UIImage(named: "auth_screen_logo")
+        authLogoImageView.image = UIImage.authScreenLogo
         authLogoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(authLogoImageView)
     }
     
     private func configureSignInButton() {
         signInButton.setTitle("Войти", for: .normal)
-        signInButton.backgroundColor = UIColor(named: "YPWhite") ?? .white
+        signInButton.backgroundColor = UIColor.ypWhite
         signInButton.layer.cornerRadius = AuthConstants.buttonCornerRadius
-        signInButton.setTitleColor(UIColor(named: "YPBlack"), for: .normal)
+        signInButton.setTitleColor(UIColor.ypBlack, for: .normal)
         signInButton.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         signInButton.translatesAutoresizingMaskIntoConstraints = false

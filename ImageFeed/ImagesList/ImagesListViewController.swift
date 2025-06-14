@@ -19,7 +19,7 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = UIColor(named: "YPBlack")
+        view.backgroundColor = UIColor.ypBlack
     }
     
     // MARK: - Date Formatter

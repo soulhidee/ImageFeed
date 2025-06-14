@@ -18,7 +18,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Setup Views
     private func setupViews() {
-        view.backgroundColor = UIColor(named: "YPBlack")
+        view.backgroundColor = UIColor.ypBlack
         setupProfileImageView()
         setupLogoutButton()
         setupNameLabel()
@@ -62,7 +62,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupLogoutButton() {
         logoutButton.setTitle("", for: .normal)
-        logoutButton.setImage(UIImage(named: "Exit"), for: .normal)
+        logoutButton.setImage(UIImage.exit, for: .normal)
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
@@ -70,7 +70,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupNameLabel() {
         nameLabel.text = dataMock.name
-        nameLabel.textColor = UIColor(named: "YPWhite")
+        nameLabel.textColor = UIColor.ypWhite
         nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         nameLabel.numberOfLines = .zero
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupHandleLabel() {
         handleLabel.text = dataMock.handle
-        handleLabel.textColor = UIColor(named: "YPGray")
+        handleLabel.textColor = UIColor.ypGray
         handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         nameLabel.numberOfLines = .zero
         handleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +88,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupStatusLabel() {
         statusLabel.text = dataMock.status
-        statusLabel.textColor = UIColor(named: "YPWhite")
+        statusLabel.textColor = UIColor.ypWhite
         statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         nameLabel.numberOfLines = .zero
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
