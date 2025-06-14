@@ -118,7 +118,7 @@ final class WebViewViewController: UIViewController {
     // MARK: - Helpers
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+        progressView.isHidden = fabs(webView.estimatedProgress - WebViewConstants.fullProgressValue) <= WebViewConstants.progressEpsilon
     }
     
     // MARK: - Actions
@@ -167,5 +167,8 @@ enum WebViewConstants {
     static var tokenURLString: String {
         return unsplashBaseURLString + tokenPath
     }
+    
+    static let fullProgressValue: Double = 1.0
+    static let progressEpsilon: Double = 0.0001
 }
 

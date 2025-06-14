@@ -18,6 +18,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
+    private let jsonDecoder = JSONDecoder()
     
     // MARK: - Public Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -41,7 +42,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             switch result {
             case .success(let data):
                 do {
-                    let decodedBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                    let decodedBody = try self.jsonDecoder.decode(OAuthTokenResponseBody.self, from: data)
                     let token = decodedBody.accessToken
                     OAuth2TokenStorage().token = token
                     completion(.success(token))
