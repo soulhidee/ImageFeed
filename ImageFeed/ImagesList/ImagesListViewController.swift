@@ -2,9 +2,18 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
+    // MARK: - Constants
+    private enum ImagesListConstants {
+        static let numberOfPhotos = 20
+        static let showSingleImageSegueIdentifier = "ShowSingleImage"
+        static let rowHeight: CGFloat = 200
+        static let tableViewContentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        static let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        static let isLikedModulo = 2
+    }
+    
     // MARK: - Properties
-    private let photosName = (0..<20).map(String.init)
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
     
     // MARK: - Outlet
     @IBOutlet private var tableView: UITableView!
@@ -13,13 +22,13 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        tableView.rowHeight = 200
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.rowHeight = ImagesListConstants.rowHeight
+        tableView.contentInset = ImagesListConstants.tableViewContentInset
     }
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = UIColor(named: "YPBlack")
+        view.backgroundColor = UIColor.ypBlack
     }
     
     // MARK: - Date Formatter
@@ -31,7 +40,7 @@ final class ImagesListViewController: UIViewController {
     }()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
+        if segue.identifier == ImagesListConstants.showSingleImageSegueIdentifier {
             guard
                 let viewController = segue.destination as? SingleImageViewController,
                 let indexPath = sender as? IndexPath
@@ -51,27 +60,25 @@ final class ImagesListViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath )
+        performSegue(withIdentifier: ImagesListConstants.showSingleImageSegueIdentifier, sender: indexPath )
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return 0
+            return .zero
         }
         
-        let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        let imageInsets = ImagesListConstants.imageInsets
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
         
-        guard imageWidth != 0 else {
-            return 0
+        guard imageWidth != .zero else {
+            return .zero
         }
         
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
-        
-        
     }
 }
 
@@ -100,9 +107,8 @@ extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let image = UIImage(named: photosName[indexPath.row])
         let dateText = dateFormatter.string(from: Date())
-        let isLiked = indexPath.row % 2 == 0
+        let isLiked = indexPath.row % ImagesListConstants.isLikedModulo == .zero
         
         cell.configure(with: image, dateText: dateText, isLiked: isLiked)
     }
 }
-
