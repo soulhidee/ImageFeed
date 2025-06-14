@@ -2,6 +2,24 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    // MARK: - Constants
+    private enum ProfileConstants {
+        static let profileImageSize: CGFloat = 70
+        static let profileImageCornerRadius: CGFloat = profileImageSize / 2
+        static let profileImageTopInset: CGFloat = 32
+        static let profileImageLeadingInset: CGFloat = 16
+        
+        static let logoutButtonSize: CGFloat = 44
+        static let logoutButtonTrailingInset: CGFloat = -16
+        
+        static let nameLabelTopSpacing: CGFloat = 8
+        static let handleLabelTopSpacing: CGFloat = 8
+        static let statusLabelTopSpacing: CGFloat = 8
+        
+        static let nameLabelFontSize: CGFloat = 23
+        static let handleStatusLabelFontSize: CGFloat = 13
+    }
+    
     // MARK: - UI Elements
     private let logoutButton = UIButton()
     private let profileImage = UIImageView()
@@ -29,23 +47,23 @@ final class ProfileViewController: UIViewController {
     // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileImage.widthAnchor.constraint(equalToConstant: 70),
-            profileImage.heightAnchor.constraint(equalToConstant: 70),
-            profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-            profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            profileImage.widthAnchor.constraint(equalToConstant: ProfileConstants.profileImageSize),
+            profileImage.heightAnchor.constraint(equalToConstant: ProfileConstants.profileImageSize),
+            profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ProfileConstants.profileImageTopInset),
+            profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: ProfileConstants.profileImageLeadingInset),
             
-            logoutButton.widthAnchor.constraint(equalToConstant: 44),
-            logoutButton.heightAnchor.constraint(equalToConstant: 44),
+            logoutButton.widthAnchor.constraint(equalToConstant: ProfileConstants.logoutButtonSize),
+            logoutButton.heightAnchor.constraint(equalToConstant: ProfileConstants.logoutButtonSize),
             logoutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
-            logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: ProfileConstants.logoutButtonTrailingInset),
             
-            nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 8),
+            nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: ProfileConstants.nameLabelTopSpacing),
             nameLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             
-            handleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            handleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: ProfileConstants.handleLabelTopSpacing),
             handleLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             
-            statusLabel.topAnchor.constraint(equalTo: handleLabel.bottomAnchor, constant: 8),
+            statusLabel.topAnchor.constraint(equalTo: handleLabel.bottomAnchor, constant: ProfileConstants.statusLabelTopSpacing),
             statusLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor)
         ])
     }
@@ -55,7 +73,7 @@ final class ProfileViewController: UIViewController {
         profileImage.image = UIImage(named: "mockProfileImage")
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.masksToBounds = true
-        profileImage.layer.cornerRadius = 35
+        profileImage.layer.cornerRadius = ProfileConstants.profileImageCornerRadius
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImage)
     }
@@ -71,7 +89,7 @@ final class ProfileViewController: UIViewController {
     private func setupNameLabel() {
         nameLabel.text = dataMock.name
         nameLabel.textColor = UIColor.ypWhite
-        nameLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        nameLabel.font = UIFont.systemFont(ofSize: ProfileConstants.nameLabelFontSize, weight: .bold)
         nameLabel.numberOfLines = .zero
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
@@ -80,8 +98,8 @@ final class ProfileViewController: UIViewController {
     private func setupHandleLabel() {
         handleLabel.text = dataMock.handle
         handleLabel.textColor = UIColor.ypGray
-        handleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        nameLabel.numberOfLines = .zero
+        handleLabel.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
+        handleLabel.numberOfLines = .zero
         handleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(handleLabel)
     }
@@ -89,15 +107,15 @@ final class ProfileViewController: UIViewController {
     private func setupStatusLabel() {
         statusLabel.text = dataMock.status
         statusLabel.textColor = UIColor.ypWhite
-        statusLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        nameLabel.numberOfLines = .zero
+        statusLabel.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
+        statusLabel.numberOfLines = .zero
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(statusLabel)
     }
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        //logout logic
+        // logout logic
     }
     
     // MARK: - Mock
