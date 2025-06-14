@@ -93,7 +93,10 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - WebView Loading
     private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else { return }
+        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+            print("❌ Не удалось создать URLComponents из строки: \(WebViewConstants.unsplashAuthorizeURLString)")
+            return
+        }
         
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
@@ -102,7 +105,10 @@ final class WebViewViewController: UIViewController {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         
-        guard let url = urlComponents.url else { return }
+        guard let url = urlComponents.url else {
+            print("❌ Не удалось получить URL из URLComponents: \(urlComponents)")
+            return
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
@@ -118,7 +124,7 @@ final class WebViewViewController: UIViewController {
     @objc private func backButtonTapped() {
         delegate?.webViewViewControllerDidCancel(self)
     }
-
+    
 }
 
 
@@ -135,7 +141,7 @@ extension WebViewViewController: WKNavigationDelegate {
             decisionHandler(.allow)
         }
     }
-
+    
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
