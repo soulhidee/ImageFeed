@@ -8,14 +8,18 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             static let grantType = "authorization_code"
         }
     
+    // MARK: - Singleton Instance
     static let shared = OAuth2Service()
     
+    // MARK: - Initialization
     private init() {}
     
+    // MARK: - Private Properties
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
     
+    // MARK: - Public Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard lastCode != code else {
             print("⚠️ Попытка повторного запроса с тем же кодом авторизации.")
@@ -66,6 +70,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task?.resume()
     }
     
+    // MARK: - Private Methods
     private func makeAuthTokenRequest(code: String) -> URLRequest? {
         guard let url = URL(string: OAuth2Constants.tokenEndpoint) else {
             print("❌ Ошибка: невалидный URL.")

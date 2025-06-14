@@ -2,6 +2,7 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController {
+    // MARK: - Delegate
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - UI Elements
@@ -127,7 +128,7 @@ final class WebViewViewController: UIViewController {
     
 }
 
-
+// MARK: - Extension
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
