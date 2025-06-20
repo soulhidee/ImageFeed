@@ -75,7 +75,7 @@ final class AuthViewController: UIViewController {
         webVC.delegate = self
         navigationController?.pushViewController(webVC, animated: true)
     }
-    
+
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {

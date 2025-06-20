@@ -115,7 +115,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        // logout logic
+        
     }
     
     // MARK: - Mock
