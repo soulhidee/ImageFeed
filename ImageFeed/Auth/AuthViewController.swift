@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 final class AuthViewController: UIViewController {
     // MARK: - Constants
@@ -80,9 +81,10 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.animate()
         oauth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self else { return }
-            
+            ProgressHUD.dismiss()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
