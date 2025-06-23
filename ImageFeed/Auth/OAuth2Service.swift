@@ -22,12 +22,22 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     
     // MARK: - Public Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard lastCode != code else {
-            print("⚠️ Попытка повторного запроса с тем же кодом авторизации.")
+        assert(Thread.isMainThread)
+        if let task = task {
+            if lastCode != code {
+                task.cancel()
+                print("🔄 Отменён предыдущий запрос с другим кодом.")
+            } else {
+                completion(.failure(NetworkError.invalidRequest))
+                print("⛔️ Повторный запрос с тем же кодом, выходим.")
+                return
+            }
+        } else if lastCode == code {
+            completion(.failure(NetworkError.invalidRequest))
+            print("⛔️ Код уже использован, выходим.")
             return
         }
         
-        task?.cancel()
         lastCode = code
         
         guard let request = makeAuthTokenRequest(code: code) else {
