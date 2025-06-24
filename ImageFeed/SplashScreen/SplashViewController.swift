@@ -10,6 +10,7 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
+    private var profileService: ProfileService?
     
     // MARK: - UI Elements
     private let logoImageView = UIImageView()
@@ -56,10 +57,21 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Authorization
     private func checkAuthorization() {
-        if let _ = storage.token {
-            switchToTabBarController()
-        } else {
+        guard let token = storage.token else {
             showAuthController()
+            return
+        }
+        
+        let profileService = ProfileService(token: token)
+        profileService.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self?.switchToTabBarController()
+                case .failure:
+                    self?.showAuthController()
+                }
+            }
         }
     }
     
