@@ -1,7 +1,7 @@
 import Foundation
 
 final class ProfileService {
-    struct ProfileResult: Decodable {
+    struct ProfileResult: Codable {
         let id: String
         let username: String
         let firstName: String?
@@ -10,12 +10,13 @@ final class ProfileService {
         let email: String?
         let profileImage: ProfileImage?
         
-        enum CodingCase: String, CodingKey {
+        enum CodingKeys: String, CodingKey {
             case id
             case username
             case firstName = "first_name"
             case lastName = "last_name"
             case bio
+            case email
             case profileImage = "profile_image"
         }
     }
