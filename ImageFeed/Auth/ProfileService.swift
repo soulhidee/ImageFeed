@@ -1,6 +1,13 @@
 import Foundation
 
 final class ProfileService {
+    
+    private let token: String
+    
+    init(token: String) {
+        self.token = token
+    }
+    
     struct ProfileResult: Codable {
         let id: String
         let username: String
@@ -34,15 +41,24 @@ final class ProfileService {
         let bio: String
         
         init(result: ProfileService.ProfileResult) {
-                self.username = result.username
-                let first = result.firstName ?? ""
-                let last = result.lastName ?? ""
-                self.name = "\(first) \(last)".trimmingCharacters(in: .whitespaces)
-                self.loginName = "@\(result.username)"
-                self.bio = result.bio ?? ""
-            }
+            self.username = result.username
+            let first = result.firstName ?? ""
+            let last = result.lastName ?? ""
+            self.name = "\(first) \(last)".trimmingCharacters(in: .whitespaces)
+            self.loginName = "@\(result.username)"
+            self.bio = result.bio ?? ""
+        }
     }
     
-    
+    func makeProfileRequest() -> URLRequest? {
+        guard let url = URL(string: "https://api.unsplash.com/me") else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
 }
 
