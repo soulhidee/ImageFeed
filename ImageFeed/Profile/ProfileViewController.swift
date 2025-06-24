@@ -20,6 +20,8 @@ final class ProfileViewController: UIViewController {
         static let handleStatusLabelFontSize: CGFloat = 13
     }
     
+    private let profileService = ProfileService(token: OAuth2TokenStorage().token ?? "")
+    
     // MARK: - UI Elements
     private let logoutButton = UIButton()
     private let profileImage = UIImageView()
@@ -32,6 +34,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        
     }
     
     // MARK: - Setup Views
@@ -112,6 +115,22 @@ final class ProfileViewController: UIViewController {
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(statusLabel)
     }
+    
+    private func fetchProfile() {
+        guard let token = OAuth2TokenStorage().token else {
+            print("❌ Нет токена — нельзя загрузить профиль")
+            return
+        }
+         
+    }
+    
+    private func updateProfileLabels(with profile: ProfileService.Profile) {
+        nameLabel.text = profile.name
+        handleLabel.text = profile.loginName
+        statusLabel.text = profile.bio
+    }
+        
+    
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
