@@ -54,6 +54,7 @@ final class ProfileService {
     
     func makeProfileRequest() -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
+            print("❌ Ошибка: неверный URL для запроса профиля")
             return nil
         }
         
@@ -71,25 +72,33 @@ final class ProfileService {
         
         task?.cancel()
         
-        
         guard let request = makeProfileRequest() else {
+            print("❌ Ошибка: не удалось сформировать запрос профиля")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
         
-        let newTask = URLSession.shared.data(for: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let profileResult = try decoder.decode(ProfileResult.self, from: data)
-                    let profile = Profile(result: profileResult)
-                    completion(.success(profile))
-                } catch {
-                    completion(.failure(error))
-                }
-                
-            case .failure(let error):
+        let newTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("❌ Ошибка сети при загрузке профиля: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                print("❌ Ошибка: получены пустые данные при загрузке профиля")
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let profileResult = try decoder.decode(ProfileResult.self, from: data)
+                let profile = Profile(result: profileResult)
+                self.lastProfile = profile
+                completion(.success(profile))
+            } catch {
+                print("❌ Ошибка декодирования профиля: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }
@@ -97,4 +106,5 @@ final class ProfileService {
         task = newTask
         newTask.resume()
     }
+    
 }
