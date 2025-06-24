@@ -3,6 +3,8 @@ import Foundation
 final class ProfileService {
     
     private let token: String
+    private var task: URLSessionTask?
+    private var lastProfile: Profile?
     
     init(token: String) {
         self.token = token
@@ -62,6 +64,14 @@ final class ProfileService {
     }
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
+        if let lastProfile = lastProfile {
+            completion(.success(lastProfile))
+            return
+        }
+        
+        task?.cancel()
+        
+        
         guard let request = makeProfileRequest() else {
             completion(.failure(NetworkError.invalidRequest))
             return
@@ -84,6 +94,7 @@ final class ProfileService {
             }
         }
         
+        task = newTask
         task.resume()
     }
     
