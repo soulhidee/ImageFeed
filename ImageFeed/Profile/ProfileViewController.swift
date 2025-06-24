@@ -20,7 +20,7 @@ final class ProfileViewController: UIViewController {
         static let handleStatusLabelFontSize: CGFloat = 13
     }
     
-    private let profileService = ProfileService(token: OAuth2TokenStorage().token ?? "")
+    var profile: ProfileService.Profile?
     
     // MARK: - UI Elements
     private let logoutButton = UIButton()
@@ -34,7 +34,6 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        fetchProfile()
     }
     
     // MARK: - Setup Views
@@ -116,23 +115,6 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
     }
     
-    private func fetchProfile() {
-        guard let token = OAuth2TokenStorage().token else {
-            print("❌ Нет токена — нельзя загрузить профиль")
-            return
-        }
-        
-        profileService.fetchProfile(token) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let profile):
-                    self?.updateProfileLabels(with: profile)
-                case .failure(let error):
-                    print("❌ Ошибка загрузки профиля: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
     
     private func updateProfileLabels(with profile: ProfileService.Profile) {
         nameLabel.text = profile.name

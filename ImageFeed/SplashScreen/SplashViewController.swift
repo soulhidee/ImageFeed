@@ -61,18 +61,16 @@ final class SplashViewController: UIViewController {
             showAuthController()
             return
         }
-        
+    
         profileService = ProfileService(token: token)
-        
-        profileService?.fetchProfile(token) { [weak self] result in
+
+        let profileService = ProfileService(token: token)
+        profileService.fetchProfile(token) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let profile):
-                    print("Профиль загружен: \(profile.username)")
+                case .success:
                     self?.switchToTabBarController()
-                case .failure(let error):
-                    print("Ошибка загрузки профиля: \(error.localizedDescription)")
-            
+                case .failure:
                     self?.showAuthController()
                 }
             }
