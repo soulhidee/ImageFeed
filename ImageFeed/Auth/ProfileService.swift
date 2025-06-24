@@ -60,5 +60,39 @@ final class ProfileService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
+    
+    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
+        guard let request = makeProfileRequest() else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        
+        let task = URLSession.shared.data(for: request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let profileResult = try decoder.decode(ProfileResult.self, from: data)
+                    let profile = Profile(result: profileResult)
+                    completion(.success(profile))
+                } catch {
+                    completion(.failure(error))
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
-
