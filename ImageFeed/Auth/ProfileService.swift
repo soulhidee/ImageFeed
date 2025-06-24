@@ -26,4 +26,23 @@ final class ProfileService {
         let medium: String?
         let large: String?
     }
+    
+    struct Profile {
+        let username: String
+        let name: String
+        let loginName: String
+        let bio: String
+        
+        init(result: ProfileService.ProfileResult) {
+                self.username = result.username
+                let first = result.firstName ?? ""
+                let last = result.lastName ?? ""
+                self.name = "\(first) \(last)".trimmingCharacters(in: .whitespaces)
+                self.loginName = "@\(result.username)"
+                self.bio = result.bio ?? ""
+            }
+    }
+    
+    
 }
+
