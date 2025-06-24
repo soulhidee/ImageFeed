@@ -77,7 +77,7 @@ final class ProfileService {
             return
         }
         
-        let task = URLSession.shared.data(for: request) { result in
+        let newTask = URLSession.shared.data(for: request) { result in
             switch result {
             case .success(let data):
                 do {
@@ -95,7 +95,7 @@ final class ProfileService {
         }
         
         task = newTask
-        task.resume()
+        newTask.resume()
     }
     
     
