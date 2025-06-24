@@ -2,14 +2,23 @@ import Foundation
 
 final class ProfileService {
     
+    private enum ProfileServiceConstants {
+        static let userProfileURL = "https://api.unsplash.com/me"
+        static let headerAuthorization = "Authorization"
+        static let headerBearer = "Bearer "
+    }
+    
+    // MARK: - Private Properties
     private let token: String
     private var task: URLSessionTask?
     private var lastProfile: Profile?
     
+    // MARK: - Initialization
     init(token: String) {
         self.token = token
     }
     
+    // MARK: - Nested Types
     struct ProfileResult: Codable {
         let id: String
         let username: String
@@ -52,18 +61,20 @@ final class ProfileService {
         }
     }
     
+    // MARK: - Request Creation
     func makeProfileRequest() -> URLRequest? {
-        guard let url = URL(string: "https://api.unsplash.com/me") else {
+        guard let url = URL(string: ProfileServiceConstants.userProfileURL) else {
             print("❌ Ошибка: неверный URL для запроса профиля")
             return nil
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = HTTPMethod.get.rawValue
+        request.setValue(ProfileServiceConstants.headerBearer + token, forHTTPHeaderField: ProfileServiceConstants.headerAuthorization)
         return request
     }
     
+    // MARK: - Fetch Profile
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         if let lastProfile = lastProfile {
             completion(.success(lastProfile))
