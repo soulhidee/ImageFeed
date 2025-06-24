@@ -34,7 +34,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        
+        fetchProfile()
     }
     
     // MARK: - Setup Views
@@ -121,7 +121,17 @@ final class ProfileViewController: UIViewController {
             print("❌ Нет токена — нельзя загрузить профиль")
             return
         }
-         
+        
+        profileService.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profile):
+                    self?.updateProfileLabels(with: profile)
+                case .failure(let error):
+                    print("❌ Ошибка загрузки профиля: \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     private func updateProfileLabels(with profile: ProfileService.Profile) {
@@ -129,7 +139,7 @@ final class ProfileViewController: UIViewController {
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
     }
-        
+    
     
     
     // MARK: - Actions
