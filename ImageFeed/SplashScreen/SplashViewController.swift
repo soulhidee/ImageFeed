@@ -10,6 +10,7 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
+    private var profileService: ProfileService?
     
     // MARK: - UI Elements
     private let logoImageView = UIImageView()
@@ -56,10 +57,25 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Authorization
     private func checkAuthorization() {
-        if let _ = storage.token {
-            switchToTabBarController()
-        } else {
+        guard let token = storage.token else {
             showAuthController()
+            return
+        }
+        
+        profileService = ProfileService(token: token)
+        
+        profileService?.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profile):
+                    print("Профиль загружен: \(profile.username)")
+                    self?.switchToTabBarController()
+                case .failure(let error):
+                    print("Ошибка загрузки профиля: \(error.localizedDescription)")
+            
+                    self?.showAuthController()
+                }
+            }
         }
     }
     
@@ -74,7 +90,7 @@ final class SplashViewController: UIViewController {
     
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes
-                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
             return
         }
         
@@ -82,7 +98,7 @@ final class SplashViewController: UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
-
+        
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }

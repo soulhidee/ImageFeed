@@ -97,13 +97,4 @@ final class ProfileService {
         task = newTask
         newTask.resume()
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

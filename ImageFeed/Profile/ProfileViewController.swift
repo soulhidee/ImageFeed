@@ -149,8 +149,8 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Mock
     private enum dataMock {
-        static let name = "Екатерина Новикова"
-        static let handle = "@ekaterina_nov"
-        static let status = "Hello, world"
+        static let name = ""
+        static let handle = ""
+        static let status = ""
     }
 }
