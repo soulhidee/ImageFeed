@@ -9,14 +9,8 @@ final class ProfileService {
     }
     
     // MARK: - Private Properties
-    private let token: String
     private var task: URLSessionTask?
     private var lastProfile: Profile?
-    
-    // MARK: - Initialization
-    init(token: String) {
-        self.token = token
-    }
     
     // MARK: - Nested Types
     struct ProfileResult: Codable {
@@ -62,7 +56,7 @@ final class ProfileService {
     }
     
     // MARK: - Request Creation
-    func makeProfileRequest() -> URLRequest? {
+    func makeProfileRequest(with token: String) -> URLRequest? {
         guard let url = URL(string: ProfileServiceConstants.userProfileURL) else {
             print("❌ Ошибка: неверный URL для запроса профиля")
             return nil
@@ -83,7 +77,7 @@ final class ProfileService {
         
         task?.cancel()
         
-        guard let request = makeProfileRequest() else {
+        guard let request = makeProfileRequest(with: token) else {
             print("❌ Ошибка: не удалось сформировать запрос профиля")
             completion(.failure(NetworkError.invalidRequest))
             return
@@ -117,5 +111,4 @@ final class ProfileService {
         task = newTask
         newTask.resume()
     }
-    
 }
