@@ -8,9 +8,16 @@ final class ProfileService {
         static let headerBearer = "Bearer "
     }
     
+    // MARK: -
+    static let shared = ProfileService()
+    
+    
     // MARK: - Private Properties
     private var task: URLSessionTask?
-    private var lastProfile: Profile?
+    private(set) var lastProfile: Profile?
+    
+    
+    private init() {}
     
     // MARK: - Nested Types
     struct ProfileResult: Codable {

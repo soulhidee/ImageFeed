@@ -34,6 +34,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        loadProfileIfAvailable()
     }
     
     // MARK: - Setup Views
@@ -115,15 +116,19 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
     }
     
+    private func loadProfileIfAvailable() {
+        if let profile = ProfileService.shared.lastProfile {
+            updateProfileLabels(with: profile)
+        }
+    }
+    
     
     private func updateProfileLabels(with profile: ProfileService.Profile) {
         nameLabel.text = profile.name
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
     }
-    
-    
-    
+        
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
         

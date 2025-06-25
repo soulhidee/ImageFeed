@@ -10,7 +10,7 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
-    private let profileService = ProfileService()
+    private let profileService = ProfileService.shared
     
     // MARK: - UI Elements
     private let logoImageView = UIImageView()
