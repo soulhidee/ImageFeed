@@ -8,9 +8,8 @@ final class ProfileService {
         static let headerBearer = "Bearer "
     }
     
-    // MARK: -
+    // MARK: - Singleton
     static let shared = ProfileService()
-    
     
     // MARK: - Private Properties
     private var task: URLSessionTask?
@@ -37,7 +36,6 @@ final class ProfileService {
             case email
         }
     }
-    
     
     struct Profile {
         let username: String
