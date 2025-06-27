@@ -36,16 +36,7 @@ final class ProfileViewController: UIViewController {
         setupViews()
         setupConstraints()
         loadProfileIfAvailable()
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            }
-
+        addProfileImageObserver()
         updateAvatar()
     }
     
@@ -139,6 +130,18 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
+    }
+    
+    private func addProfileImageObserver() {
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
     }
     
     private func updateAvatar() {
