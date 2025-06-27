@@ -21,6 +21,7 @@ final class ProfileViewController: UIViewController {
     }
     
     var profile: ProfileService.Profile?
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UI Elements
     private let logoutButton = UIButton()
@@ -35,6 +36,17 @@ final class ProfileViewController: UIViewController {
         setupViews()
         setupConstraints()
         loadProfileIfAvailable()
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+
+        updateAvatar()
     }
     
     // MARK: - Setup Views
@@ -127,6 +139,14 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11]: Обновить аватар, используя Kingfisher
     }
         
     // MARK: - Actions

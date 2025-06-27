@@ -9,6 +9,8 @@ final class ProfileImageService {
         static let bearerPrefix = "Bearer "
     }
 
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    
     // MARK: - Singleton
     static let shared = ProfileImageService()
     
@@ -80,6 +82,11 @@ final class ProfileImageService {
                 if let small = result.profileImage.small {
                     self?.avatarURL = small
                     completion(.success(small))
+                    NotificationCenter.default.post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": small]
+                    )
                 } else {
                     print("❌ Ошибка: ссылка на изображение отсутствует")
                     completion(.failure(NetworkError.invalidData))
