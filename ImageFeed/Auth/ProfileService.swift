@@ -27,7 +27,6 @@ final class ProfileService {
         let lastName: String?
         let bio: String?
         let email: String?
-        let profileImage: ProfileImage?
         
         enum CodingKeys: String, CodingKey {
             case id
@@ -36,15 +35,9 @@ final class ProfileService {
             case lastName = "last_name"
             case bio
             case email
-            case profileImage = "profile_image"
         }
     }
     
-    struct ProfileImage: Codable {
-        let small: String?
-        let medium: String?
-        let large: String?
-    }
     
     struct Profile {
         let username: String
