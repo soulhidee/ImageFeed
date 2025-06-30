@@ -9,6 +9,9 @@ final class WebViewViewController: UIViewController {
     private let webView = WKWebView()
     private let progressView = UIProgressView()
     
+    //MARK: - Observers
+    private var estimatedProgressObservation: NSKeyValueObservation?
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,21 +20,20 @@ final class WebViewViewController: UIViewController {
         setupViews()
         loadAuthView()
         setupConstraints()
+        observeWebViewProgress()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil)
-    }
-    
-    
     
     // MARK: - KVO
-    
+    func observeWebViewProgress() {
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+            options: [],
+            changeHandler: { [weak self] _, _ in
+                guard let self = self else { return }
+                self.updateProgress()
+            }
+        )
+    }
     
     // MARK: - Setup Views
     private func setupViews() {
