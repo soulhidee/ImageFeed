@@ -27,11 +27,14 @@ extension URLSession {
                 if 200..<300 ~= statusCode {
                     fulfillCompletionOnMainThread(.success(data))
                 } else {
+                    print("[data(for:)]: HTTPStatusCodeError - код ошибки \(statusCode), URL: \(request.url?.absoluteString ?? "nil")")
                     fulfillCompletionOnMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
             } else if let error = error {
+                print("[data(for:)]: URLRequestError - \(error.localizedDescription), URL: \(request.url?.absoluteString ?? "nil")")
                 fulfillCompletionOnMainThread(.failure(NetworkError.urlRequestError(error)))
             } else {
+                print("[data(for:)]: URLSessionError - неизвестная ошибка, URL: \(request.url?.absoluteString ?? "nil")")
                 fulfillCompletionOnMainThread(.failure(NetworkError.urlSessionError))
             }
         }
@@ -54,11 +57,13 @@ extension URLSession {
                         completion(.success(decodedObject))
                     }
                 } catch {
+                    print("[objectTask]: DecodingError - \(error.localizedDescription), данные: \(String(data: data, encoding: .utf8) ?? "nil"), URL: \(request.url?.absoluteString ?? "nil")")
                     DispatchQueue.main.async {
                         completion(.failure(error))
                     }
                 }
             case .failure(let error):
+                print("[objectTask]: Failure - \(error.localizedDescription), URL: \(request.url?.absoluteString ?? "nil")")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }

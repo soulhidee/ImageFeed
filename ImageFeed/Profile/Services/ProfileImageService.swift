@@ -8,7 +8,7 @@ final class ProfileImageService {
         static let headerAuthorization = "Authorization"
         static let bearerPrefix = "Bearer "
     }
-
+    
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     // MARK: - Singleton
@@ -23,7 +23,7 @@ final class ProfileImageService {
     // MARK: - Nested Types
     private struct UserResult: Codable {
         let profileImage: ProfileImage
-
+        
         enum CodingKeys: String, CodingKey {
             case profileImage = "profile_image"
         }
@@ -54,12 +54,14 @@ final class ProfileImageService {
         task?.cancel()
         
         guard let token = OAuth2TokenStorage().token else {
-            print("❌ Ошибка: токен отсутствует")
-            completion(.failure(NetworkError.tokenMissing))
+            let error = NetworkError.tokenMissing
+            print("[ProfileImageService fetchProfileImageURL]: TokenMissingError - токен отсутствует")
+            completion(.failure(error))
             return
         }
         
         guard let request = makeImageRequest(username: username, token: token) else {
+            print("[ProfileImageService fetchProfileImageURL]: InvalidRequestError - неверный запрос, username: \(username)")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -77,11 +79,12 @@ final class ProfileImageService {
                         userInfo: ["URL": small]
                     )
                 } else {
-                    print("❌ Ошибка: ссылка на изображение отсутствует")
-                    completion(.failure(NetworkError.invalidData))
+                    let error = NetworkError.invalidData
+                    print("[ProfileImageService fetchProfileImageURL]: InvalidDataError - ссылка на изображение отсутствует, username: \(username)")
+                    completion(.failure(error))
                 }
             case .failure(let error):
-                print("❌ Ошибка при загрузке изображения: \(error.localizedDescription)")
+                print("[ProfileImageService fetchProfileImageURL]: Failure - \(error.localizedDescription), username: \(username), URL: \(request.url?.absoluteString ?? "nil")")
                 completion(.failure(error))
             }
             self.task = nil

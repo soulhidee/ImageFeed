@@ -75,7 +75,7 @@ final class ProfileService {
         task?.cancel()
         
         guard let request = makeProfileRequest(with: token) else {
-            print("❌ Ошибка: не удалось сформировать запрос профиля")
+            print("[ProfileService fetchProfile]: InvalidRequestError - не удалось сформировать запрос профиля")
             completion(.failure(NetworkError.invalidRequest))
             return
         }
@@ -88,11 +88,12 @@ final class ProfileService {
                 self.lastProfile = profile
                 completion(.success(profile))
             case .failure(let error):
-                print("❌ Ошибка при загрузке профиля: \(error.localizedDescription)")
+                print("[ProfileService fetchProfile]: Failure - \(error.localizedDescription), token: \(token), URL: \(request.url?.absoluteString ?? "nil")")
                 completion(.failure(error))
             }
             self.task = nil
         }
+        
         task?.resume()
     }
 }
