@@ -71,6 +71,17 @@ final class AuthViewController: UIViewController {
         view.addSubview(signInButton)
     }
     
+    private func showAuthErrorAlert() {
+           let alert = UIAlertController(
+               title: "Что-то пошло не так",
+               message: "Не удалось войти в систему",
+               preferredStyle: .alert
+           )
+           alert.addAction(UIAlertAction(title: "Ок", style: .default))
+           present(alert, animated: true)
+       }
+    
+    //MARK: - Action
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
         webVC.delegate = self
@@ -97,6 +108,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     self.present(tabBarController, animated: true)
                 case .failure(let error):
                     print("❌ Ошибка авторизации: \(error)")
+                    self.showAuthErrorAlert()
                 }
             }
         }
