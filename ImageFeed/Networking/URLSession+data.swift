@@ -9,19 +9,6 @@ enum NetworkError: Error {
     case tokenMissing
 }
 
-
-
-import Foundation
-
-enum NetworkError: Error {
-    case httpStatusCode(Int)
-    case urlRequestError(Error)
-    case urlSessionError
-    case invalidRequest
-    case invalidData
-    case tokenMissing
-}
-
 extension URLSession {
     func data(
         for request: URLRequest,

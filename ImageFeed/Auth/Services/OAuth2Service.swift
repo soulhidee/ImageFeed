@@ -18,7 +18,6 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
-    private let jsonDecoder = JSONDecoder()
     
     // MARK: - Public Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -33,45 +32,42 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         print("🔄 Отменён предыдущий запрос (если был)")
 
         lastCode = code
-        
+
         guard let request = makeAuthTokenRequest(code: code) else {
             print("❌ Ошибка: не удалось создать URLRequest.")
             completion(.failure(NetworkError.urlSessionError))
             return
         }
-        
-        task = session.data(for: request) { [weak self] result in
-            guard let self else { return }
-            
+
+        task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+
             switch result {
-            case .success(let data):
-                do {
-                    let decodedBody = try self.jsonDecoder.decode(OAuthTokenResponseBody.self, from: data)
-                    let token = decodedBody.accessToken
-                    OAuth2TokenStorage().token = token
-                    completion(.success(token))
-                } catch {
-                    print("❌ Ошибка декодирования токена: \(error)")
-                    completion(.failure(error))
-                }
-                
+            case .success(let decodedBody):
+                let token = decodedBody.accessToken
+                OAuth2TokenStorage().token = token
+                completion(.success(token))
             case .failure(let error):
-                switch error {
-                case NetworkError.httpStatusCode(let code):
-                    print("❌ HTTP ошибка со статусом: \(code)")
-                case NetworkError.urlRequestError(let err):
-                    print("❌ Ошибка запроса: \(err)")
-                case NetworkError.urlSessionError:
-                    print("❌ Неизвестная ошибка сессии")
-                default:
-                    print("❌ Другая ошибка: \(error)")
+                if let networkError = error as? NetworkError {
+                    switch networkError {
+                    case .httpStatusCode(let code):
+                        print("❌ HTTP ошибка со статусом: \(code)")
+                    case .urlRequestError(let err):
+                        print("❌ Ошибка запроса: \(err)")
+                    case .urlSessionError:
+                        print("❌ Неизвестная ошибка сессии")
+                    default:
+                        print("❌ Другая ошибка: \(error)")
+                    }
+                } else {
+                    print("❌ Ошибка: \(error)")
                 }
                 completion(.failure(error))
             }
-            
+
             self.task = nil
         }
-        
+
         task?.resume()
     }
     
