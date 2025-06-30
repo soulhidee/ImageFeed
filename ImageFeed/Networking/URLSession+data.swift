@@ -9,6 +9,19 @@ enum NetworkError: Error {
     case tokenMissing
 }
 
+
+
+import Foundation
+
+enum NetworkError: Error {
+    case httpStatusCode(Int)
+    case urlRequestError(Error)
+    case urlSessionError
+    case invalidRequest
+    case invalidData
+    case tokenMissing
+}
+
 extension URLSession {
     func data(
         for request: URLRequest,
@@ -33,6 +46,35 @@ extension URLSession {
                 fulfillCompletionOnMainThread(.failure(NetworkError.urlRequestError(error)))
             } else {
                 fulfillCompletionOnMainThread(.failure(NetworkError.urlSessionError))
+            }
+        }
+        
+        return task
+    }
+    
+    func objectTask<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionTask {
+        let decoder = JSONDecoder()
+        
+        let task = data(for: request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedObject = try decoder.decode(T.self, from: data)
+                    DispatchQueue.main.async {
+                        completion(.success(decodedObject))
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }
         
