@@ -70,13 +70,13 @@ final class ProfileImageService {
             guard let self = self else { return }
             switch result {
             case .success(let userResult):
-                if let small = userResult.profileImage.small {
-                    self.avatarURL = small
-                    completion(.success(small))
+                if let imageURL = userResult.profileImage.large ?? userResult.profileImage.medium ?? userResult.profileImage.small {
+                    self.avatarURL = imageURL
+                    completion(.success(imageURL))
                     NotificationCenter.default.post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
-                        userInfo: ["URL": small]
+                        userInfo: ["URL": imageURL]
                     )
                 } else {
                     let error = NetworkError.invalidData
