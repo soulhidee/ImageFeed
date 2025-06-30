@@ -15,7 +15,6 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var lastProfile: Profile?
     
-    
     private init() {}
     
     // MARK: - Nested Types
@@ -81,32 +80,19 @@ final class ProfileService {
             return
         }
         
-        let newTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("❌ Ошибка сети при загрузке профиля: \(error.localizedDescription)")
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                print("❌ Ошибка: получены пустые данные при загрузке профиля")
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let profileResult = try decoder.decode(ProfileResult.self, from: data)
+        task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let profileResult):
                 let profile = Profile(result: profileResult)
                 self.lastProfile = profile
                 completion(.success(profile))
-            } catch {
-                print("❌ Ошибка декодирования профиля: \(error.localizedDescription)")
+            case .failure(let error):
+                print("❌ Ошибка при загрузке профиля: \(error.localizedDescription)")
                 completion(.failure(error))
             }
+            self.task = nil
         }
-        
-        task = newTask
-        newTask.resume()
+        task?.resume()
     }
 }
