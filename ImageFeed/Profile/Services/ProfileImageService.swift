@@ -64,23 +64,12 @@ final class ProfileImageService {
             return
         }
         
-        let newTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            if let error = error {
-                print("❌ Ошибка сети при загрузке изображения: \(error.localizedDescription)")
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                print("❌ Ошибка: получены пустые данные при загрузке изображения")
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-            
-            do {
-                let result = try JSONDecoder().decode(UserResult.self, from: data)
-                if let small = result.profileImage.small {
-                    self?.avatarURL = small
+        task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let userResult):
+                if let small = userResult.profileImage.small {
+                    self.avatarURL = small
                     completion(.success(small))
                     NotificationCenter.default.post(
                         name: ProfileImageService.didChangeNotification,
@@ -91,13 +80,13 @@ final class ProfileImageService {
                     print("❌ Ошибка: ссылка на изображение отсутствует")
                     completion(.failure(NetworkError.invalidData))
                 }
-            } catch {
-                print("❌ Ошибка декодирования изображения: \(error.localizedDescription)")
+            case .failure(let error):
+                print("❌ Ошибка при загрузке изображения: \(error.localizedDescription)")
                 completion(.failure(error))
             }
+            self.task = nil
         }
         
-        task = newTask
-        newTask.resume()
+        task?.resume()
     }
 }
