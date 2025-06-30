@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -149,9 +150,16 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        // TODO [Sprint 11]: Обновить аватар, используя Kingfisher
-    }
         
+        profileImage.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "defaultProfileImage"),
+            options: [
+                .cacheOriginalImage
+            ]
+        )
+    }
+    
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
         
