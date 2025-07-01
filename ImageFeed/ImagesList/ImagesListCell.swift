@@ -1,13 +1,18 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
+    // MARK: - Constants
+    enum ImagesListCellConstants {
+        static let reuseIdentifier = "ImagesListCell"
+    }
+    
     // MARK: - Outlets
     @IBOutlet private weak var cellImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var likeButton: UIButton!
     
     // MARK: - Properties
-    static let reuseIdentifier = "ImagesListCell"
+    static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
     // MARK: - Configuration
     func configure(with image: UIImage?, dateText: String, isLiked: Bool) {

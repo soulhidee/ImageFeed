@@ -2,6 +2,28 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController {
+    // MARK: - Constants
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+        static let unsplashBaseURLString = "https://unsplash.com"
+        static let tokenPath = "/oauth/token"
+        static let authorizeNativePath = "/oauth/authorize/native"
+        
+        static var tokenURLString: String {
+            return unsplashBaseURLString + tokenPath
+        }
+        
+        static let fullProgressValue: Double = 1.0
+        static let progressEpsilon: Double = 0.0001
+        
+        static let clientID = "client_id"
+        static let redirectURL = "redirect_uri"
+        static let responseType = "response_type"
+        static let code = "code"
+        static let scope = "scope"
+        
+    }
+    
     // MARK: - Delegate
     weak var delegate: WebViewViewControllerDelegate?
     
@@ -88,10 +110,10 @@ final class WebViewViewController: UIViewController {
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
+            URLQueryItem(name: WebViewConstants.clientID, value: Constants.accessKey),
+            URLQueryItem(name: WebViewConstants.redirectURL, value: Constants.redirectURI),
+            URLQueryItem(name: WebViewConstants.responseType, value: WebViewConstants.code),
+            URLQueryItem(name: WebViewConstants.scope, value: Constants.accessScope)
         ]
         
         guard let url = urlComponents.url else {
@@ -135,9 +157,9 @@ extension WebViewViewController: WKNavigationDelegate {
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
+            urlComponents.path == WebViewConstants.authorizeNativePath,
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
+            let codeItem = items.first(where: { $0.name == WebViewConstants.code })
         {
             return codeItem.value
         } else {
@@ -146,17 +168,4 @@ extension WebViewViewController: WKNavigationDelegate {
     }
 }
 
-// MARK: - Enum
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-    static let unsplashBaseURLString = "https://unsplash.com"
-    static let tokenPath = "/oauth/token"
-    
-    static var tokenURLString: String {
-        return unsplashBaseURLString + tokenPath
-    }
-    
-    static let fullProgressValue: Double = 1.0
-    static let progressEpsilon: Double = 0.0001
-}
 

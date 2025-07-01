@@ -10,6 +10,9 @@ final class AuthViewController: UIViewController {
         static let horizontalPadding: CGFloat = 16
         static let buttonFontSize: CGFloat = 17
         static let signInButtonTitle = "Войти"
+        static let errorAlertTitle = "Что-то пошло не так"
+        static let errorAlertMesseage = "Не удалось войти в систему"
+        static let errorAlertAction = "Ок"
     }
     
     // MARK: - UI Elements
@@ -72,14 +75,14 @@ final class AuthViewController: UIViewController {
     }
     
     private func showAuthErrorAlert() {
-           let alert = UIAlertController(
-               title: "Что-то пошло не так",
-               message: "Не удалось войти в систему",
-               preferredStyle: .alert
-           )
-           alert.addAction(UIAlertAction(title: "Ок", style: .default))
-           present(alert, animated: true)
-       }
+        let alert = UIAlertController(
+            title: AuthConstants.errorAlertTitle,
+            message: AuthConstants.errorAlertMesseage,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: AuthConstants.errorAlertAction, style: .default))
+        present(alert, animated: true)
+    }
     
     //MARK: - Action
     @objc private func signInButtonTapped() {
@@ -87,7 +90,7 @@ final class AuthViewController: UIViewController {
         webVC.delegate = self
         navigationController?.pushViewController(webVC, animated: true)
     }
-
+    
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
