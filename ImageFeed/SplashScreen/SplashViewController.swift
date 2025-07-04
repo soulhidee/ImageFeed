@@ -94,15 +94,12 @@ final class SplashViewController: UIViewController {
     
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes
-            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = windowScene.windows.first else {
             return
         }
-        
-        guard let window = windowScene.windows.first else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
-        
+
+        let tabBarController = TabBarController()
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }

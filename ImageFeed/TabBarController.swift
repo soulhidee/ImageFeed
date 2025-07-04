@@ -1,16 +1,31 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let imagesListViewController = storyboard.instantiateViewController(
-            withIdentifier: "ImagesListViewController"
-        )
+        let imagesListVC = ImagesListViewController()
+        let imagesNav = UINavigationController(rootViewController: imagesListVC)
+        imagesNav.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabEditorialActive, tag: 0)
         
-        let profileViewController = ProfileViewController()
+        let profileVC = ProfileViewController()
+        let profileNav = UINavigationController(rootViewController: profileVC)
+        profileNav.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabProfileActive, tag: 1)
         
-        self.viewControllers = [imagesListViewController, profileViewController]
+        viewControllers = [imagesNav, profileNav]
+        
+        setupTabBarAppearance()
+    }
+    
+    private func setupTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "YPBlack") ?? .black
+
+        tabBar.standardAppearance = appearance
+        if #available(iOS 15.0, *) {
+            tabBar.scrollEdgeAppearance = appearance
+        }
     }
 }
+
