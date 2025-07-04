@@ -5,7 +5,7 @@ final class ImagesListCell: UITableViewCell {
     enum ImagesListCellConstants {
         static let reuseIdentifier = "ImagesListCell"
     }
-    
+    static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     // MARK: - Outlets
     private let cellImageView: UIImageView = {
         let imageView = UIImageView()
@@ -34,7 +34,7 @@ final class ImagesListCell: UITableViewCell {
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: ImagesListCellConstants.reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupConstraints()
     }
