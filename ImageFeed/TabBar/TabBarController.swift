@@ -19,7 +19,7 @@ final class TabBarController: UITabBarController {
     private func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(named: "YPBlack") ?? .black
+        appearance.backgroundColor = UIColor.ypBlack
 
         tabBar.standardAppearance = appearance
         if #available(iOS 15.0, *) {

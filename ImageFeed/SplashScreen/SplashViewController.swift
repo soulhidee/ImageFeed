@@ -82,7 +82,6 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    
     // MARK: - Navigation
     private func showAuthController() {
         let authViewController = AuthViewController()

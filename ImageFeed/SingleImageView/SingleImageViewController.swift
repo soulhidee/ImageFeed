@@ -69,7 +69,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         view.backgroundColor = UIColor.ypBlack
     }
-
+    
     private func updateImageIfNeeded() {
         guard let image else { return }
         imageView.image = image

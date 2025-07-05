@@ -16,8 +16,24 @@ final class AuthViewController: UIViewController {
     }
     
     // MARK: - UI Elements
-    private let authLogoImageView = UIImageView()
-    private let signInButton = UIButton()
+    private lazy var authLogoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage.authScreenLogo
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let signInButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle(AuthConstants.signInButtonTitle, for: .normal)
+        button.backgroundColor = UIColor.ypWhite
+        button.layer.cornerRadius = AuthConstants.buttonCornerRadius
+        button.setTitleColor(UIColor.ypBlack, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
+        button.addTarget(AuthViewController.self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     // MARK: - Delegate
     weak var delegate: AuthViewControllerDelegate?
@@ -35,8 +51,8 @@ final class AuthViewController: UIViewController {
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
-        configureAuthLogoImageView()
-        configureSignInButton()
+        view.addSubview(authLogoImageView)
+        view.addSubview(signInButton)
     }
     
     // MARK: - Constraints
@@ -57,23 +73,7 @@ final class AuthViewController: UIViewController {
         view.backgroundColor = UIColor.ypBlack
     }
     
-    private func configureAuthLogoImageView() {
-        authLogoImageView.image = UIImage.authScreenLogo
-        authLogoImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(authLogoImageView)
-    }
-    
-    private func configureSignInButton() {
-        signInButton.setTitle(AuthConstants.signInButtonTitle, for: .normal)
-        signInButton.backgroundColor = UIColor.ypWhite
-        signInButton.layer.cornerRadius = AuthConstants.buttonCornerRadius
-        signInButton.setTitleColor(UIColor.ypBlack, for: .normal)
-        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
-        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(signInButton)
-    }
-    
+    // MARK: - Alerts
     private func showAuthErrorAlert() {
         let alert = UIAlertController(
             title: AuthConstants.errorAlertTitle,
@@ -84,7 +84,7 @@ final class AuthViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    //MARK: - Action
+    // MARK: - Actions
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
         webVC.delegate = self
@@ -93,6 +93,7 @@ final class AuthViewController: UIViewController {
     
 }
 
+// MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
@@ -120,5 +121,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         navigationController?.popViewController(animated: true)
     }
-    
 }
