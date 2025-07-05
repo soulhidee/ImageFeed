@@ -1,6 +1,7 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
+    
     // MARK: - Constants
     enum ImagesListCellConstants {
         static let reuseIdentifier = "ImagesListCell"
@@ -19,9 +20,10 @@ final class ImagesListCell: UITableViewCell {
         static let spacingBetweenLabelAndButton: CGFloat = -8
     }
     
+    // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
-    // MARK: - Outlets
+    // MARK: - UI Elements
     private let cellImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -50,6 +52,7 @@ final class ImagesListCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = UIColor.ypBlack
@@ -62,12 +65,14 @@ final class ImagesListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - UI Setup
     private func setupUI() {
         contentView.addSubview(cellImageView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(likeButton)
     }
     
+    // MARK: - Constaints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             cellImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: ImagesListCellConstants.imageTopInset),
