@@ -9,12 +9,13 @@ final class ImagesListViewController: UIViewController {
         static let tableViewContentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         static let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         static let isLikedModulo = 2
+        static let tableViewTopInset: CGFloat = 16
     }
     
-    // MARK: - Properties
+    // MARK: - Private Properties
     private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
     
-    // MARK: - Outlet
+    // MARK: - UI Elements
     private lazy var tableView: UITableView = {
            let tableView = UITableView()
            tableView.backgroundColor = UIColor.ypBlack
@@ -45,6 +46,16 @@ final class ImagesListViewController: UIViewController {
         view.addSubview(tableView)
     }
     
+    // MARK: - Constraints
+    private func setupConstraints() {
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ImagesListConstants.tableViewTopInset),
+                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+        }
+    
     // MARK: - Date Formatter
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -52,16 +63,6 @@ final class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
-    // MARK: -
-    private func setupConstraints() {
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-        }
     
     // MARK: - Navigation
     private func showSingleImage(_ image: UIImage?) {
@@ -106,7 +107,6 @@ extension ImagesListViewController: UITableViewDelegate {
         return cellHeight
     }
 }
-
 
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
