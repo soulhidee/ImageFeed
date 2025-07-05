@@ -25,11 +25,54 @@ final class ProfileViewController: UIViewController {
     private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UI Elements
-    private let logoutButton = UIButton()
-    private let profileImage = UIImageView()
-    private let nameLabel = UILabel()
-    private let handleLabel = UILabel()
-    private let statusLabel = UILabel()
+    private lazy var logoutButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("", for: .normal)
+        button.setImage(UIImage.exit, for: .normal)
+        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "mockProfileImage")
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = ProfileConstants.profileImageCornerRadius
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = dataMock.name
+        label.textColor = UIColor.ypWhite
+        label.font = UIFont.systemFont(ofSize: ProfileConstants.nameLabelFontSize, weight: .bold)
+        label.numberOfLines = .zero
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var handleLabel: UILabel = {
+        let label = UILabel()
+        label.text = dataMock.handle
+        label.textColor = UIColor.ypGray
+        label.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
+        label.numberOfLines = .zero
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var statusLabel: UILabel = {
+        let label = UILabel()
+        label.text = dataMock.status
+        label.textColor = UIColor.ypWhite
+        label.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
+        label.numberOfLines = .zero
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -44,14 +87,14 @@ final class ProfileViewController: UIViewController {
     // MARK: - Setup Views
     private func setupViews() {
         view.backgroundColor = UIColor.ypBlack
-        setupProfileImageView()
-        setupLogoutButton()
-        setupNameLabel()
-        setupHandleLabel()
-        setupStatusLabel()
+        view.addSubview(profileImage)
+        view.addSubview(logoutButton)
+        view.addSubview(nameLabel)
+        view.addSubview(handleLabel)
+        view.addSubview(statusLabel)
     }
     
-    // MARK: - Constraints
+    // MARK: - Setup Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             profileImage.widthAnchor.constraint(equalToConstant: ProfileConstants.profileImageSize),
@@ -75,64 +118,21 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    // MARK: - UI Configuration
-    private func setupProfileImageView() {
-        profileImage.image = UIImage(named: "mockProfileImage")
-        profileImage.contentMode = .scaleAspectFill
-        profileImage.layer.masksToBounds = true
-        profileImage.layer.cornerRadius = ProfileConstants.profileImageCornerRadius
-        profileImage.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(profileImage)
-    }
-    
-    private func setupLogoutButton() {
-        logoutButton.setTitle("", for: .normal)
-        logoutButton.setImage(UIImage.exit, for: .normal)
-        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(logoutButton)
-    }
-    
-    private func setupNameLabel() {
-        nameLabel.text = dataMock.name
-        nameLabel.textColor = UIColor.ypWhite
-        nameLabel.font = UIFont.systemFont(ofSize: ProfileConstants.nameLabelFontSize, weight: .bold)
-        nameLabel.numberOfLines = .zero
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nameLabel)
-    }
-    
-    private func setupHandleLabel() {
-        handleLabel.text = dataMock.handle
-        handleLabel.textColor = UIColor.ypGray
-        handleLabel.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
-        handleLabel.numberOfLines = .zero
-        handleLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(handleLabel)
-    }
-    
-    private func setupStatusLabel() {
-        statusLabel.text = dataMock.status
-        statusLabel.textColor = UIColor.ypWhite
-        statusLabel.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
-        statusLabel.numberOfLines = .zero
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(statusLabel)
-    }
-    
+    // MARK: - Load Profile
     private func loadProfileIfAvailable() {
         if let profile = ProfileService.shared.lastProfile {
             updateProfileLabels(with: profile)
         }
     }
     
-    
+    // MARK: - Update UI
     private func updateProfileLabels(with profile: ProfileService.Profile) {
         nameLabel.text = profile.name
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
     }
     
+    // MARK: - Profile Image Observer
     private func addProfileImageObserver() {
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
@@ -141,11 +141,11 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
-                
                 self.updateAvatar()
             }
     }
     
+    // MARK: - Update Avatar
     private func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -166,7 +166,7 @@ final class ProfileViewController: UIViewController {
         
     }
     
-    // MARK: - Mock
+    // MARK: - Mock Data
     private enum dataMock {
         static let name = ""
         static let handle = ""

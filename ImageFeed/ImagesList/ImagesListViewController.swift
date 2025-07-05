@@ -41,7 +41,6 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setupUI() {
-        
         view.backgroundColor = UIColor.ypBlack
         view.addSubview(tableView)
     }
