@@ -24,7 +24,7 @@ final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
     // MARK: - UI Elements
-    private let cellImageView: UIImageView = {
+    private lazy var cellImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -34,7 +34,7 @@ final class ImagesListCell: UITableViewCell {
         return imageView
     }()
     
-    private let dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.ypWhite
         label.font = .systemFont(ofSize: ImagesListCellConstants.labelFont)
@@ -42,7 +42,7 @@ final class ImagesListCell: UITableViewCell {
         return label
     }()
     
-    private let likeButton: UIButton = {
+    private lazy var likeButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage.likeActive, for: .normal)
         button.setTitle(nil, for: .normal)
