@@ -13,7 +13,13 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     
     // MARK: - UI Elements
-    private let logoImageView = UIImageView()
+    private lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage.launchScreenLogo
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -30,7 +36,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
-        configureLogoImageView()
+        view.addSubview(logoImageView)
     }
     
     // MARK: - Constraints
@@ -48,13 +54,6 @@ final class SplashViewController: UIViewController {
         view.backgroundColor = UIColor.ypBlack
     }
     
-    private func configureLogoImageView() {
-        logoImageView.image = UIImage.launchScreenLogo
-        logoImageView.contentMode = .scaleAspectFit
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(logoImageView)
-    }
-    
     // MARK: - Authorization
     private func checkAuthorization() {
         guard let token = storage.token else {
@@ -70,7 +69,7 @@ final class SplashViewController: UIViewController {
             DispatchQueue.main.async {
                 UIBlockingProgressHUD.dismiss()
                 guard let self = self else { return }
-
+                
                 switch result {
                 case .success(let profile):
                     self.switchToTabBarController()
@@ -97,7 +96,7 @@ final class SplashViewController: UIViewController {
               let window = windowScene.windows.first else {
             return
         }
-
+        
         let tabBarController = TabBarController()
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

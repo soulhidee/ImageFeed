@@ -17,17 +17,17 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - UI Elements
     private lazy var tableView: UITableView = {
-           let tableView = UITableView()
-           tableView.backgroundColor = UIColor.ypBlack
-           tableView.translatesAutoresizingMaskIntoConstraints = false
-           tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
-           tableView.delegate = self
-           tableView.dataSource = self
-           tableView.rowHeight = ImagesListConstants.rowHeight
-           tableView.contentInset = ImagesListConstants.tableViewContentInset
-           tableView.separatorStyle = .none
-           return tableView
-       }()
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor.ypBlack
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = ImagesListConstants.rowHeight
+        tableView.contentInset = ImagesListConstants.tableViewContentInset
+        tableView.separatorStyle = .none
+        return tableView
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -47,13 +47,13 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Constraints
     private func setupConstraints() {
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ImagesListConstants.tableViewTopInset),
-                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-        }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ImagesListConstants.tableViewTopInset),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
     
     // MARK: - Date Formatter
     private lazy var dateFormatter: DateFormatter = {
