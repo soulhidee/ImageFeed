@@ -9,10 +9,9 @@ final class TabBarController: UITabBarController {
         imagesNav.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabEditorialActive, tag: 0)
         
         let profileVC = ProfileViewController()
-        let profileNav = UINavigationController(rootViewController: profileVC)
-        profileNav.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabProfileActive, tag: 1)
+        profileVC.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabProfileActive, tag: 1)
         
-        viewControllers = [imagesNav, profileNav]
+        viewControllers = [imagesNav, profileVC]
         
         setupTabBarAppearance()
     }

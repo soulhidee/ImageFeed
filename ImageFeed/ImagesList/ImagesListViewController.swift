@@ -35,7 +35,7 @@ final class ImagesListViewController: UIViewController {
         setupConstraints()
         tableView.rowHeight = ImagesListConstants.rowHeight
         tableView.contentInset = ImagesListConstants.tableViewContentInset
-        
+        configureTransparentNavigationBar()
     }
     
     // MARK: - UI Setup
@@ -69,6 +69,14 @@ final class ImagesListViewController: UIViewController {
         vc.image = image
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
+    }
+    
+    private func configureTransparentNavigationBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.tintColor = .clear
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
     }
 }
 
