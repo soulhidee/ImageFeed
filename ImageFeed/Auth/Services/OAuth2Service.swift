@@ -42,6 +42,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             
+            guard self.lastCode == code else {
+                print("[OAuth2Service fetchAuthToken]: Игнорируем ответ от устаревшего запроса с кодом: \(code)")
+                return
+            }
+            
             switch result {
             case .success(let decodedBody):
                 let token = decodedBody.accessToken
