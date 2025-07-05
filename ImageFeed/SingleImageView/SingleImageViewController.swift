@@ -22,7 +22,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     
     private let backButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle(nil, for: .normal)
+        button.setTitle("", for: .normal)
         button.setImage(UIImage.backward, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

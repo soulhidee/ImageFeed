@@ -17,7 +17,7 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Outlet
     private lazy var tableView: UITableView = {
            let tableView = UITableView()
-           tableView.backgroundColor = .clear
+           tableView.backgroundColor = UIColor.ypBlack
            tableView.translatesAutoresizingMaskIntoConstraints = false
            tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
            tableView.delegate = self
@@ -40,6 +40,7 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - UI Setup
     private func setupUI() {
+        
         view.backgroundColor = UIColor.ypBlack
         view.addSubview(tableView)
     }
@@ -55,7 +56,7 @@ final class ImagesListViewController: UIViewController {
     // MARK: -
     private func setupConstraints() {
             NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: view.topAnchor),
+                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
                 tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -92,9 +93,11 @@ extension ImagesListViewController: UITableViewDelegate {
         
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        
         return cellHeight
     }
 }
+
 
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {

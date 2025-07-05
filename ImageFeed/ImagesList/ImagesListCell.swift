@@ -12,6 +12,8 @@ final class ImagesListCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -35,6 +37,8 @@ final class ImagesListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = UIColor.ypBlack
+        backgroundColor = UIColor.ypBlack
         setupUI()
         setupConstraints()
     }
@@ -53,6 +57,7 @@ final class ImagesListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             // cellImageView constraints
             cellImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            cellImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             cellImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             cellImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
@@ -63,9 +68,8 @@ final class ImagesListCell: UITableViewCell {
             likeButton.topAnchor.constraint(equalTo: cellImageView.topAnchor),
             
             // dateLabel constraints
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            dateLabel.topAnchor.constraint(equalTo: likeButton.topAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            dateLabel.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor, constant: 8),
+            dateLabel.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: -8),
             dateLabel.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -8)
         ])
     }
