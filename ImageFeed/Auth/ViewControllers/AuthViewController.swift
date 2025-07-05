@@ -30,7 +30,6 @@ final class AuthViewController: UIViewController {
         button.layer.cornerRadius = AuthConstants.buttonCornerRadius
         button.setTitleColor(UIColor.ypBlack, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
-        button.addTarget(AuthViewController.self, action: #selector(signInButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -53,6 +52,7 @@ final class AuthViewController: UIViewController {
         configureView()
         view.addSubview(authLogoImageView)
         view.addSubview(signInButton)
+        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Constraints
@@ -106,8 +106,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     print("✅ Успешная авторизация. Токен: \(token)")
                     self.delegate?.didAuthenticate(self)
                     
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
+                    let tabBarController = TabBarController()
                     tabBarController.modalPresentationStyle = .fullScreen
                     self.present(tabBarController, animated: true)
                 case .failure(let error):
