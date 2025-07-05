@@ -23,7 +23,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: - UI Elements
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.minimumZoomScale = SingleImageConstants.minimumZoomScale
         sv.maximumZoomScale = SingleImageConstants.maximumZoomScale
@@ -31,7 +31,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         return sv
     }()
     
-    private let backButton: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("", for: .normal)
         button.setImage(UIImage.backward, for: .normal)
@@ -39,14 +39,14 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
-    private let sharingButton: UIButton = {
+    private lazy var sharingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(nil, for: .normal)
         button.setImage(UIImage.sharing, for: .normal)
@@ -72,6 +72,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     
     private func updateImageIfNeeded() {
         guard let image else { return }
+        
         imageView.image = image
         rescaleAndCenterImageInScrollView(image: image)
     }

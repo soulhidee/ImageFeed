@@ -94,7 +94,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
     }
     
-    // MARK: - Setup Constraints
+    // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             profileImage.widthAnchor.constraint(equalToConstant: ProfileConstants.profileImageSize),
