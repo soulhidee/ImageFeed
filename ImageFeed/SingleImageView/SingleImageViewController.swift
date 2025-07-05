@@ -57,16 +57,23 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.delegate = self
-        view.backgroundColor = UIColor.ypBlack
+        configureView()
         setupUI()
         setupConstraints()
         setupActions()
-        
-        if let image {
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
+        updateImageIfNeeded()
+    }
+    
+    // MARK: - Lifecycle Helpers
+    private func configureView() {
+        scrollView.delegate = self
+        view.backgroundColor = UIColor.ypBlack
+    }
+
+    private func updateImageIfNeeded() {
+        guard let image else { return }
+        imageView.image = image
+        rescaleAndCenterImageInScrollView(image: image)
     }
     
     // MARK: - Setup UI
