@@ -21,15 +21,25 @@ final class WebViewViewController: UIViewController {
         static let responseType = "response_type"
         static let code = "code"
         static let scope = "scope"
-        
     }
     
     // MARK: - Delegate
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - UI Elements
-    private let webView = WKWebView()
-    private let progressView = UIProgressView()
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.backgroundColor = .white
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
+    }()
+    
+    private lazy var progressView: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.progressTintColor = UIColor.ypBlack
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        return progressView
+    }()
     
     //MARK: - Observers
     private var estimatedProgressObservation: NSKeyValueObservation?
@@ -60,9 +70,9 @@ final class WebViewViewController: UIViewController {
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
+        view.addSubview(webView)
+        view.addSubview(progressView)
         configureCustomBackButton()
-        configureWebView()
-        configureProgressView()
     }
     
     // MARK: - Constraints
@@ -80,7 +90,7 @@ final class WebViewViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
-    private func  configureCustomBackButton() {
+    private func configureCustomBackButton() {
         let customBackButton = UIBarButtonItem(image: UIImage.navBackButton, style: .plain, target: self, action: #selector(backButtonTapped))
         customBackButton.tintColor = UIColor.ypBlack
         navigationItem.leftBarButtonItem = customBackButton
@@ -88,18 +98,6 @@ final class WebViewViewController: UIViewController {
     
     private func configureView() {
         view.backgroundColor = UIColor.ypWhite
-    }
-    
-    private func configureWebView() {
-        webView.backgroundColor = .white
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(webView)
-    }
-    
-    private func configureProgressView() {
-        progressView.progressTintColor = UIColor.ypBlack
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(progressView)
     }
     
     // MARK: - WebView Loading
