@@ -5,30 +5,54 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Constants
     private enum ImagesListConstants {
         static let numberOfPhotos = 20
-        static let showSingleImageSegueIdentifier = "ShowSingleImage"
         static let rowHeight: CGFloat = 200
         static let tableViewContentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         static let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         static let isLikedModulo = 2
+        static let tableViewTopInset: CGFloat = 16
     }
     
-    // MARK: - Properties
+    // MARK: - Private Properties
     private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
     
-    // MARK: - Outlet
-    @IBOutlet private var tableView: UITableView!
+    // MARK: - UI Elements
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor.ypBlack
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = ImagesListConstants.rowHeight
+        tableView.contentInset = ImagesListConstants.tableViewContentInset
+        tableView.separatorStyle = .none
+        return tableView
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupConstraints()
         tableView.rowHeight = ImagesListConstants.rowHeight
         tableView.contentInset = ImagesListConstants.tableViewContentInset
+        configureTransparentNavigationBar()
     }
     
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = UIColor.ypBlack
+        view.addSubview(tableView)
+    }
+    
+    // MARK: - Constraints
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ImagesListConstants.tableViewTopInset),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     // MARK: - Date Formatter
@@ -39,28 +63,28 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ImagesListConstants.showSingleImageSegueIdentifier {
-            guard
-                let viewController = segue.destination as? SingleImageViewController,
-                let indexPath = sender as? IndexPath
-            else {
-                assertionFailure("Invalid segue destination")
-                return
-            }
-            
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    // MARK: - Navigation
+    private func showSingleImage(_ image: UIImage?) {
+        let vc = SingleImageViewController()
+        vc.image = image
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
+    
+    private func configureTransparentNavigationBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.tintColor = .clear
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: ImagesListConstants.showSingleImageSegueIdentifier, sender: indexPath )
+        let image = UIImage(named: photosName[indexPath.row])
+        showSingleImage(image)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -78,6 +102,7 @@ extension ImagesListViewController: UITableViewDelegate {
         
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
+        
         return cellHeight
     }
 }

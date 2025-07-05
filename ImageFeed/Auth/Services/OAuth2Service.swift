@@ -18,50 +18,42 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
-    private let jsonDecoder = JSONDecoder()
     
     // MARK: - Public Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
         guard lastCode != code else {
-            print("⚠️ Попытка повторного запроса с тем же кодом авторизации.")
+            print("[OAuth2Service fetchAuthToken]: InvalidRequestError - повторный запрос с тем же кодом: \(code)")
+            completion(.failure(NetworkError.invalidRequest))
             return
         }
         
         task?.cancel()
+        print("[OAuth2Service fetchAuthToken]: Previous task cancelled")
+        
         lastCode = code
         
         guard let request = makeAuthTokenRequest(code: code) else {
-            print("❌ Ошибка: не удалось создать URLRequest.")
+            print("[OAuth2Service fetchAuthToken]: InvalidRequestError - не удалось создать URLRequest для кода: \(code)")
             completion(.failure(NetworkError.urlSessionError))
             return
         }
         
-        task = session.data(for: request) { [weak self] result in
-            guard let self else { return }
+        task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+            
+            guard self.lastCode == code else {
+                print("[OAuth2Service fetchAuthToken]: Игнорируем ответ от устаревшего запроса с кодом: \(code)")
+                return
+            }
             
             switch result {
-            case .success(let data):
-                do {
-                    let decodedBody = try self.jsonDecoder.decode(OAuthTokenResponseBody.self, from: data)
-                    let token = decodedBody.accessToken
-                    OAuth2TokenStorage().token = token
-                    completion(.success(token))
-                } catch {
-                    print("❌ Ошибка декодирования токена: \(error)")
-                    completion(.failure(error))
-                }
-                
+            case .success(let decodedBody):
+                let token = decodedBody.accessToken
+                OAuth2TokenStorage().token = token
+                completion(.success(token))
             case .failure(let error):
-                switch error {
-                case NetworkError.httpStatusCode(let code):
-                    print("❌ HTTP ошибка со статусом: \(code)")
-                case NetworkError.urlRequestError(let err):
-                    print("❌ Ошибка запроса: \(err)")
-                case NetworkError.urlSessionError:
-                    print("❌ Неизвестная ошибка сессии")
-                default:
-                    print("❌ Другая ошибка: \(error)")
-                }
+                print("[OAuth2Service fetchAuthToken]: Failure - \(error.localizedDescription), code: \(code), URL: \(request.url?.absoluteString ?? "nil")")
                 completion(.failure(error))
             }
             
