@@ -64,11 +64,12 @@ final class ImagesListViewController: UIViewController {
         }
     
     // MARK: - Navigation
-        private func showSingleImage(_ image: UIImage?) {
-            let vc = SingleImageViewController()
-            vc.image = image
-            navigationController?.pushViewController(vc, animated: true)
-        }
+    private func showSingleImage(_ image: UIImage?) {
+        let vc = SingleImageViewController()
+        vc.image = image
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
 }
 
 // MARK: - UITableViewDelegate
