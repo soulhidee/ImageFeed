@@ -2,12 +2,47 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController {
+    // MARK: - Constants
+    enum WebViewConstants {
+        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+        static let unsplashBaseURLString = "https://unsplash.com"
+        static let tokenPath = "/oauth/token"
+        static let authorizeNativePath = "/oauth/authorize/native"
+        
+        static var tokenURLString: String {
+            return unsplashBaseURLString + tokenPath
+        }
+        
+        static let fullProgressValue: Double = 1.0
+        static let progressEpsilon: Double = 0.0001
+        
+        static let clientID = "client_id"
+        static let redirectURL = "redirect_uri"
+        static let responseType = "response_type"
+        static let code = "code"
+        static let scope = "scope"
+    }
+    
     // MARK: - Delegate
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - UI Elements
-    private let webView = WKWebView()
-    private let progressView = UIProgressView()
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.backgroundColor = .white
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
+    }()
+    
+    private lazy var progressView: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.progressTintColor = UIColor.ypBlack
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        return progressView
+    }()
+    
+    //MARK: - Observers
+    private var estimatedProgressObservation: NSKeyValueObservation?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -17,42 +52,27 @@ final class WebViewViewController: UIViewController {
         setupViews()
         loadAuthView()
         setupConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
+        observeWebViewProgress()
     }
     
     // MARK: - KVO
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+    func observeWebViewProgress() {
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [weak self] _, _ in
+                 guard let self = self else { return }
+                 self.updateProgress()
+             }
+        )
     }
     
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
+        view.addSubview(webView)
+        view.addSubview(progressView)
         configureCustomBackButton()
-        configureWebView()
-        configureProgressView()
     }
     
     // MARK: - Constraints
@@ -70,7 +90,7 @@ final class WebViewViewController: UIViewController {
     }
     
     // MARK: - UI Configuration
-    private func  configureCustomBackButton() {
+    private func configureCustomBackButton() {
         let customBackButton = UIBarButtonItem(image: UIImage.navBackButton, style: .plain, target: self, action: #selector(backButtonTapped))
         customBackButton.tintColor = UIColor.ypBlack
         navigationItem.leftBarButtonItem = customBackButton
@@ -78,18 +98,6 @@ final class WebViewViewController: UIViewController {
     
     private func configureView() {
         view.backgroundColor = UIColor.ypWhite
-    }
-    
-    private func configureWebView() {
-        webView.backgroundColor = .white
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(webView)
-    }
-    
-    private func configureProgressView() {
-        progressView.progressTintColor = UIColor.ypBlack
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(progressView)
     }
     
     // MARK: - WebView Loading
@@ -100,10 +108,10 @@ final class WebViewViewController: UIViewController {
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
+            URLQueryItem(name: WebViewConstants.clientID, value: Constants.accessKey),
+            URLQueryItem(name: WebViewConstants.redirectURL, value: Constants.redirectURI),
+            URLQueryItem(name: WebViewConstants.responseType, value: WebViewConstants.code),
+            URLQueryItem(name: WebViewConstants.scope, value: Constants.accessScope)
         ]
         
         guard let url = urlComponents.url else {
@@ -147,9 +155,9 @@ extension WebViewViewController: WKNavigationDelegate {
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
+            urlComponents.path == WebViewConstants.authorizeNativePath,
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code" })
+            let codeItem = items.first(where: { $0.name == WebViewConstants.code })
         {
             return codeItem.value
         } else {
@@ -158,17 +166,4 @@ extension WebViewViewController: WKNavigationDelegate {
     }
 }
 
-// MARK: - Enum
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-    static let unsplashBaseURLString = "https://unsplash.com"
-    static let tokenPath = "/oauth/token"
-    
-    static var tokenURLString: String {
-        return unsplashBaseURLString + tokenPath
-    }
-    
-    static let fullProgressValue: Double = 1.0
-    static let progressEpsilon: Double = 0.0001
-}
 

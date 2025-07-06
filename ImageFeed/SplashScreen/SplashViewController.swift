@@ -10,9 +10,16 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Private Properties
     private let storage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
     
     // MARK: - UI Elements
-    private let logoImageView = UIImageView()
+    private lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage.launchScreenLogo
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -29,7 +36,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Setup Views
     private func setupViews() {
         configureView()
-        configureLogoImageView()
+        view.addSubview(logoImageView)
     }
     
     // MARK: - Constraints
@@ -47,19 +54,30 @@ final class SplashViewController: UIViewController {
         view.backgroundColor = UIColor.ypBlack
     }
     
-    private func configureLogoImageView() {
-        logoImageView.image = UIImage.launchScreenLogo
-        logoImageView.contentMode = .scaleAspectFit
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(logoImageView)
-    }
-    
     // MARK: - Authorization
     private func checkAuthorization() {
-        if let _ = storage.token {
-            switchToTabBarController()
-        } else {
+        guard let token = storage.token else {
             showAuthController()
+            return
+        }
+        fetchProfile(token)
+    }
+    
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let profile):
+                    self.switchToTabBarController()
+                    ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { _ in }
+                case .failure:
+                    self.showAuthController()
+                }
+            }
         }
     }
     
@@ -74,15 +92,12 @@ final class SplashViewController: UIViewController {
     
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes
-                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = windowScene.windows.first else {
             return
         }
         
-        guard let window = windowScene.windows.first else { return }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController")
-
+        let tabBarController = TabBarController()
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
