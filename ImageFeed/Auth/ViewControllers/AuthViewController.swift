@@ -10,7 +10,7 @@ final class AuthViewController: UIViewController {
         static let horizontalPadding: CGFloat = 16
         static let buttonFontSize: CGFloat = 17
         static let signInButtonTitle = "Войти"
-        static let errorAlertTitle = "Что-то пошло не так"
+        static let errorAlertTitle = "Что-то пошло не так("
         static let errorAlertMesseage = "Не удалось войти в систему"
         static let errorAlertAction = "Ок"
     }

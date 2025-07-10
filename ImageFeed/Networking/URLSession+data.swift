@@ -21,24 +21,27 @@ extension URLSession {
         }
         
         let task = dataTask(with: request) { data, response, error in
-            if let data = data,
-               let response = response,
-               let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if 200..<300 ~= statusCode {
-                    fulfillCompletionOnMainThread(.success(data))
-                } else {
-                    print("[data(for:)]: HTTPStatusCodeError - код ошибки \(statusCode), URL: \(request.url?.absoluteString ?? "nil")")
-                    fulfillCompletionOnMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
-                }
-            } else if let error = error {
-                print("[data(for:)]: URLRequestError - \(error.localizedDescription), URL: \(request.url?.absoluteString ?? "nil")")
-                fulfillCompletionOnMainThread(.failure(NetworkError.urlRequestError(error)))
+            let urlString = request.url?.absoluteString ?? "nil"
+
+            if let error = error {
+                print("[data(for:)]: URLRequestError - \(error.localizedDescription), URL: \(urlString)")
+                return fulfillCompletionOnMainThread(.failure(NetworkError.urlRequestError(error)))
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, let data = data else {
+                print("[data(for:)]: URLSessionError - неизвестная ошибка, URL: \(urlString)")
+                return fulfillCompletionOnMainThread(.failure(NetworkError.urlSessionError))
+            }
+
+            let statusCode = httpResponse.statusCode
+            if (200..<300).contains(statusCode) {
+                fulfillCompletionOnMainThread(.success(data))
             } else {
-                print("[data(for:)]: URLSessionError - неизвестная ошибка, URL: \(request.url?.absoluteString ?? "nil")")
-                fulfillCompletionOnMainThread(.failure(NetworkError.urlSessionError))
+                print("[data(for:)]: HTTPStatusCodeError - код ошибки \(statusCode), URL: \(urlString)")
+                fulfillCompletionOnMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
             }
         }
-        
+
         return task
     }
     
