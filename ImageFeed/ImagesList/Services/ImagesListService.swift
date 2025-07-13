@@ -28,8 +28,27 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        task = session.objectTask(for: request) { [weak self] ("Bearer \(token)", forHTTPHeaderField: "Authorization") in
+        task = session.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+            guard let self = self else { return }
+            self.task = nil
+            
+            switch result {
+            case .success(let photoResults):
+                let newPhotos = photoResults.map { Photo(from: $0) }
+                self.lastLoadedPage = nextPage
+                self.photos.append(contentsOf: newPhotos)
+                
+                NotificationCenter.default.post(
+                    name: ImagesListService.didChangeNotification,
+                    object: self,
+                    userInfo: ["photos": self.photos]
+                )
+            case .failure(let error):
+                print("[ImagesListService]: Ошибка загрузки — \(error.localizedDescription)")
+            }
         }
+        
+        task?.resume()
     }
     
     private func makeURL(page: Int) -> URL? {
