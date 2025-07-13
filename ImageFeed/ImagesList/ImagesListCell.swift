@@ -24,7 +24,7 @@ final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
     // MARK: - UI Elements
-    private lazy var cellImageView: UIImageView = {
+    lazy var cellImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true

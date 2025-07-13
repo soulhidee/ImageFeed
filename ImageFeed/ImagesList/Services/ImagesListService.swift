@@ -1,15 +1,21 @@
 import Foundation
 
 final class ImagesListService {
+    
+    // MARK: - Notifications
     static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
+    
+    // MARK: - Private properties
     private var task: URLSessionTask?
     private var lastLoadedPage: Int?
-    private(set) var photos: [Photo] = []
     private let perPage = 10
     private let session = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage()
     
+    // MARK: - Public properties
+    private(set) var photos: [Photo] = []
     
+    // MARK: - Public methods
     func fetchPhotosNextPage() {
         guard task == nil else { return }
         
@@ -51,6 +57,7 @@ final class ImagesListService {
         task?.resume()
     }
     
+    // MARK: - Private methods
     private func makeURL(page: Int) -> URL? {
         var components = URLComponents(string: "https://api.unsplash.com/photos")
         components?.queryItems = [
