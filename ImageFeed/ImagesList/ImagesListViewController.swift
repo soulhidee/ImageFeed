@@ -13,7 +13,8 @@ final class ImagesListViewController: UIViewController {
     }
     
     // MARK: - Private Properties
-    private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
+//    private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
+    var photos: [Photo] = []
     
     // MARK: - UI Elements
     private lazy var tableView: UITableView = {
@@ -110,7 +111,7 @@ extension ImagesListViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photosName.count
+        return photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
