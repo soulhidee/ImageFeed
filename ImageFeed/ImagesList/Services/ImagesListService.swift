@@ -20,7 +20,16 @@ final class ImagesListService {
         
         let nextPage = (lastLoadedPage ?? .zero) + 1
         
-        guard let url = makeURL(page: nextPage) else { return }
+        guard let url = makeURL(page: nextPage) else {
+            print("[ImagesListService]: Некорректный URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        task = session.objectTask(for: request) { [weak self] ("Bearer \(token)", forHTTPHeaderField: "Authorization") in
+        }
     }
     
     private func makeURL(page: Int) -> URL? {
