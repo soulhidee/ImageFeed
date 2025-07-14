@@ -12,6 +12,8 @@ final class ImagesListViewController: UIViewController {
         static let isLikedModulo = 2
         static let tableViewTopInset: CGFloat = 16
         static let prefetchThreshold = 1
+        static let russianLocale = Locale(identifier: "ru_RU")
+        static let unknownDateString = "Дата неизвестна"
     }
     
     // MARK: - Private Properties
@@ -84,6 +86,7 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Date Formatter
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.locale = ImagesListConstants.russianLocale
         formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter
@@ -160,7 +163,13 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photos[indexPath.row]
-        let dateText = dateFormatter.string(from: Date())
+        let dateText: String
+        if let createdAt = photo.createdAt {
+            dateText = dateFormatter.string(from: createdAt)
+        } else {
+            dateText = ImagesListConstants.unknownDateString
+        }
+        
         let isLiked = indexPath.row % ImagesListConstants.isLikedModulo == .zero
         let processor = RoundCornerImageProcessor(cornerRadius: .zero)
         let placeholder = UIImage.stub
