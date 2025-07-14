@@ -73,14 +73,41 @@ final class ImagesListService {
         request.httpMethod = isLike ? "POST" : "DELETE"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = session.data(for: request) { result in
+        let task = session.data(for: request) { [weak self] result in
+            guard let self = self else { return }
+
             switch result {
             case .success:
-                completion(.success(()))
+                DispatchQueue.main.async {
+                    // Поиск фото по id
+                    if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                        let photo = self.photos[index]
+                        let newPhoto = Photo(
+                            id: photo.id,
+                            size: photo.size,
+                            createdAt: photo.createdAt,
+                            welcomeDescription: photo.welcomeDescription,
+                            thumbImageURL: photo.thumbImageURL,
+                            largeImageURL: photo.largeImageURL,
+                            isLiked: !photo.isLiked
+                        )
+                        self.photos = self.photos.withReplaced(itemAt: index, newValue: newPhoto)
+                        
+                        NotificationCenter.default.post(
+                            name: ImagesListService.didChangeNotification,
+                            object: self,
+                            userInfo: ["photos": self.photos]
+                        )
+                    }
+                    completion(.success(()))
+                }
             case .failure(let error):
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }
+        
         task.resume()
     }
     
