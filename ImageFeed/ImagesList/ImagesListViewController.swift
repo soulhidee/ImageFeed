@@ -154,6 +154,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        imageListCell.delegate = self
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -181,5 +182,13 @@ extension ImagesListViewController {
             cell.cellImageView.image = placeholder
         }
         cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: isLiked)
+    }
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        let photo = photos[indexPath.row]
     }
 }

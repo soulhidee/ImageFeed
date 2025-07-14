@@ -112,8 +112,13 @@ final class ImagesListCell: UITableViewCell {
         cellImageView.image = image
         dateLabel.text = dateText
         
-        let likeImage = isLiked ? UIImage.likeActive : UIImage.likeNoActive
-        likeButton.setImage(likeImage, for: .normal)
+        setIsLiked(isLiked)
+    }
+    
+    // MARK: -
+    func setIsLiked(_ isLiked: Bool) {
+        let image = isLiked ? UIImage.likeActive : UIImage.likeNoActive
+        likeButton.setImage(image, for: .normal)
         likeButton.isSelected = isLiked
     }
     
