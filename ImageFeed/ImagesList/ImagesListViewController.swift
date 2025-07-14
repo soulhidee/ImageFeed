@@ -13,7 +13,7 @@ final class ImagesListViewController: UIViewController {
     }
     
     // MARK: - Private Properties
-//    private let photosName = (.zero..<ImagesListConstants.numberOfPhotos).map(String.init)
+    private let imagesListService = ImagesListService()
     var photos: [Photo] = []
     
     // MARK: - UI Elements
