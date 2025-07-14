@@ -11,11 +11,12 @@ final class ImagesListViewController: UIViewController {
         static let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         static let isLikedModulo = 2
         static let tableViewTopInset: CGFloat = 16
+        static let prefetchThreshold = 1
     }
     
     // MARK: - Private Properties
     private let imagesListService = ImagesListService()
-    var photos: [Photo] = []
+    private var photos: [Photo] = []
     
     // MARK: - UI Elements
     private lazy var tableView: UITableView = {
@@ -46,6 +47,7 @@ final class ImagesListViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = UIColor.ypBlack
         view.addSubview(tableView)
+        imagesListService.fetchPhotosNextPage()
     }
     
     // MARK: - Constraints
@@ -73,7 +75,7 @@ final class ImagesListViewController: UIViewController {
         photos = imagesListService.photos
         if oldCount != newCount {
             tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+                let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: .zero) }
                 tableView.insertRows(at: indexPaths, with: .automatic)
             }
         }
@@ -132,7 +134,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == photos.count {
+        if indexPath.row + ImagesListConstants.prefetchThreshold == photos.count {
             imagesListService.fetchPhotosNextPage()
         }
     }
@@ -160,8 +162,8 @@ extension ImagesListViewController {
         let photo = photos[indexPath.row]
         let dateText = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % ImagesListConstants.isLikedModulo == .zero
-        let processor = RoundCornerImageProcessor(cornerRadius: 0)
-        let placeholder = UIImage(named: "Stub")
+        let processor = RoundCornerImageProcessor(cornerRadius: .zero)
+        let placeholder = UIImage.stub
         
         if let url = URL(string: photo.thumbImageURL) {
             cell.cellImageView.kf.indicatorType = .activity
