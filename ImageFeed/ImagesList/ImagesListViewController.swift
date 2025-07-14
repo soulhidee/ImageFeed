@@ -68,16 +68,16 @@ final class ImagesListViewController: UIViewController {
     }
     
     @objc func updateTableViewAnimated() {
-           let oldCount = photos.count
-           let newCount = imagesListService.photos.count
-           photos = imagesListService.photos
-           if oldCount != newCount {
-               tableView.performBatchUpdates {
-                   let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
-                   tableView.insertRows(at: indexPaths, with: .automatic)
-               }
-           }
-       }
+        let oldCount = photos.count
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            }
+        }
+    }
     
     // MARK: - Date Formatter
     private lazy var dateFormatter: DateFormatter = {
@@ -157,10 +157,18 @@ extension ImagesListViewController: UITableViewDataSource {
 // MARK: - Cell Configuration
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        let image = UIImage(named: photosName[indexPath.row])
+        let photo = photos[indexPath.row]
         let dateText = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % ImagesListConstants.isLikedModulo == .zero
+        let processor = RoundCornerImageProcessor(cornerRadius: 0)
+        let placeholder = UIImage(named: "Stub")
         
-        cell.configure(with: image, dateText: dateText, isLiked: isLiked)
+        if let url = URL(string: photo.thumbImageURL) {
+            cell.cellImageView.kf.indicatorType = .activity
+            cell.cellImageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor)])
+        } else {
+            cell.cellImageView.image = placeholder
+        }
+        cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: isLiked)
     }
 }
