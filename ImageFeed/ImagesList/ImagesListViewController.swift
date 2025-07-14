@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     
@@ -106,8 +107,19 @@ final class ImagesListViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let image = UIImage(named: photosName[indexPath.row])
-        showSingleImage(image)
+        let photo = photos[indexPath.row]
+        guard let url = URL(string: photo.largeImageURL) else { return }
+        
+        KingfisherManager.shared.retrieveImage(with: url) { result in
+            switch result {
+            case .success(let value):
+                DispatchQueue.main.async {
+                    self.showSingleImage(value.image)
+                }
+            case .failure(let error):
+                print("Error loading full image: \(error)")
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
