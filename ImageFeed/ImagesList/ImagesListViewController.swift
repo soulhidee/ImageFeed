@@ -9,7 +9,6 @@ final class ImagesListViewController: UIViewController {
         static let rowHeight: CGFloat = 200
         static let tableViewContentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         static let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-        static let isLikedModulo = 2
         static let tableViewTopInset: CGFloat = 16
         static let prefetchThreshold = 1
         static let russianLocale = Locale(identifier: "ru_RU")
@@ -186,7 +185,7 @@ extension ImagesListViewController {
             dateText = ImagesListConstants.unknownDateString
         }
         
-        let isLiked = indexPath.row % ImagesListConstants.isLikedModulo == .zero
+        let isLiked = photo.isLiked
         let processor = RoundCornerImageProcessor(cornerRadius: .zero)
         let placeholder = UIImage.stub
         
