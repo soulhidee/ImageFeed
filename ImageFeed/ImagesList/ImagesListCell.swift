@@ -65,6 +65,18 @@ final class ImagesListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImageView.kf.cancelDownloadTask()
+        cellImageView.image = nil
+        
+        // Сброс лайков и текста
+        dateLabel.text = nil
+        likeButton.isSelected = false
+        likeButton.setImage(UIImage.likeNoActive, for: .normal)
+    }
+    
     // MARK: - UI Setup
     private func setupUI() {
         contentView.addSubview(cellImageView)
