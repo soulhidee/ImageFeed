@@ -14,6 +14,10 @@ final class ImagesListViewController: UIViewController {
         static let prefetchThreshold = 1
         static let russianLocale = Locale(identifier: "ru_RU")
         static let unknownDateString = "Дата неизвестна"
+        static let signInButtonTitle = "Войти"
+        static let errorAlertTitle = "Что-то пошло не так("
+        static let errorAlertMesseage = "Не удалось войти в систему"
+        static let errorAlertAction = "Ок"
     }
     
     // MARK: - Private Properties
@@ -107,6 +111,17 @@ final class ImagesListViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .clear
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.clear]
     }
+    
+    // MARK - Alert
+    private func showAuthErrorAlert() {
+        let alert = UIAlertController(
+            title: ImagesListConstants.errorAlertTitle,
+            message: ImagesListConstants.errorAlertMesseage,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: ImagesListConstants.errorAlertAction, style: .default))
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -186,9 +201,25 @@ extension ImagesListViewController {
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {
+    
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         let photo = photos[indexPath.row]
+        
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+            switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(self.photos[indexPath.row].isLiked)
+                
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+                self.showAuthErrorAlert()
+            }
+        }
     }
+    
 }
