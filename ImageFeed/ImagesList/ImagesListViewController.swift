@@ -38,6 +38,7 @@ final class ImagesListViewController: UIViewController {
         tableView.rowHeight = ImagesListConstants.rowHeight
         tableView.contentInset = ImagesListConstants.tableViewContentInset
         configureTransparentNavigationBar()
+        setupObservers()
     }
     
     // MARK: - UI Setup
@@ -55,6 +56,27 @@ final class ImagesListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    // MARK: - Observers
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateTableViewAnimated),
+            name: ImagesListService.didChangeNotification,
+            object: nil
+        )
+    }
+    
+    @objc func updateTableViewAnimated() {
+           let oldCount = photos.count
+           let newCount = imagesListService.photos.count
+           photos = imagesListService.photos
+           if oldCount != newCount {
+               tableView.performBatchUpdates {
+                   let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: 0) }
+                   tableView.insertRows(at: indexPaths, with: .automatic)
+               }
+           }
+       }
     
     // MARK: - Date Formatter
     private lazy var dateFormatter: DateFormatter = {
@@ -128,9 +150,9 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(
-      _ tableView: UITableView,
-      willDisplay cell: UITableViewCell,
-      forRowAt indexPath: IndexPath
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
     ) {
         // Тут будет код
     }
