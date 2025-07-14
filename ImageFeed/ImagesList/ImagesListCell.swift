@@ -20,6 +20,9 @@ final class ImagesListCell: UITableViewCell {
         static let spacingBetweenLabelAndButton: CGFloat = -8
     }
     
+    // MARK: - Delegate
+    weak var delegate: ImagesListCellDelegate?
+    
     // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
@@ -116,6 +119,6 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Action
     @objc private func likeButtonClicked() {
-        
+        delegate?.imageListCellDidTapLike(self)
     }
 }
