@@ -49,6 +49,7 @@ final class ImagesListCell: UITableViewCell {
         button.imageView?.contentMode = .scaleAspectFit
         button.isUserInteractionEnabled = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         return button
     }()
     
@@ -111,5 +112,10 @@ final class ImagesListCell: UITableViewCell {
         let likeImage = isLiked ? UIImage.likeActive : UIImage.likeNoActive
         likeButton.setImage(likeImage, for: .normal)
         likeButton.isSelected = isLiked
+    }
+    
+    // MARK: - Action
+    @objc private func likeButtonClicked() {
+        
     }
 }
