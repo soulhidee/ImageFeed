@@ -57,6 +57,33 @@ final class ImagesListService {
         task?.resume()
     }
     
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let token = tokenStorage.token else {
+            print("[ImagesListService]: Токен отсутствует")
+            return
+        }
+        
+        let urlString = "https://api.unsplash.com/photos/\(photoId)/like"
+        guard let url = URL(string: urlString) else {
+            print("[ImagesListService]: Некорректный URL для лайка")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = isLike ? "POST" : "DELETE"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let task = session.data(for: request) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
     // MARK: - Private methods
     private func makeURL(page: Int) -> URL? {
         var components = URLComponents(string: "https://api.unsplash.com/photos")
