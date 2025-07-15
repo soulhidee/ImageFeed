@@ -96,9 +96,9 @@ final class ImagesListViewController: UIViewController {
     }()
     
     // MARK: - Navigation
-    private func showSingleImage(_ image: UIImage?) {
+    private func showSingleImage(with url: URL) {
         let vc = SingleImageViewController()
-        vc.image = image
+        vc.fullImageURL = url
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
@@ -128,17 +128,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         guard let url = URL(string: photo.largeImageURL) else { return }
-        
-        KingfisherManager.shared.retrieveImage(with: url) { result in
-            switch result {
-            case .success(let value):
-                DispatchQueue.main.async {
-                    self.showSingleImage(value.image)
-                }
-            case .failure(let error):
-                print("Error loading full image: \(error)")
-            }
-        }
+        showSingleImage(with: url)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

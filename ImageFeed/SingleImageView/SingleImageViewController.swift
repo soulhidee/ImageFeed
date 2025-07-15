@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     
@@ -14,13 +15,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: - Public Properties
-    var image: UIImage? {
-        didSet {
-            guard isViewLoaded, let image else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var fullImageURL: URL?
     
     // MARK: - UI Elements
     private lazy var scrollView: UIScrollView = {
@@ -28,6 +23,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         sv.minimumZoomScale = SingleImageConstants.minimumZoomScale
         sv.maximumZoomScale = SingleImageConstants.maximumZoomScale
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.delegate = self
         return sv
     }()
     
@@ -61,23 +57,14 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         setupUI()
         setupConstraints()
         setupActions()
-        updateImageIfNeeded()
+        loadFullImage()
     }
     
-    // MARK: - Lifecycle Helpers
+    // MARK: - Setup
     private func configureView() {
-        scrollView.delegate = self
         view.backgroundColor = UIColor.ypBlack
     }
     
-    private func updateImageIfNeeded() {
-        guard let image else { return }
-        
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
-    }
-    
-    // MARK: - Setup UI
     private func setupUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
@@ -85,7 +72,6 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(sharingButton)
     }
     
-    // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -119,6 +105,38 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         guard let image = imageView.image else { return }
         let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(activityVC, animated: true)
+    }
+    
+    // MARK: - Loading Image with ProgressHUD
+    private func loadFullImage() {
+        guard let url = fullImageURL else { return }
+        
+        UIBlockingProgressHUD.show()
+        
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError()
+            }
+        }
+    }
+    
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Ошибка",
+            message: "Что-то пошло не так. Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Не надо", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            self?.loadFullImage()
+        })
+        present(alert, animated: true)
     }
     
     // MARK: - Zooming & Centering
