@@ -92,4 +92,10 @@ final class ProfileImageService {
         
         task?.resume()
     }
+    
+    func reset() {
+        avatarURL = nil
+        task?.cancel()
+        task = nil
+    }
 }

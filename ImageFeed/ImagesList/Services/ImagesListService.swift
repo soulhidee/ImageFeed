@@ -12,8 +12,13 @@ final class ImagesListService {
     private let session = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage()
     
+    
     // MARK: - Public properties
     private(set) var photos: [Photo] = []
+    
+    static let shared = ImagesListService()
+    
+    private init() {}
     
     // MARK: - Public methods
     func fetchPhotosNextPage() {
@@ -119,5 +124,12 @@ final class ImagesListService {
             URLQueryItem(name: "per_page", value: "\(perPage)")
         ]
         return components?.url
+    }
+    
+    func reset() {
+        photos = []
+        lastLoadedPage = nil
+        task?.cancel()
+        task = nil
     }
 }
