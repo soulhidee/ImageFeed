@@ -20,7 +20,6 @@ final class ImagesListViewController: UIViewController {
     }
     
     // MARK: - Private Properties
-    private let imagesListService = ImagesListService()
     private var photos: [Photo] = []
     
     // MARK: - UI Elements
@@ -52,7 +51,7 @@ final class ImagesListViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = UIColor.ypBlack
         view.addSubview(tableView)
-        imagesListService.fetchPhotosNextPage()
+        ImagesListService.shared.fetchPhotosNextPage()
     }
     
     // MARK: - Constraints
@@ -76,8 +75,8 @@ final class ImagesListViewController: UIViewController {
     
     @objc func updateTableViewAnimated() {
         let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
+        let newCount = ImagesListService.shared.photos.count
+        photos = ImagesListService.shared.photos
         if oldCount != newCount {
             tableView.performBatchUpdates {
                 let indexPaths = (oldCount..<newCount).map { IndexPath(row: $0, section: .zero) }
@@ -142,7 +141,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,forRowAt indexPath: IndexPath) {
         if indexPath.row + ImagesListConstants.prefetchThreshold == photos.count {
-            imagesListService.fetchPhotosNextPage()
+            ImagesListService.shared.fetchPhotosNextPage()
         }
     }
 }
@@ -197,10 +196,10 @@ extension ImagesListViewController: ImagesListCellDelegate {
         let photo = photos[indexPath.row]
         
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
+        ImagesListService.shared.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
             switch result {
             case .success:
-                self.photos = self.imagesListService.photos
+                self.photos = ImagesListService.shared.photos
                 cell.setIsLiked(self.photos[indexPath.row].isLiked)
                 
                 UIBlockingProgressHUD.dismiss()

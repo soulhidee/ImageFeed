@@ -6,7 +6,7 @@ final class ProfileLogoutService {
     
     private init() { }
     
-    private func logout() {
+    func logout() {
         cleanCookies()
         OAuth2TokenStorage().token = nil
         ProfileService.shared.reset()

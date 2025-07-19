@@ -163,7 +163,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        
+        ProfileLogoutService.shared.logout()
     }
     
     // MARK: - Mock Data
