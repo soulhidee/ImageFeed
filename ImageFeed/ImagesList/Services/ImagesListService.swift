@@ -1,21 +1,49 @@
 import Foundation
 
 final class ImagesListService {
+    //MARK: - Constants
+    enum serviceConstants {
+        enum API {
+            static let baseURL = "https://api.unsplash.com"
+            static let photosPath = "/photos"
+            static let likePathSuffix = "/like"
+            static let pageQueryKey = "page"
+            static let perPageQueryKey = "per_page"
+            static let perPage = 10
+            static let pageIncrement = 1
+            static func likePhotoURL(photoId: String) -> URL? {
+                return URL(string: "\(baseURL)\(photosPath)/\(photoId)\(likePathSuffix)")
+            }
+        }
+        
+        enum HTTPHeader {
+            static let authorization = "Authorization"
+            static let bearerPrefix = "Bearer"
+        }
+        
+        enum NotificationName {
+            static let imagesListDidChange = Notification.Name("ImagesListServiceDidChange")
+        }
+        
+        enum UserInfoKey {
+            static let photos = "photos"
+        }
+    }
     
     // MARK: - Notifications
-    static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
+    static let didChangeNotification = serviceConstants.NotificationName.imagesListDidChange
     
     // MARK: - Private properties
     private var task: URLSessionTask?
     private var lastLoadedPage: Int?
-    private let perPage = 10
+    private let perPage = serviceConstants.API.perPage
     private let session = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage()
-    
     
     // MARK: - Public properties
     private(set) var photos: [Photo] = []
     
+    // MARK: - Singleton
     static let shared = ImagesListService()
     
     private init() {}
@@ -29,7 +57,7 @@ final class ImagesListService {
             return
         }
         
-        let nextPage = (lastLoadedPage ?? .zero) + 1
+        let nextPage = (lastLoadedPage ?? .zero) + serviceConstants.API.pageIncrement
         
         guard let url = makeURL(page: nextPage) else {
             print("[ImagesListService]: Некорректный URL")
@@ -37,7 +65,7 @@ final class ImagesListService {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("\(serviceConstants.HTTPHeader.bearerPrefix) \(token)", forHTTPHeaderField: serviceConstants.HTTPHeader.authorization)
         
         task = session.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }
@@ -52,7 +80,7 @@ final class ImagesListService {
                 NotificationCenter.default.post(
                     name: ImagesListService.didChangeNotification,
                     object: self,
-                    userInfo: ["photos": self.photos]
+                    userInfo: [serviceConstants.API.photosPath: self.photos]
                 )
             case .failure(let error):
                 print("[ImagesListService]: Ошибка загрузки — \(error.localizedDescription)")
@@ -68,23 +96,25 @@ final class ImagesListService {
             return
         }
         
-        let urlString = "https://api.unsplash.com/photos/\(photoId)/like"
-        guard let url = URL(string: urlString) else {
+        guard let url = serviceConstants.API.likePhotoURL(photoId: photoId) else {
             print("[ImagesListService]: Некорректный URL для лайка")
             return
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = isLike ? "POST" : "DELETE"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = isLike ? HTTPMethod.post.rawValue : HTTPMethod.delete.rawValue
+        
+        request.setValue(
+            "\(serviceConstants.HTTPHeader.bearerPrefix) \(token)",
+            forHTTPHeaderField: serviceConstants.HTTPHeader.authorization
+        )
         
         let task = session.data(for: request) { [weak self] result in
-            guard let self = self else { return }
-
+            guard let self else { return }
+            
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    // Поиск фото по id
                     if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
                         let photo = self.photos[index]
                         let newPhoto = Photo(
@@ -101,7 +131,7 @@ final class ImagesListService {
                         NotificationCenter.default.post(
                             name: ImagesListService.didChangeNotification,
                             object: self,
-                            userInfo: ["photos": self.photos]
+                            userInfo: [serviceConstants.UserInfoKey.photos: self.photos]
                         )
                     }
                     completion(.success(()))
@@ -118,14 +148,15 @@ final class ImagesListService {
     
     // MARK: - Private methods
     private func makeURL(page: Int) -> URL? {
-        var components = URLComponents(string: "https://api.unsplash.com/photos")
+        var components = URLComponents(string: serviceConstants.API.baseURL)
         components?.queryItems = [
-            URLQueryItem(name: "page", value: "\(page)"),
-            URLQueryItem(name: "per_page", value: "\(perPage)")
+            URLQueryItem(name: serviceConstants.API.pageQueryKey, value: "\(page)"),
+            URLQueryItem(name: serviceConstants.API.perPageQueryKey, value: "\(perPage)")
         ]
         return components?.url
     }
     
+    // MARK: - Reset
     func reset() {
         photos = []
         lastLoadedPage = nil
