@@ -79,10 +79,11 @@ final class ImagesListCell: UITableViewCell {
         cellImageView.kf.cancelDownloadTask()
         cellImageView.image = nil
         
-        // Сброс лайков и текста
         dateLabel.text = nil
         likeButton.isSelected = false
         likeButton.setImage(UIImage.likeNoActive, for: .normal)
+        
+        stopShimmer()
     }
     
     // MARK: - UI Setup
@@ -124,6 +125,40 @@ final class ImagesListCell: UITableViewCell {
         let image = isLiked ? UIImage.likeActive : UIImage.likeNoActive
         likeButton.setImage(image, for: .normal)
         likeButton.isSelected = isLiked
+    }
+    
+    func startShimmer() {
+        guard !isShimmerAdded else { return }
+
+        let gradient = CAGradientLayer()
+        gradient.frame = cellImageView.bounds
+        gradient.cornerRadius = cellImageView.layer.cornerRadius
+        gradient.colors = [
+            UIColor(white: 0.85, alpha: 1).cgColor,
+            UIColor(white: 0.75, alpha: 1).cgColor,
+            UIColor(white: 0.85, alpha: 1).cgColor
+        ]
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+
+        let animation = CABasicAnimation(keyPath: "locations")
+        animation.fromValue = [0, 0.1, 0.3]
+        animation.toValue = [0.7, 0.9, 1]
+        animation.duration = 1.2
+        animation.repeatCount = .infinity
+
+        gradient.add(animation, forKey: "shimmer")
+        cellImageView.layer.addSublayer(gradient)
+
+        shimmerLayer = gradient
+        isShimmerAdded = true
+    }
+    
+    func stopShimmer() {
+        shimmerLayer?.removeFromSuperlayer()
+        shimmerLayer = nil
+        isShimmerAdded = false
     }
     
     // MARK: - Action
