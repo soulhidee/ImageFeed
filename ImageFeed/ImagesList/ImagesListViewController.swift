@@ -158,7 +158,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         imageListCell.delegate = self
-        
+        imageListCell.startShimmer()
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
@@ -174,20 +174,31 @@ extension ImagesListViewController {
         } else {
             dateText = ImagesListConstants.unknownDateString
         }
-        
+
         let isLiked = photo.isLiked
         let processor = RoundCornerImageProcessor(cornerRadius: .zero)
-        let placeholder = UIImage.stub
-        
+
         if let url = URL(string: photo.thumbImageURL) {
-            cell.cellImageView.kf.indicatorType = .activity
-            cell.cellImageView.kf.setImage(with: url, placeholder: placeholder, options: [.processor(processor)])
+            // ⏳ Включаем shimmer до загрузки
+            cell.startShimmer()
+
+            cell.cellImageView.kf.indicatorType = .none
+            cell.cellImageView.kf.setImage(
+                with: url,
+                placeholder: nil,
+                options: [.processor(processor), .forceRefresh, .cacheMemoryOnly]
+            ) { _ in
+                // ✅ Отключаем shimmer после загрузки
+                cell.stopShimmer()
+            }
         } else {
-            cell.cellImageView.image = placeholder
+            cell.cellImageView.image = nil
+            cell.stopShimmer() // ⛔️ Нет картинки — shimmer тоже не нужен
         }
+
         cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: isLiked)
     }
-}
+    
 
 extension ImagesListViewController: ImagesListCellDelegate {
     
