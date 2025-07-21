@@ -174,31 +174,28 @@ extension ImagesListViewController {
         } else {
             dateText = ImagesListConstants.unknownDateString
         }
-
+        
         let isLiked = photo.isLiked
         let processor = RoundCornerImageProcessor(cornerRadius: .zero)
-
+        
         if let url = URL(string: photo.thumbImageURL) {
-            // ⏳ Включаем shimmer до загрузки
             cell.startShimmer()
-
+            
             cell.cellImageView.kf.indicatorType = .none
             cell.cellImageView.kf.setImage(
                 with: url,
-                placeholder: nil,
                 options: [.processor(processor), .forceRefresh, .cacheMemoryOnly]
             ) { _ in
-                // ✅ Отключаем shimmer после загрузки
                 cell.stopShimmer()
             }
         } else {
             cell.cellImageView.image = nil
-            cell.stopShimmer() // ⛔️ Нет картинки — shimmer тоже не нужен
+            cell.stopShimmer()
         }
 
         cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: isLiked)
     }
-    
+}
 
 extension ImagesListViewController: ImagesListCellDelegate {
     
