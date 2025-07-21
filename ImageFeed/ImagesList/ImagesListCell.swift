@@ -26,6 +26,7 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
+    
     // MARK: - UI Elements
     lazy var cellImageView: UIImageView = {
         let imageView = UIImageView()

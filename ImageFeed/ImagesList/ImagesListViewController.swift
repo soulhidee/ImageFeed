@@ -158,6 +158,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         imageListCell.delegate = self
+        
         configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }

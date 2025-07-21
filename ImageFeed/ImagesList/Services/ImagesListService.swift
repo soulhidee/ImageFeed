@@ -148,7 +148,7 @@ final class ImagesListService {
     
     // MARK: - Private methods
     private func makeURL(page: Int) -> URL? {
-        var components = URLComponents(string: serviceConstants.API.baseURL)
+        var components = URLComponents(string: serviceConstants.API.baseURL + serviceConstants.API.photosPath)
         components?.queryItems = [
             URLQueryItem(name: serviceConstants.API.pageQueryKey, value: "\(page)"),
             URLQueryItem(name: serviceConstants.API.perPageQueryKey, value: "\(perPage)")
