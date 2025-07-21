@@ -26,9 +26,6 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
-    // MARK: - Gradient
-    private var shimmerLayer: CAGradientLayer?
-    private var isShimmerAdded = false
     
     // MARK: - UI Elements
     lazy var cellImageView: UIImageView = {
@@ -59,6 +56,8 @@ final class ImagesListCell: UITableViewCell {
         button.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var shimmerView = ShimmerView()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -91,6 +90,7 @@ final class ImagesListCell: UITableViewCell {
         contentView.addSubview(cellImageView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(likeButton)
+        cellImageView.addSubview(shimmerView)
     }
     
     // MARK: - Constaints
@@ -100,6 +100,11 @@ final class ImagesListCell: UITableViewCell {
             cellImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: ImagesListCellConstants.imageBottomInset),
             cellImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ImagesListCellConstants.imageLeadingInset),
             cellImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: ImagesListCellConstants.imageTrailingInset),
+            
+            shimmerView.topAnchor.constraint(equalTo: cellImageView.topAnchor),
+            shimmerView.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor),
+            shimmerView.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor),
+            shimmerView.trailingAnchor.constraint(equalTo: cellImageView.trailingAnchor),
             
             likeButton.widthAnchor.constraint(equalToConstant: ImagesListCellConstants.likeButtonSize),
             likeButton.heightAnchor.constraint(equalToConstant: ImagesListCellConstants.likeButtonSize),
@@ -128,37 +133,13 @@ final class ImagesListCell: UITableViewCell {
     }
     
     func startShimmer() {
-        guard !isShimmerAdded else { return }
-
-        let gradient = CAGradientLayer()
-        gradient.frame = cellImageView.bounds
-        gradient.cornerRadius = cellImageView.layer.cornerRadius
-        gradient.colors = [
-            UIColor(white: 0.85, alpha: 1).cgColor,
-            UIColor(white: 0.75, alpha: 1).cgColor,
-            UIColor(white: 0.85, alpha: 1).cgColor
-        ]
-        gradient.locations = [0, 0.1, 0.3]
-        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1, y: 0.5)
-
-        let animation = CABasicAnimation(keyPath: "locations")
-        animation.fromValue = [0, 0.1, 0.3]
-        animation.toValue = [0.7, 0.9, 1]
-        animation.duration = 1.2
-        animation.repeatCount = .infinity
-
-        gradient.add(animation, forKey: "shimmer")
-        cellImageView.layer.addSublayer(gradient)
-
-        shimmerLayer = gradient
-        isShimmerAdded = true
+        shimmerView.isHidden = false
+        shimmerView.startAnimating()
     }
     
     func stopShimmer() {
-        shimmerLayer?.removeFromSuperlayer()
-        shimmerLayer = nil
-        isShimmerAdded = false
+        shimmerView.stopAnimating()
+        shimmerView.isHidden = true
     }
     
     // MARK: - Action
