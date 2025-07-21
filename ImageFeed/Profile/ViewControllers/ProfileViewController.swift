@@ -74,24 +74,47 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
+    private lazy var profileImageShimmer = ShimmerView()
+    private lazy var nameLabelShimmer = ShimmerView()
+    private lazy var handleLabelShimmer = ShimmerView()
+    private lazy var statusLabelShimmer = ShimmerView()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
         loadProfileIfAvailable()
+        
         addProfileImageObserver()
         updateAvatar()
+        profileImageShimmer.startAnimating()
+        nameLabelShimmer.startAnimating()
+        handleLabelShimmer.startAnimating()
+        statusLabelShimmer.startAnimating()
+        
     }
+    
     
     // MARK: - Setup Views
     private func setupViews() {
         view.backgroundColor = UIColor.ypBlack
+        
         view.addSubview(profileImage)
         view.addSubview(logoutButton)
         view.addSubview(nameLabel)
         view.addSubview(handleLabel)
         view.addSubview(statusLabel)
+        
+        view.addSubview(profileImageShimmer)
+        view.addSubview(nameLabelShimmer)
+        view.addSubview(handleLabelShimmer)
+        view.addSubview(statusLabelShimmer)
+        
+        profileImageShimmer.setCornerRadius(ProfileConstants.profileImageCornerRadius)
+        nameLabelShimmer.setCornerRadius(9)
+        handleLabelShimmer.setCornerRadius(9)
+        statusLabelShimmer.setCornerRadius(9)
     }
     
     // MARK: - Constraints
@@ -102,6 +125,11 @@ final class ProfileViewController: UIViewController {
             profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ProfileConstants.profileImageTopInset),
             profileImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: ProfileConstants.profileImageLeadingInset),
             
+            profileImageShimmer.widthAnchor.constraint(equalTo: profileImage.widthAnchor),
+            profileImageShimmer.heightAnchor.constraint(equalTo: profileImage.heightAnchor),
+            profileImageShimmer.topAnchor.constraint(equalTo: profileImage.topAnchor),
+            profileImageShimmer.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            
             logoutButton.widthAnchor.constraint(equalToConstant: ProfileConstants.logoutButtonSize),
             logoutButton.heightAnchor.constraint(equalToConstant: ProfileConstants.logoutButtonSize),
             logoutButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
@@ -110,11 +138,26 @@ final class ProfileViewController: UIViewController {
             nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: ProfileConstants.nameLabelTopSpacing),
             nameLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             
+            nameLabelShimmer.topAnchor.constraint(equalTo: nameLabel.topAnchor),
+            nameLabelShimmer.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            nameLabelShimmer.widthAnchor.constraint(equalTo: nameLabel.widthAnchor),
+            nameLabelShimmer.heightAnchor.constraint(equalTo: nameLabel.heightAnchor),
+            
             handleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: ProfileConstants.handleLabelTopSpacing),
             handleLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             
+            handleLabelShimmer.topAnchor.constraint(equalTo: handleLabel.topAnchor),
+            handleLabelShimmer.leadingAnchor.constraint(equalTo: handleLabel.leadingAnchor),
+            handleLabelShimmer.widthAnchor.constraint(equalTo: handleLabel.widthAnchor),
+            handleLabelShimmer.heightAnchor.constraint(equalTo: handleLabel.heightAnchor),
+            
             statusLabel.topAnchor.constraint(equalTo: handleLabel.bottomAnchor, constant: ProfileConstants.statusLabelTopSpacing),
-            statusLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor)
+            statusLabel.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            
+            statusLabelShimmer.topAnchor.constraint(equalTo: statusLabel.topAnchor),
+            statusLabelShimmer.leadingAnchor.constraint(equalTo: statusLabel.leadingAnchor),
+            statusLabelShimmer.widthAnchor.constraint(equalTo: statusLabel.widthAnchor),
+            statusLabelShimmer.heightAnchor.constraint(equalTo: statusLabel.heightAnchor),
         ])
     }
     
@@ -130,6 +173,17 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         handleLabel.text = profile.loginName
         statusLabel.text = profile.bio
+        self.profileImageShimmer.stopAnimating()
+        self.profileImageShimmer.isHidden = true
+        
+        self.nameLabelShimmer.stopAnimating()
+        self.nameLabelShimmer.isHidden = true
+        
+        self.handleLabelShimmer.stopAnimating()
+        self.handleLabelShimmer.isHidden = true
+        
+        self.statusLabelShimmer.stopAnimating()
+        self.statusLabelShimmer.isHidden = true
     }
     
     // MARK: - Profile Image Observer
@@ -168,8 +222,9 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Mock Data
     private enum dataMock {
-        static let name = ""
-        static let handle = ""
-        static let status = ""
+        static let name = "Loading..."
+        static let handle = "@loading"
+        static let status = "Please wait..."
     }
+    
 }
