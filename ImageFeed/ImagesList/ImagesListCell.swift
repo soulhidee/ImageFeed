@@ -26,6 +26,9 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
+    // MARK: - Gradient
+    private var shimmerLayer: CAGradientLayer?
+    private var isShimmerAdded = false
     
     // MARK: - UI Elements
     lazy var cellImageView: UIImageView = {
