@@ -39,7 +39,6 @@ final class ShimmerView: UIView {
         layer.addSublayer(gradientLayer)
         animationLayers.insert(gradientLayer)
         
-        // Устанавливаем фон для маскировки моковых данных
         backgroundColor = UIColor.black.withAlphaComponent(0.8)
     }
     

@@ -85,16 +85,13 @@ final class ProfileViewController: UIViewController {
         setupViews()
         setupConstraints()
         loadProfileIfAvailable()
-        
         addProfileImageObserver()
         updateAvatar()
         profileImageShimmer.startAnimating()
         nameLabelShimmer.startAnimating()
         handleLabelShimmer.startAnimating()
         statusLabelShimmer.startAnimating()
-        
     }
-    
     
     // MARK: - Setup Views
     private func setupViews() {
