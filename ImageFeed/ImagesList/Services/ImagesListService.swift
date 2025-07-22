@@ -68,7 +68,7 @@ final class ImagesListService {
         request.setValue("\(serviceConstants.HTTPHeader.bearerPrefix) \(token)", forHTTPHeaderField: serviceConstants.HTTPHeader.authorization)
         
         task = session.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
             self.task = nil
             
             switch result {

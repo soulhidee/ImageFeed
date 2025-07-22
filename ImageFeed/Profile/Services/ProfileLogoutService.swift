@@ -18,12 +18,12 @@ final class ProfileLogoutService {
         
         DispatchQueue.main.async {
             guard let windowScene = UIApplication.shared.connectedScenes
-                    .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
                   let window = windowScene.windows.first else {
                 print("[ProfileLogoutService]: Не удалось получить windowScene/window")
                 return
             }
-
+            
             let splashVC = SplashViewController()
             let navVC = UINavigationController(rootViewController: splashVC)
             window.rootViewController = navVC

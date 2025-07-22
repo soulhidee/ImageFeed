@@ -192,7 +192,7 @@ extension ImagesListViewController {
             cell.cellImageView.image = nil
             cell.stopShimmer()
         }
-
+        
         cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: isLiked)
     }
 }

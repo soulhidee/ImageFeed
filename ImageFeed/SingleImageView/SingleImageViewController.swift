@@ -12,6 +12,13 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         static let backButtonTop: CGFloat = 11
         static let shareButtonSize: CGFloat = 50
         static let shareButtonBottom: CGFloat = -17
+        static let zeroInset: CGFloat = 0
+        static let divider: CGFloat = 2
+        
+        static let alertTitle = "Ошибка"
+        static let alertMessage = "Что-то пошло не так. Попробовать ещё раз?"
+        static let cancelTitle = "Не надо"
+        static let retryTitle = "Повторить"
     }
     
     // MARK: - Public Properties
@@ -116,7 +123,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         imageView.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             
-            guard let self = self else { return }
+            guard let self else { return }
             
             switch result {
             case .success(let imageResult):
@@ -129,12 +136,12 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
     
     private func showError() {
         let alert = UIAlertController(
-            title: "Ошибка",
-            message: "Что-то пошло не так. Попробовать ещё раз?",
+            title: SingleImageConstants.alertTitle,
+            message: SingleImageConstants.alertMessage,
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Не надо", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: SingleImageConstants.cancelTitle, style: .cancel))
+        alert.addAction(UIAlertAction(title: SingleImageConstants.retryTitle, style: .default) { [weak self] _ in
             self?.loadFullImage()
         })
         present(alert, animated: true)
@@ -161,8 +168,11 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         let scrollViewSize = scrollView.bounds.size
         let imageViewSize = imageView.frame.size
         
-        let horizontalInset = max((scrollViewSize.width - imageViewSize.width) / 2, 0)
-        let verticalInset = max((scrollViewSize.height - imageViewSize.height) / 2, 0)
+        let horizontalInset = max((scrollViewSize.width - imageViewSize.width) / SingleImageConstants.divider,
+                                  SingleImageConstants.zeroInset)
+        
+        let verticalInset = max((scrollViewSize.height - imageViewSize.height) / SingleImageConstants.divider,
+                                SingleImageConstants.zeroInset)
         
         scrollView.contentInset = UIEdgeInsets(
             top: verticalInset,

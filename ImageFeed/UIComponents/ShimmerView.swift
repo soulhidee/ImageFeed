@@ -1,9 +1,12 @@
 import UIKit
 
 final class ShimmerView: UIView {
+    
+    // MARK: - Private Properties
     private let gradientLayer = CAGradientLayer()
     private var animationLayers: Set<CALayer> = Set()
     
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +21,7 @@ final class ShimmerView: UIView {
         setupGradient()
     }
     
+    // MARK: - Layout
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
@@ -25,6 +29,7 @@ final class ShimmerView: UIView {
         gradientLayer.masksToBounds = true
     }
     
+    // MARK: - Private Methods
     private func setupGradient() {
         gradientLayer.frame = bounds
         gradientLayer.locations = [0, 0.1, 0.3]
@@ -42,6 +47,7 @@ final class ShimmerView: UIView {
         backgroundColor = UIColor.black.withAlphaComponent(0.8)
     }
     
+    // MARK: - Public Methods
     func startAnimating() {
         print("Starting shimmer animation for \(self)")
         let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
@@ -59,6 +65,6 @@ final class ShimmerView: UIView {
     }
     
     func setCornerRadius(_ radius: CGFloat) {
-            layer.cornerRadius = radius
-        }
+        layer.cornerRadius = radius
+    }
 }
