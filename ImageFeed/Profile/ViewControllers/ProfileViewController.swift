@@ -19,6 +19,11 @@ final class ProfileViewController: UIViewController {
         
         static let nameLabelFontSize: CGFloat = 23
         static let handleStatusLabelFontSize: CGFloat = 13
+        
+        static let logoutAlertTitle = "Пока, пока!"
+        static let logoutAlertMessage = "Уверены что хотите выйти?"
+        static let logoutAlertConfirmButton = "Да"
+        static let logoutAlertCancelButton = "Нет"
     }
     
     var profile: ProfileService.Profile?
@@ -214,7 +219,18 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func logoutButtonTapped() {
-        ProfileLogoutService.shared.logout()
+        let alert = UIAlertController(
+            title: ProfileConstants.logoutAlertTitle,
+            message: ProfileConstants.logoutAlertMessage,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertCancelButton, style: .cancel))
+        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertConfirmButton, style: .destructive) { _ in
+            ProfileLogoutService.shared.logout()
+        })
+        
+        present(alert, animated: true)
     }
     
     // MARK: - Mock Data
