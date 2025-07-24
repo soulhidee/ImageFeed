@@ -12,7 +12,7 @@ final class ImagesListService {
             static let perPage = 10
             static let pageIncrement = 1
             static func likePhotoURL(photoId: String) -> URL? {
-                return URL(string: "\(baseURL)\(photosPath)/\(photoId)\(likePathSuffix)")
+                URL(string: "\(baseURL)\(photosPath)/\(photoId)\(likePathSuffix)")
             }
         }
         

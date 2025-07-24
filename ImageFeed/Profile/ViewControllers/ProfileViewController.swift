@@ -51,7 +51,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = dataMock.name
+        label.text = DataMock.name
         label.textColor = UIColor.ypWhite
         label.font = UIFont.systemFont(ofSize: ProfileConstants.nameLabelFontSize, weight: .bold)
         label.numberOfLines = .zero
@@ -61,7 +61,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var handleLabel: UILabel = {
         let label = UILabel()
-        label.text = dataMock.handle
+        label.text = DataMock.handle
         label.textColor = UIColor.ypGray
         label.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
         label.numberOfLines = .zero
@@ -71,7 +71,7 @@ final class ProfileViewController: UIViewController {
     
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
-        label.text = dataMock.status
+        label.text = DataMock.status
         label.textColor = UIColor.ypWhite
         label.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
         label.numberOfLines = .zero
@@ -234,7 +234,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Mock Data
-    private enum dataMock {
+    private enum DataMock {
         static let name = "Loading..."
         static let handle = "@loading"
         static let status = "Please wait..."

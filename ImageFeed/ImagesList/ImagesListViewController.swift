@@ -15,7 +15,7 @@ final class ImagesListViewController: UIViewController {
         static let unknownDateString = "Дата неизвестна"
         static let signInButtonTitle = "Войти"
         static let errorAlertTitle = "Что-то пошло не так("
-        static let errorAlertMesseage = "Не удалось войти в систему"
+        static let errorAlertMessage = "Не удалось войти в систему"
         static let errorAlertAction = "Ок"
     }
     
@@ -114,7 +114,7 @@ final class ImagesListViewController: UIViewController {
     private func showAuthErrorAlert() {
         let alert = UIAlertController(
             title: ImagesListConstants.errorAlertTitle,
-            message: ImagesListConstants.errorAlertMesseage,
+            message: ImagesListConstants.errorAlertMessage,
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: ImagesListConstants.errorAlertAction, style: .default))
