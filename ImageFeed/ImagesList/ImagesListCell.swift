@@ -20,11 +20,15 @@ final class ImagesListCell: UITableViewCell {
         static let spacingBetweenLabelAndButton: CGFloat = -8
     }
     
+    // MARK: - Delegate
+    weak var delegate: ImagesListCellDelegate?
+    
     // MARK: - Reuse Identifier
     static let reuseIdentifier = ImagesListCellConstants.reuseIdentifier
     
+    
     // MARK: - UI Elements
-    private lazy var cellImageView: UIImageView = {
+    lazy var cellImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -49,8 +53,11 @@ final class ImagesListCell: UITableViewCell {
         button.imageView?.contentMode = .scaleAspectFit
         button.isUserInteractionEnabled = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var shimmerView = ShimmerView()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -65,11 +72,25 @@ final class ImagesListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImageView.kf.cancelDownloadTask()
+        cellImageView.image = nil
+        
+        dateLabel.text = nil
+        likeButton.isSelected = false
+        likeButton.setImage(UIImage.likeNoActive, for: .normal)
+        
+        stopShimmer()
+    }
+    
     // MARK: - UI Setup
     private func setupUI() {
         contentView.addSubview(cellImageView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(likeButton)
+        cellImageView.addSubview(shimmerView)
     }
     
     // MARK: - Constaints
@@ -79,6 +100,11 @@ final class ImagesListCell: UITableViewCell {
             cellImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: ImagesListCellConstants.imageBottomInset),
             cellImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: ImagesListCellConstants.imageLeadingInset),
             cellImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: ImagesListCellConstants.imageTrailingInset),
+            
+            shimmerView.topAnchor.constraint(equalTo: cellImageView.topAnchor),
+            shimmerView.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor),
+            shimmerView.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor),
+            shimmerView.trailingAnchor.constraint(equalTo: cellImageView.trailingAnchor),
             
             likeButton.widthAnchor.constraint(equalToConstant: ImagesListCellConstants.likeButtonSize),
             likeButton.heightAnchor.constraint(equalToConstant: ImagesListCellConstants.likeButtonSize),
@@ -96,8 +122,28 @@ final class ImagesListCell: UITableViewCell {
         cellImageView.image = image
         dateLabel.text = dateText
         
-        let likeImage = isLiked ? UIImage.likeActive : UIImage.likeNoActive
-        likeButton.setImage(likeImage, for: .normal)
+        setIsLiked(isLiked)
+    }
+    
+    // MARK: -
+    func setIsLiked(_ isLiked: Bool) {
+        let image = isLiked ? UIImage.likeActive : UIImage.likeNoActive
+        likeButton.setImage(image, for: .normal)
         likeButton.isSelected = isLiked
+    }
+    
+    func startShimmer() {
+        shimmerView.isHidden = false
+        shimmerView.startAnimating()
+    }
+    
+    func stopShimmer() {
+        shimmerView.stopAnimating()
+        shimmerView.isHidden = true
+    }
+    
+    // MARK: - Action
+    @objc private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
     }
 }

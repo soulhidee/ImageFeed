@@ -2,6 +2,7 @@ import Foundation
 
 final class ProfileService {
     
+    // MARK: - Constants
     private enum ProfileServiceConstants {
         static let userProfileURL = "https://api.unsplash.com/me"
         static let headerAuthorization = "Authorization"
@@ -15,6 +16,7 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var lastProfile: Profile?
     
+    // MARK: - Init
     private init() {}
     
     // MARK: - Nested Types
@@ -81,7 +83,7 @@ final class ProfileService {
         }
         
         task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success(let profileResult):
                 let profile = Profile(result: profileResult)
@@ -95,5 +97,10 @@ final class ProfileService {
         }
         
         task?.resume()
+    }
+    
+    // MARK: - Reset
+    func reset() {
+        lastProfile = nil
     }
 }

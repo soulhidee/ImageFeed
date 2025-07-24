@@ -6,6 +6,15 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         static let tokenEndpoint = "https://unsplash.com/oauth/token"
         static let contentType = "application/x-www-form-urlencoded"
         static let grantType = "authorization_code"
+        static let forHTTPHeaderField = "Content-Type"
+        
+        enum Keys {
+            static let clientID = "client_id"
+            static let clientSecret = "client_secret"
+            static let redirectURI = "redirect_uri"
+            static let code = "code"
+            static let grantType = "grant_type"
+        }
     }
     
     // MARK: - Singleton Instance
@@ -40,7 +49,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         }
         
         task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
             
             guard self.lastCode == code else {
                 print("[OAuth2Service fetchAuthToken]: Игнорируем ответ от устаревшего запроса с кодом: \(code)")
@@ -74,11 +83,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         request.httpMethod = HTTPMethod.post.rawValue
         
         let parameters = [
-            "client_id": Constants.accessKey,
-            "client_secret": Constants.secretKey,
-            "redirect_uri": Constants.redirectURI,
-            "code": code,
-            "grant_type": OAuth2Constants.grantType
+            OAuth2Constants.Keys.clientID: Constants.accessKey,
+            OAuth2Constants.Keys.clientSecret: Constants.secretKey,
+            OAuth2Constants.Keys.redirectURI: Constants.redirectURI,
+            OAuth2Constants.Keys.code: code,
+            OAuth2Constants.Keys.grantType: OAuth2Constants.grantType
         ]
         
         request.httpBody = parameters
@@ -86,7 +95,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             .joined(separator: "&")
             .data(using: .utf8)
         
-        request.setValue(OAuth2Constants.contentType, forHTTPHeaderField: "Content-Type")
+        request.setValue(OAuth2Constants.contentType, forHTTPHeaderField: OAuth2Constants.forHTTPHeaderField)
         
         return request
     }

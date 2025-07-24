@@ -1,15 +1,17 @@
 import Foundation
 
 final class ProfileImageService {
-    
     // MARK: - Constants
-    private enum  ProfileImageConstants {
+    private enum Constants {
         static let userURL = "https://api.unsplash.com/users/"
         static let headerAuthorization = "Authorization"
         static let bearerPrefix = "Bearer "
+        static let didChangeNotificationRawValue = "ProfileImageProviderDidChange"
+        static let notificationUserInfoKey = "URL"
     }
     
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    // MARK: - Notifications
+    static let didChangeNotification = Notification.Name(rawValue: Constants.didChangeNotificationRawValue)
     
     // MARK: - Singleton
     static let shared = ProfileImageService()
@@ -18,6 +20,7 @@ final class ProfileImageService {
     private var task: URLSessionTask?
     private(set) var avatarURL: String?
     
+    // MARK: - Init
     private init() {}
     
     // MARK: - Nested Types
@@ -37,7 +40,7 @@ final class ProfileImageService {
     
     // MARK: - Request Creation
     private func makeImageRequest(username: String, token: String) -> URLRequest? {
-        let urlString = ProfileImageConstants.userURL + username
+        let urlString = Constants.userURL + username
         guard let url = URL(string: urlString) else {
             print("❌ Ошибка: неверный URL для запроса изображения")
             return nil
@@ -45,11 +48,11 @@ final class ProfileImageService {
         
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
-        request.setValue(ProfileImageConstants.bearerPrefix + token, forHTTPHeaderField: ProfileImageConstants.headerAuthorization)
+        request.setValue(Constants.bearerPrefix + token, forHTTPHeaderField: Constants.headerAuthorization)
         return request
     }
     
-    // MARK: - Fetch Image URL
+    // MARK: - Fetch Profile Image URL
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
         
@@ -67,7 +70,8 @@ final class ProfileImageService {
         }
         
         task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
+            
             switch result {
             case .success(let userResult):
                 if let imageURL = userResult.profileImage.large ?? userResult.profileImage.medium ?? userResult.profileImage.small {
@@ -76,7 +80,7 @@ final class ProfileImageService {
                     NotificationCenter.default.post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
-                        userInfo: ["URL": imageURL]
+                        userInfo: [Constants.notificationUserInfoKey: imageURL]
                     )
                 } else {
                     let error = NetworkError.invalidData
@@ -91,5 +95,12 @@ final class ProfileImageService {
         }
         
         task?.resume()
+    }
+    
+    // MARK: - Reset
+    func reset() {
+        avatarURL = nil
+        task?.cancel()
+        task = nil
     }
 }

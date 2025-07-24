@@ -68,7 +68,7 @@ final class SplashViewController: UIViewController {
         profileService.fetchProfile(token) { [weak self] result in
             DispatchQueue.main.async {
                 UIBlockingProgressHUD.dismiss()
-                guard let self = self else { return }
+                guard let self else { return }
                 
                 switch result {
                 case .success(let profile):
