@@ -2,25 +2,13 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    
     // MARK: - Constants
     enum WebViewConstants {
-        static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-        static let unsplashBaseURLString = "https://unsplash.com"
-        static let tokenPath = "/oauth/token"
-        static let authorizeNativePath = "/oauth/authorize/native"
-        
-        static var tokenURLString: String {
-            return unsplashBaseURLString + tokenPath
-        }
-        
         static let fullProgressValue: Double = 1.0
         static let progressEpsilon: Double = 0.0001
-        
-        static let clientID = "client_id"
-        static let redirectURL = "redirect_uri"
-        static let responseType = "response_type"
+        static let authorizeNativePath = "/oauth/authorize/native"
         static let code = "code"
-        static let scope = "scope"
     }
     
     // MARK: - Delegate
@@ -53,7 +41,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         navigationItem.hidesBackButton = true
         webView.navigationDelegate = self
         setupViews()
-        loadAuthView()
+        presenter?.viewDidLoad()
         setupConstraints()
         observeWebViewProgress()
     }
@@ -104,25 +92,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     }
     
     // MARK: - WebView Loading
-    private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("❌ Не удалось создать URLComponents из строки: \(WebViewConstants.unsplashAuthorizeURLString)")
-            return
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: WebViewConstants.clientID, value: Constants.accessKey),
-            URLQueryItem(name: WebViewConstants.redirectURL, value: Constants.redirectURI),
-            URLQueryItem(name: WebViewConstants.responseType, value: WebViewConstants.code),
-            URLQueryItem(name: WebViewConstants.scope, value: Constants.accessScope)
-        ]
-        
-        guard let url = urlComponents.url else {
-            print("❌ Не удалось получить URL из URLComponents: \(urlComponents)")
-            return
-        }
-        
-        let request = URLRequest(url: url)
+    func load(request: URLRequest) {
         webView.load(request)
     }
     
