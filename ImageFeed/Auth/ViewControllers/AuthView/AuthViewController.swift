@@ -87,6 +87,11 @@ final class AuthViewController: UIViewController {
     // MARK: - Actions
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
+        let presenter = WebViewPresenter()
+        
+        webVC.presenter = presenter
+        presenter.view = webVC
+        
         webVC.delegate = self
         navigationController?.pushViewController(webVC, animated: true)
     }

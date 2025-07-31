@@ -1,5 +1,5 @@
 import Foundation
 
-protocol WebViewViewControllerProtocol: AnyObject {
+public protocol WebViewViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
 }
