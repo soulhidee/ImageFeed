@@ -5,7 +5,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     // MARK: - Constants
     enum WebViewConstants {
-        static let authorizeNativePath = "/oauth/authorize/native"
         static let code = "code"
     }
     
@@ -117,27 +116,15 @@ extension WebViewViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if let code = code(from: navigationAction) {
+        if
+            let url = navigationAction.request.url,
+            let code = presenter?.code(from: url)
+        {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
         }
     }
-    
-    private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == WebViewConstants.authorizeNativePath,
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == WebViewConstants.code })
-        {
-            return codeItem.value
-        } else {
-            return nil
-        }
-    }
 }
-
 

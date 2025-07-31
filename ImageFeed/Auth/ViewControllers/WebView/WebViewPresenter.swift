@@ -1,10 +1,5 @@
 import Foundation
 
-//    private func updateProgress() {
-//        progressView.progress = Float(webView.estimatedProgress)
-//        progressView.isHidden = fabs(webView.estimatedProgress - WebViewConstants.fullProgressValue) <= WebViewConstants.progressEpsilon
-//    }
-
 final class WebViewPresenter: WebViewPresenterProtocol {
 
     // MARK: - Constants
@@ -12,10 +7,12 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
         static let unsplashBaseURLString = "https://unsplash.com"
         static let tokenPath = "/oauth/token"
+        static let authorizeNativePath = "/oauth/authorize/native"
         
         static var tokenURLString: String {
             return unsplashBaseURLString + tokenPath
         }
+        
         static let clientID = "client_id"
         static let redirectURL = "redirect_uri"
         static let responseType = "response_type"
@@ -44,11 +41,15 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         guard let url = urlComponents.url else {
             return
         }
+        
+        didUpdateProgressValue(.zero)
 
         let request = URLRequest(url: url)
+        
         view?.load(request: request)
     }
     
+    // MARK: - Progress Logic
     func didUpdateProgressValue(_ newValue: Double) {
         let newProgressValue = Float(newValue)
         view?.setProgressValue(newProgressValue)
@@ -61,4 +62,18 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     func shouldHideProgress(for value: Float) -> Bool {
         abs(value - PresenterConstants.fullProgressValue) <= PresenterConstants.progressEpsilon
        }
+    
+    // MARK: -
+    func code(from url: URL) -> String? {
+        guard
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == PresenterConstants.authorizeNativePath,
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: { $0.name == PresenterConstants.code })
+        else {
+            return nil
+        }
+        
+        return codeItem.value
+    }
 }
