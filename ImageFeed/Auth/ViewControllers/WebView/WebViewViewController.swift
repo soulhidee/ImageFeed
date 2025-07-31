@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-final class WebViewViewController: UIViewController {
+final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
     // MARK: - Constants
     enum WebViewConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
@@ -25,6 +25,9 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - Delegate
     weak var delegate: WebViewViewControllerDelegate?
+    
+    // MARK: - Presenter
+    var presenter: WebViewPresenterProtocol?
     
     // MARK: - UI Elements
     private lazy var webView: WKWebView = {

@@ -1,5 +1,5 @@
 import Foundation
 
-final class WebViewPresenter {
-    
+final class WebViewPresenter: WebViewPresenterProtocol {
+    weak var view: WebViewViewControllerProtocol?
 }
