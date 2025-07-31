@@ -5,8 +5,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     // MARK: - Constants
     enum WebViewConstants {
-        static let fullProgressValue: Double = 1.0
-        static let progressEpsilon: Double = 0.0001
         static let authorizeNativePath = "/oauth/authorize/native"
         static let code = "code"
     }
@@ -53,7 +51,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
              options: [],
              changeHandler: { [weak self] _, _ in
                  guard let self else { return }
-                 self.updateProgress()
+                 self.presenter?.didUpdateProgressValue(self.webView.estimatedProgress)
              }
         )
     }
@@ -97,9 +95,12 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     }
     
     // MARK: - Helpers
-    private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - WebViewConstants.fullProgressValue) <= WebViewConstants.progressEpsilon
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
     }
     
     // MARK: - Actions

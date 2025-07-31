@@ -1,7 +1,12 @@
 import Foundation
 
+//    private func updateProgress() {
+//        progressView.progress = Float(webView.estimatedProgress)
+//        progressView.isHidden = fabs(webView.estimatedProgress - WebViewConstants.fullProgressValue) <= WebViewConstants.progressEpsilon
+//    }
+
 final class WebViewPresenter: WebViewPresenterProtocol {
-    
+
     // MARK: - Constants
     enum PresenterConstants {
         static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
@@ -16,6 +21,9 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         static let responseType = "response_type"
         static let scope = "scope"
         static let code = "code"
+        
+        static let fullProgressValue: Float = 1.0
+        static let progressEpsilon: Float = 0.0001
     }
     
     // MARK: - Protocol
@@ -40,4 +48,17 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         let request = URLRequest(url: url)
         view?.load(request: request)
     }
+    
+    func didUpdateProgressValue(_ newValue: Double) {
+        let newProgressValue = Float(newValue)
+        view?.setProgressValue(newProgressValue)
+        
+        let shouldHideProgress = shouldHideProgress(for: newProgressValue)
+        view?.setProgressHidden(shouldHideProgress)
+        
+    }
+    
+    func shouldHideProgress(for value: Float) -> Bool {
+        abs(value - PresenterConstants.fullProgressValue) <= PresenterConstants.progressEpsilon
+       }
 }
