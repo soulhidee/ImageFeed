@@ -63,7 +63,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         abs(value - PresenterConstants.fullProgressValue) <= PresenterConstants.progressEpsilon
        }
     
-    // MARK: -
+    // MARK: - Code Extraction
     func code(from url: URL) -> String? {
         guard
             let urlComponents = URLComponents(string: url.absoluteString),

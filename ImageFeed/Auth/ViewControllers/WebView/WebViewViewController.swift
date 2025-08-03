@@ -116,15 +116,20 @@ extension WebViewViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if
-            let url = navigationAction.request.url,
-            let code = presenter?.code(from: url)
-        {
+        if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
         }
     }
+    
+    private func code(from navigationAction: WKNavigationAction) -> String? {
+        if let url = navigationAction.request.url {
+            return presenter?.code(from: url)
+        }
+        return nil
+    }
 }
+
 
