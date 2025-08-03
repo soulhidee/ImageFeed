@@ -86,5 +86,27 @@ final class WebViewTests: XCTestCase {
         XCTAssertTrue(shouldHideProgress, "shouldHideProgress должен возвращать true, если прогресс равен 1.0")
     }
     
+    func testAuthHelperAuthURL() {
+        //given
+        let configuration = AuthConfiguration.standard
+        let authHelper = AuthHelper(configuration: configuration)
+        
+        //when
+        let url = authHelper.authURL()
+
+        guard let urlString = url?.absoluteString else {
+            XCTFail("Auth URL is nil")
+            return
+        }
+
+        //then
+        XCTAssertTrue(urlString.contains(configuration.authURLString))
+        XCTAssertTrue(urlString.contains(configuration.accessKey))
+        XCTAssertTrue(urlString.contains(configuration.redirectURI))
+        XCTAssertTrue(urlString.contains("code"))
+        XCTAssertTrue(urlString.contains(configuration.accessScope))
+    } 
+    
+    
 }
 
