@@ -43,5 +43,5 @@ final class AuthHelper: AuthHelperProtocol {
         } else {
             return nil
         }
-    } 
+    }
 }
