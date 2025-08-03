@@ -23,31 +23,23 @@ final class WebViewPresenter: WebViewPresenterProtocol {
         static let progressEpsilon: Float = 0.0001
     }
     
+    var authHelper: AuthHelperProtocol
+    
+    init(authHelper: AuthHelperProtocol) {
+        self.authHelper = authHelper
+    }
+
+    
     // MARK: - Protocol
     weak var view: WebViewViewControllerProtocol?
 
     func viewDidLoad() {
-        guard var urlComponents = URLComponents(string: PresenterConstants.unsplashAuthorizeURLString) else {
-            return
-        }
-
-        urlComponents.queryItems = [
-            URLQueryItem(name: PresenterConstants.clientID, value: Constants.accessKey),
-            URLQueryItem(name: PresenterConstants.redirectURL, value: Constants.redirectURI),
-            URLQueryItem(name: PresenterConstants.responseType, value: PresenterConstants.code),
-            URLQueryItem(name: PresenterConstants.scope, value: Constants.accessScope)
-        ]
-
-        guard let url = urlComponents.url else {
-            return
-        }
-        
-        didUpdateProgressValue(.zero)
-
-        let request = URLRequest(url: url)
+        guard let request = authHelper.authRequest() else { return }
         
         view?.load(request: request)
+        didUpdateProgressValue(.zero)
     }
+    
     
     // MARK: - Progress Logic
     func didUpdateProgressValue(_ newValue: Double) {
@@ -65,15 +57,6 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     
     // MARK: - Code Extraction
     func code(from url: URL) -> String? {
-        guard
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == PresenterConstants.authorizeNativePath,
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == PresenterConstants.code })
-        else {
-            return nil
-        }
-        
-        return codeItem.value
+        authHelper.code(from: url)
     }
 }

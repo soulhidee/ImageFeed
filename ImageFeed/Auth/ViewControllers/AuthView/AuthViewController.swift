@@ -87,7 +87,8 @@ final class AuthViewController: UIViewController {
     // MARK: - Actions
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
-        let presenter = WebViewPresenter()
+        let authHelper = AuthHelper()
+        let presenter = WebViewPresenter(authHelper: authHelper)
         
         webVC.presenter = presenter
         presenter.view = webVC
