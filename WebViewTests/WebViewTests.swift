@@ -17,6 +17,19 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
     }
 }
 
+final class WebViewViewControllerSpy: WebViewViewControllerProtocol {
+    var presenter: WebViewPresenterProtocol?
+    var loadRequestCalled = false
+
+    func load(request: URLRequest) {
+        loadRequestCalled = true
+    }
+
+    func setProgressValue(_ newValue: Float) {}
+
+    func setProgressHidden(_ isHidden: Bool) {}
+}
+
 final class WebViewTests: XCTestCase {
     func testViewControllerCallsViewDidLoad() {
         // given
@@ -30,6 +43,21 @@ final class WebViewTests: XCTestCase {
         
         // then
         XCTAssertTrue(presenter.viewDidLoadCalled, "viewDidLoad() у презентера должен быть вызван")
+    }
+    
+    func testPresenterCallsLoadRequest() {
+        // given
+        let view = WebViewViewControllerSpy()
+        let authHelper = AuthHelper()
+        let presenter = WebViewPresenter(authHelper: authHelper)
+        presenter.view = view
+        view.presenter = presenter
+
+        // when
+        presenter.viewDidLoad()
+
+        // then
+        XCTAssertTrue(view.loadRequestCalled, "Метод load(request:) должен быть вызван у вью после viewDidLoad у презентера")
     }
 }
 
