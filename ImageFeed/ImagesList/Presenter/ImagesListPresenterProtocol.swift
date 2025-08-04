@@ -2,8 +2,7 @@ import Foundation
 import UIKit
 
 protocol ImagesListPresenterProtocol {
-    var view: ImagesListViewControllerProtocol? { get set }
-    
+    var view: ImagesListViewProtocol? { get set }
     var photosCount: Int { get }
     func viewDidLoad()
     func photo(at index: Int) -> Photo
