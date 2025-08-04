@@ -9,6 +9,8 @@ final class TabBarController: UITabBarController {
         imagesNav.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabEditorialActive, tag: 0)
         
         let profileVC = ProfileViewController()
+        profileVC.presenter = ProfilePresenter()
+        profileVC.presenter?.view = profileVC
         profileVC.tabBarItem = UITabBarItem(title: nil, image: UIImage.tabProfileActive, tag: 1)
         
         viewControllers = [imagesNav, profileVC]
@@ -33,5 +35,3 @@ final class TabBarController: UITabBarController {
         }
     }
 }
-
-

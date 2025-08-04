@@ -1,7 +1,7 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     
     // MARK: - Constants
     private enum ProfileConstants {
@@ -26,7 +26,8 @@ final class ProfileViewController: UIViewController {
         static let logoutAlertCancelButton = "Нет"
     }
     
-    var profile: ProfileService.Profile?
+    var presenter: ProfilePresenterProtocol?
+    
     private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - UI Elements
@@ -89,13 +90,8 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        loadProfileIfAvailable()
-        addProfileImageObserver()
-        updateAvatar()
-        profileImageShimmer.startAnimating()
-        nameLabelShimmer.startAnimating()
-        handleLabelShimmer.startAnimating()
-        statusLabelShimmer.startAnimating()
+        setupNotifications()
+        presenter?.viewDidLoad()
     }
     
     // MARK: - Setup Views
@@ -117,6 +113,11 @@ final class ProfileViewController: UIViewController {
         nameLabelShimmer.setCornerRadius(9)
         handleLabelShimmer.setCornerRadius(9)
         statusLabelShimmer.setCornerRadius(9)
+        
+        profileImageShimmer.startAnimating()
+        nameLabelShimmer.startAnimating()
+        handleLabelShimmer.startAnimating()
+        statusLabelShimmer.startAnimating()
     }
     
     // MARK: - Constraints
@@ -163,33 +164,35 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    // MARK: - Load Profile
-    private func loadProfileIfAvailable() {
-        if let profile = ProfileService.shared.lastProfile {
-            updateProfileLabels(with: profile)
-        }
+    // MARK: - Protocol Methods
+    func updateProfileDetails(name: String, login: String, bio: String) {
+        nameLabel.text = name
+        handleLabel.text = login
+        statusLabel.text = bio
     }
     
-    // MARK: - Update UI
-    private func updateProfileLabels(with profile: ProfileService.Profile) {
-        nameLabel.text = profile.name
-        handleLabel.text = profile.loginName
-        statusLabel.text = profile.bio
-        self.profileImageShimmer.stopAnimating()
-        self.profileImageShimmer.isHidden = true
-        
-        self.nameLabelShimmer.stopAnimating()
-        self.nameLabelShimmer.isHidden = true
-        
-        self.handleLabelShimmer.stopAnimating()
-        self.handleLabelShimmer.isHidden = true
-        
-        self.statusLabelShimmer.stopAnimating()
-        self.statusLabelShimmer.isHidden = true
+    func updateAvatar(with url: URL) {
+        profileImage.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "defaultProfileImage"),
+            options: [.cacheOriginalImage]
+        )
     }
     
-    // MARK: - Profile Image Observer
-    private func addProfileImageObserver() {
+    func stopShimmerAnimation() {
+        print("Остановка шиммеров в ProfileViewController")
+        profileImageShimmer.stopAnimating()
+        profileImageShimmer.isHidden = true
+        nameLabelShimmer.stopAnimating()
+        nameLabelShimmer.isHidden = true
+        handleLabelShimmer.stopAnimating()
+        handleLabelShimmer.isHidden = true
+        statusLabelShimmer.stopAnimating()
+        statusLabelShimmer.isHidden = true
+    }
+    
+    // MARK: - Notifications
+    private func setupNotifications() {
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.didChangeNotification,
@@ -197,24 +200,8 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self else { return }
-                self.updateAvatar()
+                self.presenter?.avatarDidChange()
             }
-    }
-    
-    // MARK: - Update Avatar
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        
-        profileImage.kf.setImage(
-            with: url,
-            placeholder: UIImage(named: "defaultProfileImage"),
-            options: [
-                .cacheOriginalImage
-            ]
-        )
     }
     
     // MARK: - Actions
@@ -227,7 +214,7 @@ final class ProfileViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertCancelButton, style: .cancel))
         alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertConfirmButton, style: .destructive) { _ in
-            ProfileLogoutService.shared.logout()
+            self.presenter?.didTapLogout()
         })
         
         present(alert, animated: true)
@@ -240,4 +227,9 @@ final class ProfileViewController: UIViewController {
         static let status = "Please wait..."
     }
     
+    deinit {
+        if let observer = profileImageServiceObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
 }
