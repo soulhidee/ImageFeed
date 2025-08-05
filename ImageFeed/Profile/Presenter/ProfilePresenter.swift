@@ -2,9 +2,19 @@ import Foundation
 
 final class ProfilePresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let logoutService = ProfileLogoutService.shared
+    private let profileService: ProfileService
+    private let profileImageService: ProfileImageServiceProtocol
+    private let logoutService: ProfileLogoutService
+    
+    init(
+        profileService: ProfileService = .shared,
+        profileImageService: ProfileImageServiceProtocol = ProfileImageService.shared,
+        logoutService: ProfileLogoutService = .shared
+    ) {
+        self.profileService = profileService
+        self.profileImageService = profileImageService
+        self.logoutService = logoutService
+    }
     
     func viewDidLoad() {
         guard let profile = profileService.lastProfile else {

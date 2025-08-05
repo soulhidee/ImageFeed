@@ -1,6 +1,10 @@
 import Foundation
 
-final class ProfileImageService {
+protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+}
+
+class ProfileImageService: ProfileImageServiceProtocol {
     // MARK: - Constants
     private enum Constants {
         static let userURL = "https://api.unsplash.com/users/"
@@ -21,7 +25,7 @@ final class ProfileImageService {
     private(set) var avatarURL: String?
     
     // MARK: - Init
-    private init() {}
+    init() {}
     
     // MARK: - Nested Types
     private struct UserResult: Codable {

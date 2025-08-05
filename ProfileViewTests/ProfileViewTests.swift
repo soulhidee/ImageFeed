@@ -34,7 +34,8 @@ final class ProfileViewControllerTests: XCTestCase {
     func testPresenterCallsUpdateAvatar() {
         // given
         let view = ProfileViewControllerSpy()
-        let presenter = ProfilePresenter()
+        let mockImageService = ProfileImageServiceMock()
+        let presenter = ProfilePresenter(profileImageService: mockImageService)
         presenter.view = view
         view.presenter = presenter
         
@@ -44,6 +45,8 @@ final class ProfileViewControllerTests: XCTestCase {
         // then
         XCTAssertTrue(view.updateAvatarCalled, "updateAvatar должен быть вызван у вью после avatarDidChange у презентера")
     }
+    
+    
 }
 
 
