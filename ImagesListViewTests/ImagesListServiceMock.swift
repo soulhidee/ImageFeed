@@ -43,6 +43,13 @@ final class ImagesListServiceMock: ImagesListServiceProtocol {
             return photo
         }
         
+        // Отправляем уведомление, как в оригинальном ImagesListService
+        NotificationCenter.default.post(
+            name: ImagesListService.didChangeNotification,
+            object: nil,
+            userInfo: [ImagesListService.serviceConstants.UserInfoKey.photos: photos]
+        )
+        
         completion(.success(()))
     }
     
