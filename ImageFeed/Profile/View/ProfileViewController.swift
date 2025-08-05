@@ -213,16 +213,24 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         )
         
         alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertCancelButton, style: .cancel))
-        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertConfirmButton, style: .destructive) { _ in
-            self.presenter?.didTapLogout()
+        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertConfirmButton, style: .destructive) { [weak self] _ in
+            self?.confirmLogout()
         })
         
         present(alert, animated: true)
     }
     
     @objc func triggerLogoutButtonTappedForTesting() {
-            logoutButtonTapped()
-        }
+        logoutButtonTapped()
+    }
+    
+    private func confirmLogout() {
+        presenter?.didTapLogout()
+    }
+    
+    func confirmLogoutForTesting() {
+        confirmLogout()
+    }
     
     // MARK: - Mock Data
     private enum DataMock {

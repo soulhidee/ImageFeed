@@ -61,43 +61,72 @@ final class ProfileViewControllerTests: XCTestCase {
     }
     
     func testLogoutButtonShowsAlert() {
-            // given
-            let viewController = ProfileViewController()
-            let presenter = ProfilePresenterSpy()
-            viewController.presenter = presenter
-            presenter.view = viewController
-
-            let window = UIWindow()
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
+        // given
+        let viewController = ProfileViewController()
+        let presenter = ProfilePresenterSpy()
+        viewController.presenter = presenter
+        presenter.view = viewController
+        
+        let window = UIWindow()
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+        
+        let expectation = XCTestExpectation(description: "Ожидание представления алерта")
+        
+        // when
+        _ = viewController.view
+        DispatchQueue.main.async {
+            viewController.triggerLogoutButtonTappedForTesting()
             
-            let expectation = XCTestExpectation(description: "Ожидание представления алерта")
+            // then
+            let presentedVC = viewController.presentedViewController
+            XCTAssertTrue(presentedVC is UIAlertController, "При нажатии на кнопку logout должен быть показан UIAlertController")
             
-            // when
-            _ = viewController.view
-            DispatchQueue.main.async {
-                viewController.triggerLogoutButtonTappedForTesting()
-                
-                // then
-                let presentedVC = viewController.presentedViewController
-                XCTAssertTrue(presentedVC is UIAlertController, "При нажатии на кнопку logout должен быть показан UIAlertController")
-                
-                if let alert = presentedVC as? UIAlertController {
-                    XCTAssertEqual(alert.title, "Пока, пока!", "Заголовок алерта должен быть 'Пока, пока!'")
-                    XCTAssertEqual(alert.message, "Уверены что хотите выйти?", "Сообщение алерта должно быть 'Уверены что хотите выйти?'")
-                    XCTAssertEqual(alert.actions.count, 2, "Алерт должен содержать две кнопки")
-                    XCTAssertEqual(alert.actions[0].title, "Нет", "Первая кнопка должна быть 'Нет'")
-                    XCTAssertEqual(alert.actions[1].title, "Да", "Вторая кнопка должна быть 'Да'")
-                } else {
-                    XCTFail("Алерт не представлен")
-                }
-                
-                expectation.fulfill()
+            if let alert = presentedVC as? UIAlertController {
+                XCTAssertEqual(alert.title, "Пока, пока!", "Заголовок алерта должен быть 'Пока, пока!'")
+                XCTAssertEqual(alert.message, "Уверены что хотите выйти?", "Сообщение алерта должно быть 'Уверены что хотите выйти?'")
+                XCTAssertEqual(alert.actions.count, 2, "Алерт должен содержать две кнопки")
+                XCTAssertEqual(alert.actions[0].title, "Нет", "Первая кнопка должна быть 'Нет'")
+                XCTAssertEqual(alert.actions[1].title, "Да", "Вторая кнопка должна быть 'Да'")
+            } else {
+                XCTFail("Алерт не представлен")
             }
             
-            wait(for: [expectation], timeout: 2.0)
+            expectation.fulfill()
         }
         
+        wait(for: [expectation], timeout: 2.0)
+    }
+    
+    func testConfirmLogoutCallsDidTapLogout() {
+        // given
+        let viewController = ProfileViewController()
+        let presenter = ProfilePresenterSpy()
+        viewController.presenter = presenter
+        presenter.view = viewController
+        
+        let window = UIWindow()
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+        
+        let expectation = XCTestExpectation(description: "Ожидание подтверждения выхода")
+        
+        // when
+        _ = viewController.view
+        DispatchQueue.main.async {
+            viewController.triggerLogoutButtonTappedForTesting()
+            
+            viewController.confirmLogoutForTesting()
+            
+            // then
+            XCTAssertTrue(presenter.didTapLogoutCalled, "didTapLogout должен быть вызван у презентера после подтверждения выхода")
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 2.0)
+    }
+    
     override func tearDown() {
         super.tearDown()
         UIApplication.shared.connectedScenes
