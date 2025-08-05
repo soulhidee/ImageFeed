@@ -10,6 +10,7 @@ final class ImagesListViewControllerSpy: ImagesListViewProtocol {
     var showProgressHUDCalled = false
     var dismissProgressHUDCalled = false
     var showSingleImageCalled = false
+    var lastIndexPath: IndexPath?
     
     func insertNewRows(from oldCount: Int, to newCount: Int) {
         insertNewRowsCalled = true
@@ -21,6 +22,7 @@ final class ImagesListViewControllerSpy: ImagesListViewProtocol {
     
     func reloadCell(at indexPath: IndexPath) {
         reloadCellCalled = true
+        lastIndexPath = indexPath
     }
     
     func showLikeError(message: String) {
