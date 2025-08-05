@@ -220,6 +220,10 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         present(alert, animated: true)
     }
     
+    @objc func triggerLogoutButtonTappedForTesting() {
+            logoutButtonTapped()
+        }
+    
     // MARK: - Mock Data
     private enum DataMock {
         static let name = "Loading..."

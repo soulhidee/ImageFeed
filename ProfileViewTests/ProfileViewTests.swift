@@ -60,7 +60,51 @@ final class ProfileViewControllerTests: XCTestCase {
         XCTAssertTrue(view.stopShimmerAnimationCalled, "stopShimmerAnimation должен быть вызван у вью после viewDidLoad у презентера")
     }
     
-    
+    func testLogoutButtonShowsAlert() {
+            // given
+            let viewController = ProfileViewController()
+            let presenter = ProfilePresenterSpy()
+            viewController.presenter = presenter
+            presenter.view = viewController
+
+            let window = UIWindow()
+            window.rootViewController = viewController
+            window.makeKeyAndVisible()
+            
+            let expectation = XCTestExpectation(description: "Ожидание представления алерта")
+            
+            // when
+            _ = viewController.view
+            DispatchQueue.main.async {
+                viewController.triggerLogoutButtonTappedForTesting()
+                
+                // then
+                let presentedVC = viewController.presentedViewController
+                XCTAssertTrue(presentedVC is UIAlertController, "При нажатии на кнопку logout должен быть показан UIAlertController")
+                
+                if let alert = presentedVC as? UIAlertController {
+                    XCTAssertEqual(alert.title, "Пока, пока!", "Заголовок алерта должен быть 'Пока, пока!'")
+                    XCTAssertEqual(alert.message, "Уверены что хотите выйти?", "Сообщение алерта должно быть 'Уверены что хотите выйти?'")
+                    XCTAssertEqual(alert.actions.count, 2, "Алерт должен содержать две кнопки")
+                    XCTAssertEqual(alert.actions[0].title, "Нет", "Первая кнопка должна быть 'Нет'")
+                    XCTAssertEqual(alert.actions[1].title, "Да", "Вторая кнопка должна быть 'Да'")
+                } else {
+                    XCTFail("Алерт не представлен")
+                }
+                
+                expectation.fulfill()
+            }
+            
+            wait(for: [expectation], timeout: 2.0)
+        }
+        
+    override func tearDown() {
+        super.tearDown()
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .forEach { $0.rootViewController = nil }
+    }
 }
 
 
