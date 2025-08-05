@@ -50,7 +50,11 @@ final class ImagesListPresenter: @preconcurrency ImagesListPresenterProtocol {
         dateFormatter.timeStyle = .none
         let dateText = photo.createdAt != nil ? dateFormatter.string(from: photo.createdAt!) : "Дата неизвестна"
         
-        if let url = URL(string: photo.thumbImageURL) {
+        // Устанавливаем дату и состояние лайка
+        cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: photo.isLiked)
+        
+        // Загружаем изображение только если его еще нет
+        if cell.cellImageView.image == nil, let url = URL(string: photo.thumbImageURL) {
             cell.startShimmer()
             let processor = RoundCornerImageProcessor(cornerRadius: 0)
             cell.cellImageView.kf.indicatorType = .none
@@ -60,12 +64,7 @@ final class ImagesListPresenter: @preconcurrency ImagesListPresenterProtocol {
             ) { _ in
                 cell.stopShimmer()
             }
-        } else {
-            cell.cellImageView.image = nil
-            cell.stopShimmer()
         }
-        
-        cell.configure(with: cell.cellImageView.image, dateText: dateText, isLiked: photo.isLiked)
     }
     
     func didSelectImage(at index: Int) {
