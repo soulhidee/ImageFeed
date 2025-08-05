@@ -4,21 +4,22 @@ import UIKit
 final class ImagesListPresenter: @preconcurrency ImagesListPresenterProtocol {
     
     weak var view: ImagesListViewProtocol?
-    private var imagesListService = ImagesListService.shared
+    private var imagesListService: ImagesListServiceProtocol
     var photos: [Photo] = []
     
     var photosCount: Int {
         photos.count
     }
     
-    init() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(didReceivePhotosUpdate),
-            name: ImagesListService.didChangeNotification,
-            object: nil
-        )
-    }
+    init(imagesListService: ImagesListServiceProtocol = ImagesListService.shared) {
+            self.imagesListService = imagesListService
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(didReceivePhotosUpdate),
+                name: ImagesListService.didChangeNotification,
+                object: nil
+            )
+        }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
