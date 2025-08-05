@@ -46,6 +46,20 @@ final class ProfileViewControllerTests: XCTestCase {
         XCTAssertTrue(view.updateAvatarCalled, "updateAvatar должен быть вызван у вью после avatarDidChange у презентера")
     }
     
+    func testPresenterCallsStopShimmerAnimation() {
+        //given
+        let view = ProfileViewControllerSpy()
+        let presenter = ProfilePresenter()
+        presenter.view = view
+        view.presenter = presenter
+        
+        // when
+        presenter.viewDidLoad()
+        
+        // then
+        XCTAssertTrue(view.stopShimmerAnimationCalled, "stopShimmerAnimation должен быть вызван у вью после viewDidLoad у презентера")
+    }
+    
     
 }
 
