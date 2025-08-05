@@ -16,6 +16,20 @@ final class ProfileViewControllerTests: XCTestCase {
         // then
         XCTAssertTrue(presenter.viewDidLoadCalled, "viewDidLoad() у презентера должен быть вызван")
     }
+    
+    func testPresenterCallsUpdateProfileDetails() {
+        // given
+        let view = ProfileViewControllerSpy()
+        let presenter = ProfilePresenter()
+        presenter.view = view
+        view.presenter = presenter
+        
+        // when
+        presenter.viewDidLoad()
+        
+        // then
+        XCTAssert(view.updateProfileDetailsCalled, "updateProfileDetails должен быть вызван у вью после viewDidLoad у презентера")
+    }
 }
 
 
