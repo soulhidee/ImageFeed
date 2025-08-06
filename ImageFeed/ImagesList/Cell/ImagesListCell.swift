@@ -52,6 +52,7 @@ final class ImagesListCell: UITableViewCell {
         button.setTitle(nil, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.isUserInteractionEnabled = true
+        button.accessibilityIdentifier = "like button off"
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
         return button
@@ -77,7 +78,7 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         cellImageView.kf.cancelDownloadTask()
         cellImageView.image = nil
-        
+        likeButton.accessibilityIdentifier = "like button off"
         dateLabel.text = nil
         likeButton.isSelected = false
         likeButton.setImage(UIImage.likeNoActive, for: .normal)
@@ -130,6 +131,7 @@ final class ImagesListCell: UITableViewCell {
         let image = isLiked ? UIImage.likeActive : UIImage.likeNoActive
         likeButton.setImage(image, for: .normal)
         likeButton.isSelected = isLiked
+        likeButton.accessibilityIdentifier = isLiked ? "like button on" : "like button off"
     }
     
     func startShimmer() {

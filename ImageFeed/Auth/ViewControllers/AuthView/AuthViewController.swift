@@ -30,6 +30,7 @@ final class AuthViewController: UIViewController {
         button.layer.cornerRadius = AuthConstants.buttonCornerRadius
         button.setTitleColor(UIColor.ypBlack, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
+        button.accessibilityIdentifier = "Authenticate"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

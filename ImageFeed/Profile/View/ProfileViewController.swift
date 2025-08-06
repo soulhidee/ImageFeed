@@ -37,6 +37,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         button.setImage(UIImage.exit, for: .normal)
         button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "logout button"
         return button
     }()
     
@@ -57,6 +58,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         label.font = UIFont.systemFont(ofSize: ProfileConstants.nameLabelFontSize, weight: .bold)
         label.numberOfLines = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.accessibilityIdentifier = "user_name_label"
         return label
     }()
     
@@ -67,6 +69,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         label.font = UIFont.systemFont(ofSize: ProfileConstants.handleStatusLabelFontSize, weight: .regular)
         label.numberOfLines = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.accessibilityIdentifier = "user_nickname_label"
         return label
     }()
     
@@ -180,7 +183,6 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     }
     
     func stopShimmerAnimation() {
-        print("Остановка шиммеров в ProfileViewController")
         profileImageShimmer.stopAnimating()
         profileImageShimmer.isHidden = true
         nameLabelShimmer.stopAnimating()
@@ -211,12 +213,25 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
             message: ProfileConstants.logoutAlertMessage,
             preferredStyle: .alert
         )
-        
-        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertCancelButton, style: .cancel))
-        alert.addAction(UIAlertAction(title: ProfileConstants.logoutAlertConfirmButton, style: .destructive) { [weak self] _ in
+
+        alert.view.accessibilityIdentifier = "Bye bye!"
+        alert.addAction(UIAlertAction(
+            title: ProfileConstants.logoutAlertCancelButton,
+            style: .cancel
+        ))
+
+        let confirmAction = UIAlertAction(
+            title: ProfileConstants.logoutAlertConfirmButton,
+            style: .destructive
+        ) { [weak self] _ in
             self?.confirmLogout()
-        })
-        
+        }
+
+        // Устанавливаем идентификатор для кнопки "Да"
+        confirmAction.setValue("logout_confirm_button", forKey: "accessibilityIdentifier")
+
+        alert.addAction(confirmAction)
+
         present(alert, animated: true)
     }
     
