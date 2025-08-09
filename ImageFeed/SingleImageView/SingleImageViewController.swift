@@ -38,6 +38,7 @@ final class SingleImageViewController: UIViewController, UIScrollViewDelegate {
         let button = UIButton(type: .custom)
         button.setTitle("", for: .normal)
         button.setImage(UIImage.backward, for: .normal)
+        button.accessibilityIdentifier = "nav back button white"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

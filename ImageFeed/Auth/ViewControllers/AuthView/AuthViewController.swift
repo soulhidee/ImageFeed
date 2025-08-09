@@ -30,6 +30,7 @@ final class AuthViewController: UIViewController {
         button.layer.cornerRadius = AuthConstants.buttonCornerRadius
         button.setTitleColor(UIColor.ypBlack, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: AuthConstants.buttonFontSize, weight: .bold)
+        button.accessibilityIdentifier = "Authenticate"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -87,6 +88,12 @@ final class AuthViewController: UIViewController {
     // MARK: - Actions
     @objc private func signInButtonTapped() {
         let webVC = WebViewViewController()
+        let authHelper = AuthHelper()
+        let presenter = WebViewPresenter(authHelper: authHelper)
+        
+        webVC.presenter = presenter
+        presenter.view = webVC
+        
         webVC.delegate = self
         navigationController?.pushViewController(webVC, animated: true)
     }
